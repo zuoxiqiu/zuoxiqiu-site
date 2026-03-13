@@ -8,60 +8,100 @@ const mvps = [
     date: "2026-03-13",
     status: "testing",
     tags: ["产品", "网站"],
-    summary: "搭建个人想法展示网站，验证静态网站 + Vercel 方案"
+    summary: "搭建个人想法展示网站，验证静态网站 + Vercel 方案",
+    progress: 80
   }
 ];
 
 const statusLabels = {
-  testing: { text: "🧪 验证中", color: "bg-blue-100 text-blue-700" },
-  done: { text: "✅ 已实现", color: "bg-green-100 text-green-700" },
-  abandoned: { text: "❌ 已放弃", color: "bg-red-100 text-red-700" }
+  testing: { text: "🧪 验证中", color: "bg-marker-blue text-white" },
+  done: { text: "✅ 已实现", color: "bg-marker-green text-white" },
+  abandoned: { text: "❌ 已放弃", color: "bg-red-400 text-white" }
 };
 ---
 
 <Layout title="实验场">
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">实验场</h1>
-    <p class="text-gray-600">从想法到验证，记录完整的实验过程</p>
+  <div class="mb-12">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="text-4xl">🧪</span>
+      <h1 class="text-4xl font-handwriting font-bold text-pencil">实验场</h1>
+    </div>
+    <p class="text-lg text-gray-600 font-sketch leading-relaxed">
+      从想法到验证，记录完整的实验过程。<br>
+      每一个 MVP 都是一次大胆的尝试，无论成败都是资产。
+    </p>
   </div>
 
   <!-- Stats -->
-  <div class="grid grid-cols-3 gap-4 mb-8">
-    <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-      <div class="text-2xl font-bold text-blue-600">🧪</div>
-      <div class="text-sm text-gray-600 mt-1">验证中</div>
+  <div class="grid grid-cols-3 gap-6 mb-12">
+    <div class="hand-border bg-paper p-6 text-center" style="transform: rotate(-0.5deg);">
+      <div class="text-4xl mb-2">🧪</div>
+      <div class="text-2xl font-bold text-marker-blue font-handwriting">1</div>
+      <div class="text-sm text-gray-600 font-sketch">验证中</div>
     </div>
-    <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-      <div class="text-2xl font-bold text-green-600">✅</div>
-      <div class="text-sm text-gray-600 mt-1">已实现</div>
+    <div class="hand-border bg-paper p-6 text-center" style="transform: rotate(0.5deg); margin-top: 0.5rem;">
+      <div class="text-4xl mb-2">✅</div>
+      <div class="text-2xl font-bold text-marker-green font-handwriting">0</div>
+      <div class="text-sm text-gray-600 font-sketch">已实现</div>
     </div>
-    <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-      <div class="text-2xl font-bold text-red-600">❌</div>
-      <div class="text-sm text-gray-600 mt-1">已放弃</div>
+    <div class="hand-border bg-paper p-6 text-center" style="transform: rotate(-0.5deg);">
+      <div class="text-4xl mb-2">❌</div>
+      <div class="text-2xl font-bold text-red-400 font-handwriting">0</div>
+      <div class="text-sm text-gray-600 font-sketch">已放弃</div>
     </div>
   </div>
 
   <!-- MVP List -->
-  <div class="space-y-4">
+  <div class="space-y-8">
     {mvps.map((mvp) => (
-      <article class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition border-l-4 border-blue-500">
-        <div class="flex items-start justify-between mb-3">
-          <div class="flex gap-2">
+      <article class="hand-border bg-paper p-6 relative overflow-hidden" style="transform: rotate(-0.3deg); margin-left: 1rem;">
+        <!-- Corner doodle -->
+        <div class="absolute top-0 right-0 w-10 h-10 bg-marker-blue opacity-10" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
+        
+        <!-- Header -->
+        <div class="flex items-start justify-between mb-5">
+          <div class="flex gap-2 flex-wrap">
             {mvp.tags.map((tag) => (
-              <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">{tag}</span>
+              <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-handwriting rounded-full border border-gray-200">
+                #{tag}
+              </span>
             ))}
           </div>
-          <span class={`px-2 py-1 rounded text-xs ${statusLabels[mvp.status].color}`}>
+          <span class={`px-4 py-2 rounded text-sm font-handwriting font-bold ${statusLabels[mvp.status].color}`}>
             {statusLabels[mvp.status].text}
           </span>
         </div>
-        <h2 class="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer">
+        
+        <!-- Title & Summary -->
+        <h2 class="text-3xl font-handwriting font-bold text-pencil mb-3 hover:text-marker-blue cursor-pointer transition">
           {mvp.title}
         </h2>
-        <p class="text-gray-600 mb-3">{mvp.summary}</p>
-        <div class="flex items-center gap-4 text-sm text-gray-400">
-          <time>{mvp.date}</time>
-          <span>→ 查看完整记录</span>
+        
+        <p class="text-gray-600 font-sketch text-xl leading-relaxed mb-4">
+          {mvp.summary}
+        </p>
+        
+        <!-- Progress bar for testing -->
+        {mvp.status === 'testing' && (
+          <div class="mb-6">
+            <div class="flex justify-between text-sm font-sketch text-gray-600 mb-2">
+              <span>实验进度</span>
+              <span class="font-bold text-marker-blue">{mvp.progress}%</span>
+            </div>
+            <div class="w-full bg-gray-200 h-4 rounded-full overflow-hidden" style="border-radius: 2px;">
+              <div class="bg-gradient-to-r from-marker-blue to-marker-pink h-full" style="width: {mvp.progress}%;"></div>
+            </div>
+          </div>
+        )}
+        
+        <!-- Footer -->
+        <div class="flex items-center justify-between pt-4 border-t-2 border-dashed border-gray-200">
+          <time class="text-gray-400 font-handwriting">
+            📅 {mvp.date}
+          </time>
+          <button class="font-handwriting text-marker-blue font-bold hover:underline">
+            查看完整记录 ➜
+          </button>
         </div>
       </article>
     ))}
@@ -69,13 +109,22 @@ const statusLabels = {
 
   <!-- Empty State -->
   {mvps.length === 0 && (
-    <div class="text-center py-16">
-      <div class="text-6xl mb-4">🧪</div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">还没有实验</h3>
-      <p class="text-gray-600 mb-4">把一个想法变成 MVP，开始验证吧</p>
-      <code class="bg-gray-100 px-3 py-2 rounded text-sm">
+    <div class="text-center py-20">
+      <div class="text-8xl mb-6 opacity-30">🛠️</div>
+      <h3 class="text-2xl font-handwriting font-bold text-pencil mb-2">还没有实验</h3>
+      <p class="text-gray-600 font-sketch mb-6">
+        把一个想法变成 MVP，开始验证吧
+      </p>
+      <div class="inline-block bg-gray-100 px-6 py-4 rounded-lg font-mono text-sm text-gray-600">
         src/content/mvp/your-mvp.md
-      </code>
+      </div>
     </div>
   )}
+
+  <!-- Add New Button -->
+  <div class="mt-12 text-center">
+    <button class="btn-sketch bg-gradient-to-r from-marker-green to-marker-blue text-white">
+      <span class="text-xl">➕ 开始新实验</span>
+    </button>
+  </div>
 </Layout>
