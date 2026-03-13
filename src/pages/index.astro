@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="首页">
   <!-- Hero Section -->
-  <section class="relative py-20 px-4 overflow-hidden" style="background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);">
+  <section class="relative py-24 px-4 overflow-hidden" style="background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);">
     <!-- Decorative blobs -->
     <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-duration: 8s;"></div>
     <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-duration: 10s; animation-delay: 2s;"></div>
@@ -12,7 +12,7 @@ import Layout from '../layouts/Layout.astro';
     
     <div class="relative max-w-4xl mx-auto text-center">
       <div class="mb-8">
-        <span class="text-6xl">🦞</span>
+        <span class="text-7xl">🦞</span>
       </div>
       
       <h1 class="text-4xl md:text-5xl font-bold mb-4">
@@ -27,13 +27,22 @@ import Layout from '../layouts/Layout.astro';
         世界总需要更多<span class="text-blue-600 font-semibold">好奇心</span>的人
       </p>
       
-      <div class="flex gap-4 justify-center flex-wrap">
-        <a href="/ideas" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+      <div class="flex gap-4 justify-center flex-wrap mb-16">
+        <a href="/ideas" class="px-10 py-5 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
           💡 浏览想法
         </a>
-        <a href="/mvp" class="px-8 py-4 bg-white text-gray-700 border border-gray-200 rounded-full font-medium hover:border-blue-400 hover:text-blue-500 transition-all duration-300">
+        <a href="/mvp" class="px-10 py-5 bg-white text-gray-700 border-2 border-gray-200 rounded-full font-semibold hover:border-blue-400 hover:text-blue-600 transition-all duration-300">
           🧪 查看实验
         </a>
+      </div>
+
+      <!-- Wave divider -->
+      <div class="mt-8">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-16 fill-current text-gray-100">
+          <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.6,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
+          <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
+          <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57,43,10.53,77.31-15.93,171.65-3.48,49.69,10.15,118.35,54.56,206.8,49.07,86.13-2.64,172.74-13.35,262.55-7.18,85.29,5.77,159.19,41.48,250.75,66.2,85.33,22.76,167.76,2.39,262.75,8.65,89.86,5.88,179.7,32.59,256.87,59.91,75.57,26.62,150.33,53.83,221.73,35.68,71.89-18.1,141.76-46.77,213.73-52.26,52.24-4,104.07,4.61,150.39,22.15,47.29,17.51,83.95,49.83,115.06,42.52,20.22-5.92,37.34-19.95,55.71-37.29,19.36-18.14,34.48-42.68,48.2-69.17V0Z"></path>
+        </svg>
       </div>
     </div>
   </section>
@@ -43,7 +52,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-6xl mx-auto px-4">
       <div class="grid md:grid-cols-3 gap-8">
         <!-- Card 1 -->
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow border border-gray-100 hover:border-blue-200">
           <div class="text-4xl mb-4">💡</div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">突发奇想</h3>
           <p class="text-gray-600 leading-relaxed">
@@ -57,7 +66,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <!-- Card 2 -->
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow border border-gray-100 hover:border-green-200">
           <div class="text-4xl mb-4">🧪</div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">MVP实验</h3>
           <p class="text-gray-600 leading-relaxed">
@@ -71,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <!-- Card 3 -->
-        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow border border-gray-100 hover:border-purple-200">
           <div class="text-4xl mb-4">📝</div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">知识沉淀</h3>
           <p class="text-gray-600 leading-relaxed">
@@ -162,7 +171,7 @@ import Layout from '../layouts/Layout.astro';
       <p class="text-lg text-gray-600 mb-10 leading-relaxed">
         这里记录了我所有的想法、实验和学习。有的已经落地，有的还在酝酿。
       </p>
-      <a href="/ideas" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all duration-300 inline-block">
+      <a href="/ideas" class="px-10 py-5 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-block">
         📖 开始阅读
       </a>
     </div>
