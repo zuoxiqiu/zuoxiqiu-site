@@ -11,23 +11,20 @@ export default defineConfig({
       theme: {
         extend: {
           fontFamily: {
-            'handwriting': ['"Caveat"', '"Patrick Hand"', 'cursive'],
-            'sketch': ['"Comic Neue"', 'cursive'],
+            'serif': ['"Playfair Display"', '"Noto Serif SC"', 'serif'],
+            'sans': ['"Inter"', '"Noto Sans SC"', 'sans-serif'],
           },
           colors: {
-            'paper': '#fdfbf7',
-            'pencil': '#2d3748',
-            'marker-blue': '#4299e1',
-            'marker-pink': '#ed64a6',
-            'marker-yellow': '#ecc94b',
-            'marker-green': '#48bb78',
+            'ink': '#1a1a1a',
+            'stone': '#f5f5f4',
+            'mist': '#e7e5e4',
           },
           boxShadow: {
-            'hand-drawn': '2px 3px 0 #000',
-            'hand-drawn-hover': '4px 6px 0 #000',
+            'glass': '0 4px 30px rgba(0, 0, 0, 0.05)',
+            'soft': '0 10px 40px -10px rgba(0,0,0,0.1)',
           },
-          borderWidth: {
-            '3': '3px',
+          letterSpacing: {
+            'wide': '0.05em',
           }
         }
       }

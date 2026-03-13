@@ -3,97 +3,68 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="关于">
-  <div class="max-w-2xl mx-auto">
+  <div class="max-w-3xl mx-auto">
     <!-- Header -->
-    <div class="text-center mb-16">
-      <div class="relative inline-block mb-6">
-        <span class="text-8xl animate-bounce" style="animation-duration: 3s; text-shadow: 4px 4px 0 #000;">🦞</span>
-        <div class="absolute -top-4 -right-4 text-2xl" style="transform: rotate(15deg);">✨</div>
-      </div>
-      <h1 class="text-5xl font-handwriting font-bold text-pencil mb-4">关于 zuoxiqiu</h1>
-      <p class="text-xl text-gray-600 font-sketch">
-        一个好奇者的 <span class="text-marker-blue">数字花园</span>
+    <div class="text-center mb-20">
+      <h1 class="text-5xl font-serif font-semibold mb-4">关于 zuoxiqiu</h1>
+      <p class="text-xl text-gray-600 font-sans font-light">
+        一个好奇者的 <strong class="text-ink">数字花园</strong>
       </p>
     </div>
 
-    <!-- What is this? -->
-    <div class="hand-border bg-paper p-8 mb-10 relative overflow-hidden" style="transform: rotate(-0.3deg);">
-      <div class="absolute top-0 right-0 w-12 h-12 bg-marker-pink opacity-10" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
-      
-      <h2 class="text-2xl font-handwriting font-bold text-pencil mb-6 flex items-center gap-2">
-        <span>🌱</span> 这个网站是什么？
-      </h2>
-      
-      <p class="text-gray-700 font-sketch text-lg leading-loose mb-4">
-        这是我的 <strong class="text-marker-blue">数字花园</strong> —— 一个用来种想法、养实验、收知识的地方。
+    <!-- What -->
+    <div class="bg-white p-10 md:p-12 mb-12 shadow-soft" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 16px;">
+      <h2 class="text-2xl font-serif font-semibold mb-6">这个网站是什么？</h2>
+      <p class="text-gray-700 font-sans leading-loose mb-4">
+        这是我的 <strong>数字花园</strong> —— 一个用来种想法、养实验、收知识的地方。
       </p>
-      
-      <p class="text-gray-700 font-sketch text-lg leading-loose mb-6">
+      <p class="text-gray-700 font-sans leading-loose mb-8">
         不追求完美，只求真实。每一个粗糙的想法，都可能长出意想不到的花。
       </p>
-      
-      <blockquote class="sticky-note max-w-md mx-auto my-8">
-        <p class="text-lg font-handwriting text-gray-800 leading-relaxed">
-          "小小的想法改变世界，世界总需要更多好奇心的人。"
-        </p>
-        <div class="mt-4 text-right text-sm font-handwriting text-gray-500">
-          — zuoxiqiu
-        </div>
+      <blockquote class="border-l-2 border-ink pl-6 py-2 my-8 italic text-gray-600 font-serif text-xl">
+        "小小的想法改变世界，世界总需要更多好奇心的人。"
+        <footer class="mt-3 text-sm text-gray-500 font-sans">— zuoxiqiu</footer>
       </blockquote>
-      
-      <p class="text-gray-600 font-sketch">
-        💡 <strong>突发奇想</strong> - 随手记录，不筛选，不加工<br>
-        🧪 <strong>MVP实验</strong> - 有潜力的想法进入验证阶段<br>
-        ✅ <strong>已实现</strong> - 验证成功，形成项目或产品
-      </p>
+      <div class="space-y-3 text-gray-600 font-sans">
+        <p><strong>💡 突发奇想</strong> — 随手记录，不筛选，不加工</p>
+        <p><strong>🧪 MVP实验</strong> — 有潜力的想法进入验证阶段</p>
+        <p><strong>✅ 已实现</strong> — 验证成功，形成项目或产品</p>
+      </div>
     </div>
 
-    <!-- Tech Stack -->
-    <div class="hand-border bg-paper p-8 mb-10 relative overflow-hidden" style="transform: rotate(0.3deg); margin-top: 1rem;">
-      <div class="absolute top-0 right-0 w-12 h-12 bg-marker-green opacity-10" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
-      
-      <h2 class="text-2xl font-handwriting font-bold text-pencil mb-6 flex items-center gap-2">
-        <span>🔧</span> 技术栈
-      </h2>
-      
+    <!-- Tech -->
+    <div class="bg-white p-10 md:p-12 mb-12 shadow-soft" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 16px;">
+      <h2 class="text-2xl font-serif font-semibold mb-6">技术栈</h2>
       <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-marker-blue">
-          <h3 class="font-handwriting font-bold text-pencil mb-2">Astro</h3>
-          <p class="text-gray-600 font-sketch">静态网站生成器，快如闪电</p>
+        <div class="p-5 bg-stone" style="border-radius: 12px;">
+          <h3 class="font-serif font-semibold mb-2">Astro</h3>
+          <p class="text-gray-600 font-sans text-sm">静态网站生成器，快如闪电</p>
         </div>
-        <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-marker-pink">
-          <h3 class="font-handwriting font-bold text-pencil mb-2">Tailwind CSS</h3>
-          <p class="text-gray-600 font-sketch">原子化 CSS，手写样式</p>
+        <div class="p-5 bg-stone" style="border-radius: 12px;">
+          <h3 class="font-serif font-semibold mb-2">Tailwind CSS</h3>
+          <p class="text-gray-600 font-sans text-sm">原子化 CSS，精准控制样式</p>
         </div>
-        <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-marker-green">
-          <h3 class="font-handwriting font-bold text-pencil mb-2">Netlify</h3>
-          <p class="text-gray-600 font-sketch">免费托管，自动部署</p>
+        <div class="p-5 bg-stone" style="border-radius: 12px;">
+          <h3 class="font-serif font-semibold mb-2">Netlify</h3>
+          <p class="text-gray-600 font-sans text-sm">免费托管，自动部署，全球 CDN</p>
         </div>
-        <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-marker-yellow">
-          <h3 class="font-handwriting font-bold text-pencil mb-2">Markdown</h3>
-          <p class="text-gray-600 font-sketch">内容用 Markdown 管理</p>
+        <div class="p-5 bg-stone" style="border-radius: 12px;">
+          <h3 class="font-serif font-semibold mb-2">Markdown</h3>
+          <p class="text-gray-600 font-sans text-sm">内容用 Markdown 管理，版本可控</p>
         </div>
       </div>
     </div>
 
     <!-- Contact -->
-    <div class="hand-border bg-paper p-8 text-center relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-12 h-12 bg-marker-yellow opacity-10" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
-      
-      <h2 class="text-2xl font-handwriting font-bold text-pencil mb-6 flex items-center justify-center gap-2">
-        <span>✉️</span> 联系方式
-      </h2>
-      
-      <p class="text-gray-600 font-sketch mb-6">
-        有问题或合作意向？欢迎联系
-      </p>
-      
-      <div class="flex justify-center gap-8 text-lg">
-        <a href="https://github.com/zuoxiqiu" class="text-gray-700 hover:text-marker-blue transition font-sketch flex items-center gap-2">
+    <div class="bg-ink text-white p-10 md:p-12 text-center shadow-soft" style="border-radius: 16px;">
+      <h2 class="text-2xl font-serif font-semibold mb-6">联系方式</h2>
+      <p class="text-gray-300 mb-8 font-sans">有问题或合作意向？欢迎联系</p>
+      <div class="flex justify-center gap-10 text-lg">
+        <a href="https://github.com/zuoxiqiu" class="text-white hover:text-gray-300 transition font-sans flex items-center gap-2">
           <span>🐙</span> GitHub
         </a>
-        <a href="mailto:2658828897@qq.com" class="text-gray-700 hover:text-marker-pink transition font-sketch flex items-center gap-2">
-          <span>📧</span> Email
+        <a href="mailto:2658828897@qq.com" class="text-white hover:text-gray-300 transition font-sans flex items-center gap-2">
+          <span>✉️</span> Email
         </a>
       </div>
     </div>

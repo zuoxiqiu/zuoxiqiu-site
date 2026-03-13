@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
-// 示例想法数据（后续会从文件读取）
 const ideas = [
   {
     title: "AI Agent 的下一个风口",
@@ -20,91 +19,84 @@ const ideas = [
 ];
 
 const statusLabels = {
-  raw: { text: "💡 突发奇想", color: "bg-marker-blue text-white" },
-  thinking: { text: "🤔 在思考", color: "bg-marker-yellow text-gray-800" },
-  testing: { text: "🧪 验证中", color: "bg-marker-green text-white" },
-  done: { text: "✅ 已实现", color: "bg-green-500 text-white" },
-  abandoned: { text: "❌ 已放弃", color: "bg-red-400 text-white" }
+  raw: { text: "突发奇想", class: "bg-gray-100 text-gray-700" },
+  thinking: { text: "在思考", class: "bg-stone text-gray-600" },
+  testing: { text: "验证中", class: "bg-gray-200 text-gray-800" },
+  done: { text: "已实现", class: "bg-gray-900 text-white" },
+  abandoned: { text: "已放弃", class: "bg-white border border-gray-300" }
 };
 ---
 
 <Layout title="想法流">
-  <div class="mb-12">
-    <div class="flex items-center gap-3 mb-2">
-      <span class="text-4xl">📝</span>
-      <h1 class="text-4xl font-handwriting font-bold text-pencil">想法流</h1>
-    </div>
-    <p class="text-lg text-gray-600 font-sketch leading-relaxed">
-      随手记录，不加工，不筛选。<br>
-      <span class="doodle-star" style="color: #ecc94b;"></span>
-      每一个粗糙的想法，都可能长出意想不到的花。
-    </p>
-  </div>
-
-  <!-- Filter Tags -->
-  <div class="flex gap-3 mb-8 flex-wrap">
-    <span class="px-4 py-2 bg-pencil text-white font-handwriting text-lg rounded-full cursor-pointer hover:bg-gray-700 transition">全部</span>
-    <span class="px-4 py-2 bg-paper border-2 border-gray-200 text-gray-600 font-sketch rounded-full cursor-pointer hover:border-marker-blue hover:text-marker-blue transition">AI</span>
-    <span class="px-4 py-2 bg-paper border-2 border-gray-200 text-gray-600 font-sketch rounded-full cursor-pointer hover:border-marker-pink hover:text-marker-pink transition">创业</span>
-    <span class="px-4 py-2 bg-paper border-2 border-gray-200 text-gray-600 font-sketch rounded-full cursor-pointer hover:border-marker-green hover:text-marker-green transition">工具</span>
-    <span class="px-4 py-2 bg-paper border-2 border-gray-200 text-gray-600 font-sketch rounded-full cursor-pointer hover:border-marker-yellow hover:text-marker-yellow transition">生活</span>
-  </div>
-
-  <!-- Ideas List -->
-  <div class="space-y-6">
-    {ideas.map((idea) => (
-      <article class="hand-border bg-paper p-6 relative overflow-hidden" style="transform: rotate(-0.5deg); margin-left: 1rem;">
-        <div class="absolute top-0 right-0 w-8 h-8 bg-marker-pink opacity-15" style="clip-path: polygon(100% 0, 0 0, 100% 100%);"></div>
-        
-        <div class="flex items-start justify-between mb-4">
-          <div class="flex gap-2 flex-wrap">
-            {idea.tags.map((tag) => (
-              <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-handwriting rounded-full border border-gray-200">
-                #{tag}
-              </span>
-            ))}
-          </div>
-          <span class={`px-3 py-1 rounded text-sm font-handwriting font-bold ${statusLabels[idea.status].color}`}>
-            {statusLabels[idea.status].text}
-          </span>
-        </div>
-        
-        <h2 class="text-2xl font-handwriting font-bold text-pencil mb-3 hover:text-marker-blue cursor-pointer transition">
-          {idea.title}
-        </h2>
-        
-        <p class="text-gray-600 font-sketch text-lg leading-relaxed mb-4">
-          {idea.excerpt}
-        </p>
-        
-        <div class="flex items-center justify-between">
-          <time class="text-sm text-gray-400 font-handwriting">
-            {idea.date}
-          </time>
-          <div class="text-2xl font-handwriting text-gray-300">✎</div>
-        </div>
-      </article>
-    ))}
-  </div>
-
-  <!-- Empty State -->
-  {ideas.length === 0 && (
-    <div class="text-center py-20">
-      <div class="text-8xl mb-6 opacity-30">📭</div>
-      <h3 class="text-2xl font-handwriting font-bold text-pencil mb-2">还没有想法</h3>
-      <p class="text-gray-600 font-sketch mb-6">
-        开始记录你的第一个灵感吧
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-16">
+      <h1 class="text-4xl font-serif font-semibold mb-4">想法流</h1>
+      <p class="text-gray-600 font-sans text-lg leading-relaxed">
+        随手记录，不加工，不筛选。<br>
+        每一个粗糙的想法，都可能长出意想不到的花。
       </p>
-      <div class="inline-block bg-gray-100 px-6 py-4 rounded-lg font-mono text-sm text-gray-600">
-        src/content/ideas/your-idea.md
-      </div>
     </div>
-  )}
 
-  <!-- Add New Button -->
-  <div class="mt-12 text-center">
-    <button class="btn-sketch bg-gradient-to-r from-marker-blue to-marker-pink text-white">
-      <span class="text-xl">➕ 添加新想法</span>
-    </button>
+    <!-- Filters -->
+    <div class="flex gap-3 mb-10 overflow-x-auto pb-2">
+      <button class="px-5 py-2.5 bg-ink text-white text-sm font-medium transition hover:bg-gray-800">全部</button>
+      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">AI</button>
+      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">创业</button>
+      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">工具</button>
+      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">生活</button>
+    </div>
+
+    <!-- Ideas List -->
+    <div class="space-y-8">
+      {ideas.map((idea) => (
+        <article class="bg-white p-8 shadow-soft group hover:shadow-lg transition-all duration-300" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 16px;">
+          <div class="flex items-start justify-between mb-5">
+            <div class="flex gap-2 flex-wrap">
+              {idea.tags.map((tag) => (
+                <span class="px-3 py-1 bg-stone text-gray-600 text-xs font-medium rounded-full">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+            <span class={`px-3 py-1.5 rounded-full text-xs font-medium ${statusLabels[idea.status].class}`}>
+              {statusLabels[idea.status].text}
+            </span>
+          </div>
+          
+          <h2 class="text-2xl font-serif font-semibold mb-3 group-hover:underline cursor-pointer">
+            {idea.title}
+          </h2>
+          
+          <p class="text-gray-600 font-sans leading-relaxed mb-4">
+            {idea.excerpt}
+          </p>
+          
+          <div class="flex items-center justify-between text-sm text-gray-400">
+            <time>{idea.date}</time>
+            <span class="text-gray-300">|</span>
+            <span class="font-sans">阅读全文</span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    {/* Empty State */}
+    {ideas.length === 0 && (
+      <div class="text-center py-24">
+        <div class="text-7xl mb-8 opacity-20">📭</div>
+        <h3 class="text-2xl font-serif font-semibold mb-3">还没有想法</h3>
+        <p class="text-gray-600 mb-6 font-sans">开始记录你的第一个灵感吧</p>
+        <div class="inline-block bg-stone px-6 py-4 rounded-lg font-mono text-sm text-gray-600">
+          src/content/ideas/your-idea.md
+        </div>
+      </div>
+    )}
+
+    <!-- Add Button -->
+    <div class="mt-16 text-center">
+      <button class="btn-primary">
+        <span>➕ 添加新想法</span>
+      </button>
+    </div>
   </div>
 </Layout>
