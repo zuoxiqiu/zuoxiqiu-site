@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "小小的想法改变世界，世界总需要更多好奇心的人" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | zuoxiqiu.com</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="bg-gray-50 text-gray-900 min-h-screen">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <nav class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-gray-900 hover:text-blue-600 transition">
+          🦞 zuoxiqiu
+        </a>
+        <div class="flex gap-6 text-sm">
+          <a href="/ideas" class="text-gray-600 hover:text-blue-600 transition">想法流</a>
+          <a href="/mvp" class="text-gray-600 hover:text-blue-600 transition">实验场</a>
+          <a href="/about" class="text-gray-600 hover:text-blue-600 transition">关于</a>
+        </div>
+      </nav>
+    </header>
+    
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <slot />
+    </main>
+    
+    <footer class="bg-white border-t mt-16 py-8">
+      <div class="max-w-4xl mx-auto px-4 text-center text-sm text-gray-500">
+        <p>© 2026 zuoxiqiu.com · 小小的想法改变世界</p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// 示例想法数据（后续会从文件读取）
+const ideas = [
+  {
+    title: "AI Agent 的下一个风口",
+    date: "2026-03-13",
+    tags: ["AI", "创业"],
+    status: "raw",
+    excerpt: "GitHub Trending 上的 Agent 项目正在爆发..."
+  },
+  {
+    title: "个人知识库的自动化",
+    date: "2026-03-12",
+    tags: ["工具", "效率"],
+    status: "thinking",
+    excerpt: "如何让碎片化的想法自动组织成知识体系..."
+  }
+];
+
+const statusLabels = {
+  raw: { text: "💡 突发奇想", color: "bg-gray-100 text-gray-700" },
+  thinking: { text: "🤔 在思考", color: "bg-yellow-100 text-yellow-700" },
+  testing: { text: "🧪 验证中", color: "bg-blue-100 text-blue-700" },
+  done: { text: "✅ 已实现", color: "bg-green-100 text-green-700" },
+  abandoned: { text: "❌ 已放弃", color: "bg-red-100 text-red-700" }
+};
+---
+
+<Layout title="想法流">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">想法流</h1>
+    <p class="text-gray-600">记录每一个灵感瞬间，不筛选，不加工</p>
+  </div>
+
+  <!-- Filter Tags -->
+  <div class="flex gap-2 mb-6">
+    <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">全部</span>
+    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 cursor-pointer">AI</span>
+    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 cursor-pointer">创业</span>
+    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 cursor-pointer">工具</span>
+    <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm hover:bg-gray-200 cursor-pointer">生活</span>
+  </div>
+
+  <!-- Ideas List -->
+  <div class="space-y-4">
+    {ideas.map((idea) => (
+      <article class="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
+        <div class="flex items-start justify-between mb-3">
+          <div class="flex gap-2">
+            {idea.tags.map((tag) => (
+              <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">{tag}</span>
+            ))}
+          </div>
+          <span class={`px-2 py-1 rounded text-xs ${statusLabels[idea.status].color}`}>
+            {statusLabels[idea.status].text}
+          </span>
+        </div>
+        <h2 class="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 cursor-pointer">
+          {idea.title}
+        </h2>
+        <p class="text-gray-600 mb-3">{idea.excerpt}</p>
+        <time class="text-sm text-gray-400">{idea.date}</time>
+      </article>
+    ))}
+  </div>
+
+  <!-- Empty State -->
+  {ideas.length === 0 && (
+    <div class="text-center py-16">
+      <div class="text-6xl mb-4">💭</div>
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">还没有想法</h3>
+      <p class="text-gray-600 mb-4">开始记录你的第一个灵感吧</p>
+      <code class="bg-gray-100 px-3 py-2 rounded text-sm">
+        src/content/ideas/your-idea.md
+      </code>
+    </div>
+  )}
+</Layout>

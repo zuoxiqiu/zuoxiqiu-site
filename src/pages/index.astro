@@ -1,17 +1,170 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="首页">
+  <!-- Hero Section with Gradient Background -->
+  <section class="relative overflow-hidden">
+    <!-- Background Gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50"></div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-20 left-10 w-20 h-20 bg-blue-200 rounded-full opacity-30 blur-xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-32 h-32 bg-purple-200 rounded-full opacity-30 blur-xl animate-pulse" style="animation-delay: 1s;"></div>
+    <div class="absolute top-40 right-20 w-16 h-16 bg-green-200 rounded-full opacity-20 blur-lg"></div>
+    
+    <div class="relative max-w-4xl mx-auto px-4 py-20 md:py-32 text-center">
+      <!-- Logo/Icon -->
+      <div class="mb-8">
+        <span class="inline-block text-6xl animate-bounce" style="animation-duration: 2s;">🦞</span>
+      </div>
+      
+      <!-- Main Title with Gradient Text -->
+      <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+          小小的想法
+        </span>
+        <br />
+        <span class="text-gray-900">改变世界</span>
+      </h1>
+      
+      <!-- Subtitle -->
+      <p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+        世界总需要更多<span class="text-blue-600 font-semibold">好奇心</span>的人
+      </p>
+      
+      <!-- CTA Buttons -->
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a href="/ideas" 
+           class="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+          <span class="flex items-center gap-2">
+            💡 浏览想法
+            <span class="group-hover:translate-x-1 transition-transform">→</span>
+          </span>
+        </a>
+        <a href="/mvp" 
+           class="group px-8 py-4 bg-white text-gray-700 border-2 border-gray-200 rounded-full font-semibold hover:border-blue-400 hover:text-blue-600 transition-all duration-300">
+          <span class="flex items-center gap-2">
+            🧪 查看实验
+          </span>
+        </a>
+      </div>
+      
+      <!-- Scroll Indicator -->
+      <div class="mt-16 animate-bounce">
+        <span class="text-gray-400 text-sm">向下滚动了解更多</span>
+        <div class="mt-2 text-gray-400">↓</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section with Cards -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Card 1 -->
+        <div class="group relative bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl border border-blue-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
+              💡
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3 text-center">突发奇想</h3>
+          <p class="text-gray-600 text-center leading-relaxed">
+            随手记录每一个灵感瞬间，不筛选，不加工，让想法自由流动
+          </p>
+          <div class="mt-6 text-center">
+            <span class="inline-block px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+              Raw Ideas
+            </span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="group relative bg-gradient-to-br from-green-50 to-white p-8 rounded-2xl border border-green-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
+              🧪
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3 text-center">MVP实验</h3>
+          <p class="text-gray-600 text-center leading-relaxed">
+            把想法变成最小可行产品，验证可行性，快速迭代
+          </p>
+          <div class="mt-6 text-center">
+            <span class="inline-block px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+              Validate
+            </span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="group relative bg-gradient-to-br from-purple-50 to-white p-8 rounded-2xl border border-purple-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform">
+              📝
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mt-6 mb-3 text-center">知识沉淀</h3>
+          <p class="text-gray-600 text-center leading-relaxed">
+            日积月累，零散的想法汇聚成庞大的个人知识资产
+          </p>
+          <div class="mt-6 text-center">
+            <span class="inline-block px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+              Knowledge
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Flow Section -->
+  <section class="py-20 bg-gradient-to-b from-white to-gray-50">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">
+        内容流转
+      </h2>
+      
+      <!-- Flow Diagram -->
+      <div class="relative">
+        <!-- Step 1 -->
+        <div class="flex items-center gap-6 mb-8">
+          <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+            💡
+          </div>
+          <div class="flex-1 bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-400">
+            <h3 class="font-bold text-gray-900 mb-2">突发奇想</h3>
+            <p class="text-gray-600">随手记录，不筛选，不加工</p>
+          </div>
+        </div>
+        
+        <!-- Arrow -->
+        <div class="flex justify-center my-4">
+          <div class="text-2xl text-gray-300 animate-bounce">↓</div>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="flex items-center gap-6 mb-8">
+          <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+            🧪
+          </div>
+          <div class="flex-1 bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-400">
+            <h3 class="font-bold text-gray-900 mb-2">MVP实验</h3>
+            <p class="text-gray-600">验证想法的可行性，记录完整过程</p>
+          </div>
+        </div>
+        
+        <!-- Arrow -->
+        <div class="flex justify-center my-4">
+          <div class="text-2xl text-gray-300 animate-bounce" style="animation-delay: 0.2s;">↓</div>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="flex items-center gap-6">
+          <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+            ✅
+          </div>
+          <div class="flex-1 bg-white p-6 rounded-xl shadow-md border-l-4 border-green-400">
+            <h3 class="font-bold text-gray-900 mb-2">已实现 / 已放弃</h3>
+            <p class="text-gray-600">形成项目，或
