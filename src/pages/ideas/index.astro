@@ -19,19 +19,19 @@ const ideas = [
 ];
 
 const statusLabels = {
-  raw: { text: "突发奇想", class: "bg-gray-100 text-gray-700" },
-  thinking: { text: "在思考", class: "bg-stone text-gray-600" },
-  testing: { text: "验证中", class: "bg-gray-200 text-gray-800" },
-  done: { text: "已实现", class: "bg-gray-900 text-white" },
-  abandoned: { text: "已放弃", class: "bg-white border border-gray-300" }
+  raw: { text: "突发奇想", class: "bg-blue-500/20 text-blue-300 border border-blue-500/30" },
+  thinking: { text: "在思考", class: "bg-purple-500/20 text-purple-300 border border-purple-500/30" },
+  testing: { text: "验证中", class: "bg-green-500/20 text-green-300 border border-green-500/30" },
+  done: { text: "已实现", class: "bg-gray-800 text-white border border-gray-700" },
+  abandoned: { text: "已放弃", class: "bg-transparent border border-gray-700 text-gray-500" }
 };
 ---
 
 <Layout title="想法流">
   <div class="max-w-4xl mx-auto">
     <div class="mb-16">
-      <h1 class="text-4xl font-serif font-semibold mb-4">想法流</h1>
-      <p class="text-gray-600 font-sans text-lg leading-relaxed">
+      <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">想法流</h1>
+      <p class="text-gray-400 leading-relaxed text-lg">
         随手记录，不加工，不筛选。<br>
         每一个粗糙的想法，都可能长出意想不到的花。
       </p>
@@ -39,21 +39,21 @@ const statusLabels = {
 
     <!-- Filters -->
     <div class="flex gap-3 mb-10 overflow-x-auto pb-2">
-      <button class="px-5 py-2.5 bg-ink text-white text-sm font-medium transition hover:bg-gray-800">全部</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">AI</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">创业</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">工具</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-ink hover:text-ink transition">生活</button>
+      <button class="px-5 py-2.5 bg-blue-500 text-white text-sm font-medium transition hover:bg-blue-400">全部</button>
+      <button class="px-5 py-2.5 bg-surface border border-gray-700 text-gray-400 text-sm font-medium hover:border-blue-500 hover:text-blue-300 transition">AI</button>
+      <button class="px-5 py-2.5 bg-surface border border-gray-700 text-gray-400 text-sm font-medium hover:border-purple-500 hover:text-purple-300 transition">创业</button>
+      <button class="px-5 py-2.5 bg-surface border border-gray-700 text-gray-400 text-sm font-medium hover:border-green-500 hover:text-green-300 transition">工具</button>
+      <button class="px-5 py-2.5 bg-surface border border-gray-700 text-gray-400 text-sm font-medium hover:border-pink-500 hover:text-pink-300 transition">生活</button>
     </div>
 
     <!-- Ideas List -->
-    <div class="space-y-8">
+    <div class="space-y-6">
       {ideas.map((idea) => (
-        <article class="bg-white p-8 shadow-soft group hover:shadow-lg transition-all duration-300" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 16px;">
+        <article class="bg-surface p-8 shadow-card group hover:shadow-glow transition-all duration-300" style="border: 1px solid rgba(255,255,255,0.06); border-radius: 16px;">
           <div class="flex items-start justify-between mb-5">
             <div class="flex gap-2 flex-wrap">
               {idea.tags.map((tag) => (
-                <span class="px-3 py-1 bg-stone text-gray-600 text-xs font-medium rounded-full">
+                <span class="px-3 py-1 bg-charcoal text-gray-400 text-xs font-medium rounded-full border border-gray-800">
                   #{tag}
                 </span>
               ))}
@@ -63,18 +63,18 @@ const statusLabels = {
             </span>
           </div>
           
-          <h2 class="text-2xl font-serif font-semibold mb-3 group-hover:underline cursor-pointer">
+          <h2 class="text-2xl font-bold mb-3 group-hover:underline cursor-pointer text-white">
             {idea.title}
           </h2>
           
-          <p class="text-gray-600 font-sans leading-relaxed mb-4">
+          <p class="text-gray-400 leading-relaxed mb-4">
             {idea.excerpt}
           </p>
           
-          <div class="flex items-center justify-between text-sm text-gray-400">
+          <div class="flex items-center justify-between text-sm text-gray-500">
             <time>{idea.date}</time>
-            <span class="text-gray-300">|</span>
-            <span class="font-sans">阅读全文</span>
+            <span class="text-gray-600">|</span>
+            <span class="text-blue-300 hover:text-blue-200 cursor-pointer">阅读全文</span>
           </div>
         </article>
       ))}
@@ -84,15 +84,15 @@ const statusLabels = {
     {ideas.length === 0 && (
       <div class="text-center py-24">
         <div class="text-7xl mb-8 opacity-20">📭</div>
-        <h3 class="text-2xl font-serif font-semibold mb-3">还没有想法</h3>
-        <p class="text-gray-600 mb-6 font-sans">开始记录你的第一个灵感吧</p>
-        <div class="inline-block bg-stone px-6 py-4 rounded-lg font-mono text-sm text-gray-600">
+        <h3 class="text-2xl font-semibold mb-3 text-white">还没有想法</h3>
+        <p class="text-gray-400 mb-6">开始记录你的第一个灵感吧</p>
+        <div class="inline-block bg-charcoal px-6 py-4 rounded-lg font-mono text-sm text-gray-500 border border-gray-800">
           src/content/ideas/your-idea.md
         </div>
       </div>
     )}
 
-    <!-- Add Button -->
+    <!-- Add New Button -->
     <div class="mt-16 text-center">
       <button class="btn-primary">
         <span>➕ 添加新想法</span>

@@ -11,20 +11,21 @@ export default defineConfig({
       theme: {
         extend: {
           fontFamily: {
-            'serif': ['"Playfair Display"', '"Noto Serif SC"', 'serif'],
             'sans': ['"Inter"', '"Noto Sans SC"', 'sans-serif'],
           },
           colors: {
-            'ink': '#1a1a1a',
-            'stone': '#f5f5f4',
-            'mist': '#e7e5e4',
+            'void': '#0a0a0a',
+            'charcoal': '#141414',
+            'surface': '#1c1c1c',
+            'glow-blue': 'rgba(59, 130, 246, 0.5)',
+            'glow-purple': 'rgba(139, 92, 246, 0.5)',
           },
           boxShadow: {
-            'glass': '0 4px 30px rgba(0, 0, 0, 0.05)',
-            'soft': '0 10px 40px -10px rgba(0,0,0,0.1)',
+            'glow': '0 0 60px rgba(59, 130, 246, 0.3), 0 0 100px rgba(139, 92, 246, 0.2)',
+            'card': '0 8px 32px rgba(0, 0, 0, 0.4)',
           },
-          letterSpacing: {
-            'wide': '0.05em',
+          backgroundImage: {
+            'gradient-radial': 'radial-gradient(ellipse at top, rgba(59, 130, 246, 0.15), transparent 50%), radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.15), transparent 50%)',
           }
         }
       }
@@ -32,7 +33,7 @@ export default defineConfig({
   },
   markdown: {
     shikiConfig: {
-      theme: 'github-light'
+      theme: 'github-dark'
     }
   }
 });
