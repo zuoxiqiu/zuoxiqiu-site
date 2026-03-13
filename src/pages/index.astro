@@ -3,68 +3,84 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="首页">
-  <!-- Hero -->
-  <section class="py-24 px-4 text-center">
-    <div class="max-w-3xl mx-auto">
-      <p class="text-sm uppercase tracking-[0.2em] text-gray-500 mb-6 font-sans">
-        Digital Garden
-      </p>
-      <h1 class="text-5xl md:text-6xl font-serif font-semibold mb-6 tracking-tight" style="color: #1a1a1a;">
-        小小的想法
+  <!-- Hero Section -->
+  <section class="relative py-20 px-4 overflow-hidden" style="background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);">
+    <!-- Decorative blobs -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-duration: 8s;"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-duration: 10s; animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/4 w-64 h-64 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-float" style="animation-duration: 12s; animation-delay: 4s;"></div>
+    
+    <div class="relative max-w-4xl mx-auto text-center">
+      <div class="mb-8">
+        <span class="text-6xl">🦞</span>
+      </div>
+      
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          小小的想法
+        </span>
         <br>
-        <span class="text-gray-700">改变世界</span>
+        <span class="text-gray-900">改变世界</span>
       </h1>
-      <p class="text-xl text-gray-600 leading-relaxed max-w-xl mx-auto mb-12 font-sans font-light">
-        世界总需要更多好奇心的人
+      
+      <p class="text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+        世界总需要更多<span class="text-blue-600 font-semibold">好奇心</span>的人
       </p>
-      <div class="flex gap-4 justify-center">
-        <a href="/ideas" class="btn-primary">
-          想法流
+      
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a href="/ideas" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+          💡 浏览想法
         </a>
-        <a href="/mvp" class="btn-secondary">
-          实验场
+        <a href="/mvp" class="px-8 py-4 bg-white text-gray-700 border border-gray-200 rounded-full font-medium hover:border-blue-400 hover:text-blue-500 transition-all duration-300">
+          🧪 查看实验
         </a>
       </div>
     </div>
   </section>
 
   <!-- Three Cards -->
-  <section class="py-20 px-4">
-    <div class="max-w-6xl mx-auto">
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
       <div class="grid md:grid-cols-3 gap-8">
         <!-- Card 1 -->
-        <div class="card">
-          <div class="text-3xl mb-4">💡</div>
-          <h3 class="text-xl font-serif font-semibold mb-3">突发奇想</h3>
-          <p class="text-gray-600 font-sans leading-relaxed">
-            随手记录每一个灵感瞬间。不筛选，不加工，让想法自由流动。
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+          <div class="text-4xl mb-4">💡</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">突发奇想</h3>
+          <p class="text-gray-600 leading-relaxed">
+            随手记录每一个灵感瞬间，不筛选，不加工，让想法自由流动
           </p>
           <div class="mt-4">
-            <span class="text-xs uppercase tracking-wider text-gray-500 font-sans">Raw Ideas</span>
+            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+              Raw Ideas
+            </span>
           </div>
         </div>
 
         <!-- Card 2 -->
-        <div class="card">
-          <div class="text-3xl mb-4">🧪</div>
-          <h3 class="text-xl font-serif font-semibold mb-3">MVP实验</h3>
-          <p class="text-gray-600 font-sans leading-relaxed">
-            把想法变成最小可行产品。记录过程，收集反馈，快速迭代。
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+          <div class="text-4xl mb-4">🧪</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">MVP实验</h3>
+          <p class="text-gray-600 leading-relaxed">
+            把想法变成最小可行产品，验证可行性，快速迭代
           </p>
           <div class="mt-4">
-            <span class="text-xs uppercase tracking-wider text-gray-500 font-sans">Validate</span>
+            <span class="inline-block px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+              Validate
+            </span>
           </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="card">
-          <div class="text-3xl mb-4">📝</div>
-          <h3 class="text-xl font-serif font-semibold mb-3">知识沉淀</h3>
-          <p class="text-gray-600 font-sans leading-relaxed">
-            日积月累，零散的想法汇聚成庞大的个人知识资产。
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+          <div class="text-4xl mb-4">📝</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">知识沉淀</h3>
+          <p class="text-gray-600 leading-relaxed">
+            日积月累，零散的想法汇聚成庞大的个人知识资产
           </p>
           <div class="mt-4">
-            <span class="text-xs uppercase tracking-wider text-gray-500 font-sans">Knowledge</span>
+            <span class="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+              Knowledge
+            </span>
           </div>
         </div>
       </div>
@@ -72,21 +88,21 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Philosophy -->
-  <section class="py-24 px-4 bg-mist" style="background-color: #f5f5f4;">
+  <section class="py-20 px-4 bg-white">
     <div class="max-w-2xl mx-auto">
-      <div class="bg-white p-10 md:p-12 shadow-soft" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 16px;">
-        <h2 class="text-2xl font-serif font-semibold mb-6">为什么做这个网站？</h2>
-        <p class="text-gray-700 font-sans leading-loose mb-4">
-          这是一个 <strong>数字花园</strong> —— 一个用来种想法、养实验、收知识的地方。
+      <div class="bg-gray-50 p-10 rounded-2xl">
+        <h2 class="text-2xl font-bold mb-4">为什么做这个网站？</h2>
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          这是一个<strong>数字花园</strong>——一个用来种想法、养实验、收知识的地方。
         </p>
-        <p class="text-gray-700 font-sans leading-loose mb-8">
+        <p class="text-gray-600 mb-6 leading-relaxed">
           不追求完美，只求真实。每一个粗糙的想法，都可能长出意想不到的花。
         </p>
-        <blockquote class="border-l-2 border-ink pl-6 py-2 my-8 italic text-gray-600 font-serif">
-          "小小的想法改变世界，世界总需要更多好奇心的人。"
-          <footer class="mt-2 text-sm text-gray-500 font-sans">— zuoxiqiu</footer>
+        <blockquote class="border-l-4 border-blue-500 pl-4 py-2 my-6 bg-blue-50 italic">
+          <p class="text-gray-700">"小小的想法改变世界，世界总需要更多好奇心的人。"</p>
+          <footer class="mt-2 text-sm text-gray-500">— zuoxiqiu</footer>
         </blockquote>
-        <p class="text-gray-600 font-sans text-sm leading-relaxed">
+        <p class="text-gray-600 leading-relaxed">
           <strong>💡 突发奇想</strong> — 随手记录，不筛选，不加工<br>
           <strong>🧪 MVP实验</strong> — 有潜力的想法进入验证阶段<br>
           <strong>✅ 已实现</strong> — 验证成功，形成项目或产品
@@ -96,68 +112,58 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- Flow -->
-  <section class="py-24 px-4">
+  <section class="py-20 px-4 bg-gray-50">
     <div class="max-w-2xl mx-auto">
-      <h2 class="text-3xl font-serif font-semibold text-center mb-16">想法怎么变成结果？</h2>
+      <h2 class="text-3xl font-bold text-center mb-12">内容流转</h2>
       
       <!-- Step 1 -->
-      <div class="flex gap-6 mb-12">
-        <div class="flex-shrink-0 w-16 h-16 bg-gray-100 flex items-center justify-center text-2xl rounded-full">💡</div>
-        <div class="bg-white p-6 shadow-soft flex-1" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 12px;">
-          <h3 class="text-xl font-serif font-semibold mb-2">突发奇想</h3>
-          <p class="text-gray-600 font-sans leading-relaxed">
-            随手记录，不筛选，不加工。任何微小的灵感都值得被记住。
-          </p>
+      <div class="flex items-center gap-6 mb-8">
+        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-3xl flex-shrink-0">💡</div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500 flex-1">
+          <h3 class="font-bold text-gray-900 mb-2">突发奇想</h3>
+          <p class="text-gray-600">随手记录，不筛选，不加工</p>
         </div>
       </div>
-
+      
       <!-- Arrow -->
-      <div class="flex justify-center my-8">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4d4d8" stroke-width="2">
-          <path d="M12 5v14M19 12l-7 7-7-7"/>
-        </svg>
+      <div class="flex justify-center my-4">
+        <div class="text-2xl text-gray-300 animate-bounce">↓</div>
       </div>
-
+      
       <!-- Step 2 -->
-      <div class="flex gap-6 mb-12">
-        <div class="flex-shrink-0 w-16 h-16 bg-gray-100 flex items-center justify-center text-2xl rounded-full">🧪</div>
-        <div class="bg-white p-6 shadow-soft flex-1" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 12px;">
-          <h3 class="text-xl font-serif font-semibold mb-2">MVP实验</h3>
-          <p class="text-gray-600 font-sans leading-relaxed">
-            用最小的成本验证想法。记录过程，收集反馈，快速迭代。
-          </p>
+      <div class="flex items-center gap-6 mb-8">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-3xl flex-shrink-0">🧪</div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500 flex-1">
+          <h3 class="font-bold text-gray-900 mb-2">MVP实验</h3>
+          <p class="text-gray-600">验证想法的可行性，记录完整过程</p>
         </div>
       </div>
-
+      
       <!-- Arrow -->
-      <div class="flex justify-center my-8">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4d4d8" stroke-width="2">
-          <path d="M12 5v14M19 12l-7 7-7-7"/>
-        </svg>
+      <div class="flex justify-center my-4">
+        <div class="text-2xl text-gray-300 animate-bounce" style="animation-delay: 0.2s;">↓</div>
       </div>
-
+      
       <!-- Step 3 -->
-      <div class="flex gap-6">
-        <div class="flex-shrink-0 w-16 h-16 bg-gray-100 flex items-center justify-center text-2xl rounded-full">✅</div>
-        <div class="bg-white p-6 shadow-soft flex-1" style="border: 1px solid rgba(0,0,0,0.04); border-radius: 12px;">
-          <h3 class="text-xl font-serif font-semibold mb-2">已实现 / 已放弃</h3>
-          <p class="text-gray-600 font-sans leading-relaxed">
-            形成真正的项目，或者标记为"此路不通"——都是宝贵的资产。
-          </p>
+      <div class="flex items-center gap-6">
+        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-3xl flex-shrink-0">✅</div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500 flex-1">
+          <h3 class="font-bold text-gray-900 mb-2">已实现 / 已放弃</h3>
+          <p class="text-gray-600">形成真正的项目，或者标记为"此路不通"——都是宝贵的资产</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section class="py-24 px-4 bg-ink text-white">
+  <section class="py-20 px-4 bg-gradient-to-br from-blue-50 to-purple-50">
     <div class="max-w-2xl mx-auto text-center">
-      <h2 class="text-3xl font-serif font-semibold mb-6">想看看我最近在想什么？</h2>
-      <p class="text-lg text-gray-300 mb-10 leading-relaxed font-sans">
+      <h2 class="text-3xl font-bold mb-6">想看看我最近在想什么？</h2>
+      <p class="text-lg text-gray-600 mb-10 leading-relaxed">
         这里记录了我所有的想法、实验和学习。有的已经落地，有的还在酝酿。
       </p>
-      <a href="/ideas" class="btn-primary bg-white text-ink hover:bg-gray-100">
-        <span>📖 开始阅读</span>
+      <a href="/ideas" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all duration-300 inline-block">
+        📖 开始阅读
       </a>
     </div>
   </section>

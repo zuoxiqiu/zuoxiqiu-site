@@ -1,68 +1,56 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;500;600;700&display=swap');
 
-/* Dark theme with glow effects */
+/* Warm minimalist style */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.7;
-  background-color: #0a0a0a;
-  color: #f5f5f5;
-  -webkit-font-smoothing: antialiased;
-  background-image: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
   min-height: 100vh;
+  color: #1a1a1a;
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
   font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  color: #ffffff;
+  line-height: 1.3;
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 h2 {
-  font-size: 2.25rem;
+  font-size: 2rem;
   margin-bottom: 1.25rem;
-  font-weight: 600;
 }
 
 h3 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
 p {
   margin-bottom: 1.25rem;
-  font-size: 1.05rem;
-  color: #d1d5db;
+  color: #4b5563;
 }
 
 /* Links */
 a {
-  color: #93c5fd;
+  color: inherit;
   text-decoration: none;
-  transition: all 0.2s ease;
-  position: relative;
+  transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #c4b5fd;
-  text-shadow: 0 0 10px rgba(147, 197, 253, 0.5);
+  color: #2563eb;
 }
 
 /* Buttons */
@@ -71,38 +59,20 @@ a:hover {
   align-items: center;
   justify-content: center;
   padding: 0.875rem 2rem;
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
   color: white;
   border: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  border-radius: 9999px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-  transition: left 0.5s ease;
-}
-
-.btn-primary:hover::before {
-  left: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
 }
 
 .btn-secondary {
@@ -110,44 +80,50 @@ a:hover {
   align-items: center;
   justify-content: center;
   padding: 0.875rem 2rem;
-  background: transparent;
-  color: #f5f5f5;
-  border: 1px solid rgba(255,255,255,0.2);
-  font-size: 0.95rem;
+  background: white;
+  color: #4b5563;
+  border: 1px solid #e5e7eb;
+  font-size: 1rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  border-radius: 9999px;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 8px;
 }
 
 .btn-secondary:hover {
-  border-color: rgba(147, 197, 253, 0.5);
-  background: rgba(147, 197, 253, 0.05);
-  box-shadow: 0 0 15px rgba(147, 197, 253, 0.2);
+  border-color: #2563eb;
+  color: #2563eb;
 }
 
-/* Cards - Glassmorphism */
+/* Cards */
 .card {
-  background: rgba(28, 28, 28, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  background: white;
+  border-radius: 1rem;
   padding: 2rem;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: 1px solid #f3f4f6;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.15);
-  border-color: rgba(147, 197, 253, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border-color: #e5e7eb;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
 /* Section spacing */
 section {
-  padding: 6rem 0;
+  padding: 5rem 0;
 }
 
 /* Container */
@@ -165,31 +141,33 @@ section {
 }
 
 .prose h1 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  font-size: 2.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .prose h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.75rem;
+  margin-bottom: 1.25rem;
 }
 
 .prose p {
-  margin-bottom: 1.5rem;
-  font-size: 1.05rem;
+  margin-bottom: 1.25rem;
 }
 
 .prose strong {
-  color: #f5f5f5;
+  color: #1a1a1a;
   font-weight: 600;
 }
 
 .prose blockquote {
-  border-left: 3px solid #8b5cf6;
+  border-left: 4px solid #2563eb;
   padding-left: 1.5rem;
-  margin: 2rem 0;
+  margin: 1.5rem 0;
   font-style: italic;
-  color: #9ca3af;
+  color: #6b7280;
+  background: #f9fafb;
+  padding: 1rem 1.5rem;
+  border-radius: 0 8px 8px 0;
 }
 
 /* Custom scrollbar */
@@ -199,21 +177,19 @@ section {
 }
 
 ::-webkit-scrollbar-track {
-  background: #141414;
+  background: #f3f4f6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #374151;
+  background: #d1d5db;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background: #9ca3af;
 }
 
-/* Smooth transitions */
-* {
-  transition-property: color, background-color, border-color, transform, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
+/* Smooth transitions for all interactive elements */
+button, a, .card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
