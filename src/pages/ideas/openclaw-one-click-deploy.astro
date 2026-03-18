@@ -1,0 +1,61 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="OpenClaw 一键部署方案对比">
+  <article class="max-w-3xl mx-auto">
+    <div class="mb-8">
+      <div class="flex gap-2 mb-4">
+        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">#OpenClaw</span>
+        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">#Docker</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">OpenClaw 一键部署方案对比</h1>
+      <div class="flex items-center gap-4 text-sm text-gray-500">
+        <time>2026-03-18</time>
+        <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-medium">🤔 在思考</span>
+      </div>
+    </div>
+
+    <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+      <h2 class="text-xl font-bold mt-8 mb-4 text-gray-900">背景</h2>
+      <p class="mb-4">需要为团队快速部署 OpenClaw 飞书机器人，调研了两个方案。</p>
+
+      <h2 class="text-xl font-bold mt-8 mb-4 text-gray-900">方案一：Tauri 图形安装器 (推荐)</h2>
+      <p class="mb-4">基于 <code>openclawapp</code> 项目定制。</p>
+      
+      <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-900">优点</h3>
+      <ul class="list-disc list-inside mb-4 space-y-1">
+        <li>✅ 成功率 90%+</li>
+        <li>✅ 体积小 (100MB)</li>
+        <li>✅ 用户体验好，傻瓜式操作</li>
+        <li>✅ 跨平台 (Windows/macOS/Linux)</li>
+        <li>✅ 维护成本低</li>
+      </ul>
+
+      <h2 class="text-xl font-bold mt-8 mb-4 text-gray-900">方案二：Docker 一键安装包</h2>
+      
+      <h3 class="text-lg font-semibold mt-6 mb-3 text-gray-900">缺点</h3>
+      <ul class="list-disc list-inside mb-4 space-y-1">
+        <li>❌ 成功率仅 30-40%</li>
+        <li>❌ 体积巨大 (2GB+)</li>
+        <li>❌ 依赖 Docker Desktop，安装复杂</li>
+        <li>❌ Windows 家庭版/WSL2 兼容性问题</li>
+        <li>❌ 资源占用高 (8GB 内存)</li>
+        <li>❌ 维护成本极高</li>
+      </ul>
+
+      <h2 class="text-xl font-bold mt-8 mb-4 text-gray-900">GLM-5 锐评</h2>
+      <blockquote class="border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-6">
+        "方案二是典型的技术自嗨：用大炮打蚊子，还打歪了。投入产出比为负。不要做。用方案一。Period."
+      </blockquote>
+
+      <h2 class="text-xl font-bold mt-8 mb-4 text-gray-900">结论</h2>
+      <p class="mb-4"><strong>采用方案一 (Tauri 图形安装器)</strong></p>
+      <p>理由：成功率更高、用户体验更好、维护成本更低、已有成熟方案可用。</p>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <a href="/ideas" class="text-blue-500 hover:text-blue-600">← 返回想法流</a>
+    </div>
+  </article>
+</Layout>

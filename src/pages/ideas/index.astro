@@ -7,7 +7,8 @@ const ideas = [
     title: "OpenClaw 一键部署方案对比",
     date: "2026-03-18",
     tags: ["OpenClaw", "Docker"],
-    status: "done",
+    status: "thinking",
+    slug: "openclaw-one-click-deploy",
     excerpt: "Tauri vs Docker 方案对比，GLM-5 锐评：用大炮打蚊子，还打歪了..."
   },
   {
@@ -79,7 +80,7 @@ const statusLabels = {
           <div class="flex items-center justify-between text-sm text-gray-500">
             <time>{idea.date}</time>
             <span class="text-gray-300">|</span>
-            <span class="text-blue-500 hover:text-blue-600 cursor-pointer">阅读全文 →</span>
+            <a href={`/ideas/${idea.slug}`} class="text-blue-500 hover:text-blue-600 cursor-pointer">阅读全文 →</a>
           </div>
         </article>
       ))}
