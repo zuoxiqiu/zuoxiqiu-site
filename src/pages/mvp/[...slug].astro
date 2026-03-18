@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const mvps = await getCollection('mvp');
+  return mvps.map((mvp) => ({
+    params: { slug: mvp.id },
+    props: { mvp },
+  }));
+}
+
+const { mvp } = Astro.props;
+const { Content } = await render(mvp);
+
+const statusLabels = {
+  testing: { text: "🧪 验证中", color: "bg-green-100 text-green-700" },
+  done: { text: "✅ 已实现", color: "bg-purple-100 text-purple-700" },
+  abandoned: { text: "❌ 已放弃", color: "bg-red-100 text-red-700" }
+};
+---
+
+<Layout title={mvp.data.title}>
+  <article class="max-w-3xl mx-auto">
+    <div class="mb-8">
+      <div class="flex gap-2 mb-4">
+        {mvp.data.tags.map((tag) => (
+          <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
+            #{tag}
+          </span>
+        ))}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">{mvp.data.title}</h1>
+      <div class="flex items-center gap-4 text-sm text-gray-500">
+        <time>{mvp.data.date.toISOString().split('T')[0]}</time>
+        <span class={`px-3 py-1 rounded-full text-xs font-medium ${statusLabels[mvp.data.status].color}`}>
+          {statusLabels[mvp.data.status].text}
+        </span>
+      </div>
+    </div>
+
+    <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+      <Content />
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-200">
+      <a href="/mvp" class="text-blue-500 hover:text-blue-600">← 返回实验场</a>
+    </div>
+  </article>
+</Layout>
