@@ -2,7 +2,7 @@
 title: "OpenClaw 一键部署方案对比"
 date: 2026-03-18
 tags: ["OpenClaw", "Docker", "部署"]
-status: "completed"
+status: "done"
 ---
 
 ## 背景
