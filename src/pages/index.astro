@@ -3,107 +3,70 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="昨夕秋">
-  <!-- 极简现代风格首页 -->
-  <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-950">
+  <!-- 深蓝高级风 -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden" style="background: #0a1628;">
     
-    <!-- 微妙渐变背景 -->
-    <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-black"></div>
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
-    
-    <!-- 网格纹理 -->
-    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
+    <!-- 微妙光晕 -->
+    <div class="absolute top-1/3 left-1/3 w-[600px] h-[600px] rounded-full opacity-30" style="background: radial-gradient(circle, #1e3a5f 0%, transparent 70%); filter: blur(100px);"></div>
+    <div class="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] rounded-full opacity-20" style="background: radial-gradient(circle, #2d5a87 0%, transparent 70%); filter: blur(120px);"></div>
     
     <div class="relative z-10 max-w-4xl mx-auto text-center px-6">
       <!-- Logo -->
-      <div class="mb-6 opacity-80">
-        <span class="text-6xl">🦞</span>
+      <div class="mb-8">
+        <span class="text-5xl">🦞</span>
       </div>
       
-      <!-- 主标题 - 简洁白色 -->
-      <h1 class="text-6xl md:text-8xl font-light text-white mb-6 tracking-tight">
+      <!-- 主标题 -->
+      <h1 class="text-7xl md:text-9xl font-light text-white mb-8 tracking-tight" style="font-family: 'SF Pro Display', -apple-system, sans-serif; letter-spacing: 0.05em;">
         昨夕秋
       </h1>
       
       <!-- 副标题 -->
-      <p class="text-lg md:text-xl text-gray-400 mb-4 max-w-xl mx-auto font-light">
+      <p class="text-base text-slate-400 mb-16 tracking-wide" style="font-family: 'SF Pro Text', -apple-system, sans-serif;">
         捕捉昨日的灵感，沉淀今日的思考
       </p>
       
-      <p class="text-sm text-gray-500 mb-16 max-w-md mx-auto">
-        数字花园 · 想法记录 · 实验验证
-      </p>
-      
-      <!-- 极简按钮 -->
+      <!-- 按钮 -->
       <div class="flex gap-4 justify-center">
-        <a href="/ideas" class="group px-8 py-4 bg-white text-gray-900 rounded-full font-medium transition-all duration-300 hover:bg-gray-100 hover:scale-105">
-          <span class="flex items-center gap-2">
-            <span>💡</span>
-            <span>浏览想法</span>
-          </span>
+        <a href="/ideas" class="px-8 py-3 bg-white text-slate-900 text-sm font-medium rounded-full transition-all hover:bg-slate-100">
+          浏览想法
         </a>
-        
-        <a href="/mvp" class="group px-8 py-4 border border-gray-700 text-gray-300 rounded-full font-medium transition-all duration-300 hover:border-gray-500 hover:text-white hover:scale-105">
-          <span class="flex items-center gap-2">
-            <span>🧪</span>
-            <span>查看实验</span>
-          </span>
+        <a href="/mvp" class="px-8 py-3 border border-slate-600 text-slate-300 text-sm font-medium rounded-full transition-all hover:border-slate-400 hover:text-white">
+          查看实验
         </a>
       </div>
-    </div>
-    
-    <!-- 底部装饰线 -->
-    <div class="absolute bottom-12 left-1/2 -translate-x-1/2">
-      <div class="w-px h-16 bg-gradient-to-b from-transparent via-gray-600 to-transparent"></div>
     </div>
   </section>
 
   <!-- 三个板块 -->
-  <section class="py-24 px-6 bg-gray-950 border-t border-gray-900">
+  <section class="py-24 px-6" style="background: #0d1d33;">
     <div class="max-w-5xl mx-auto">
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="grid md:grid-cols-3 gap-6">
         
-        <div class="group p-8 border border-gray-800 rounded-2xl transition-all duration-300 hover:border-gray-600 hover:bg-gray-900/50">
-          <div class="text-3xl mb-4 text-gray-400 group-hover:text-white transition-colors">💡</div>
-          <h3 class="text-lg font-medium text-white mb-2">突发奇想</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">随手记录灵感瞬间，不筛选不加工</p>
+        <div class="p-8 rounded-2xl transition-all" style="background: rgba(30, 58, 95, 0.3); border: 1px solid rgba(100, 130, 170, 0.2);">
+          <div class="text-2xl mb-4">💡</div>
+          <h3 class="text-white text-base font-medium mb-2">突发奇想</h3>
+          <p class="text-slate-400 text-sm">随手记录灵感瞬间</p>
         </div>
         
-        <div class="group p-8 border border-gray-800 rounded-2xl transition-all duration-300 hover:border-gray-600 hover:bg-gray-900/50">
-          <div class="text-3xl mb-4 text-gray-400 group-hover:text-white transition-colors">🧪</div>
-          <h3 class="text-lg font-medium text-white mb-2">MVP实验</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">验证想法可行性，快速迭代</p>
+        <div class="p-8 rounded-2xl transition-all" style="background: rgba(30, 58, 95, 0.3); border: 1px solid rgba(100, 130, 170, 0.2);">
+          <div class="text-2xl mb-4">🧪</div>
+          <h3 class="text-white text-base font-medium mb-2">MVP实验</h3>
+          <p class="text-slate-400 text-sm">验证想法可行性</p>
         </div>
         
-        <div class="group p-8 border border-gray-800 rounded-2xl transition-all duration-300 hover:border-gray-600 hover:bg-gray-900/50">
-          <div class="text-3xl mb-4 text-gray-400 group-hover:text-white transition-colors">📝</div>
-          <h3 class="text-lg font-medium text-white mb-2">知识沉淀</h3>
-          <p class="text-sm text-gray-500 leading-relaxed">日积月累形成知识资产</p>
+        <div class="p-8 rounded-2xl transition-all" style="background: rgba(30, 58, 95, 0.3); border: 1px solid rgba(100, 130, 170, 0.2);">
+          <div class="text-2xl mb-4">📝</div>
+          <h3 class="text-white text-base font-medium mb-2">知识沉淀</h3>
+          <p class="text-slate-400 text-sm">日积月累成资产</p>
         </div>
         
       </div>
     </div>
   </section>
 
-  <!-- 理念 -->
-  <section class="py-24 px-6 bg-gray-950 border-t border-gray-900">
-    <div class="max-w-2xl mx-auto text-center">
-      <p class="text-gray-400 mb-4 text-lg">
-        <span class="text-white">昨</span>日的思考，<span class="text-white">夕</span>阳的沉淀，<span class="text-white">秋</span>收的积累
-      </p>
-      <p class="text-gray-500 text-sm">
-        不追求完美，只求真实
-      </p>
-    </div>
-  </section>
-
-  <!-- Footer CTA -->
-  <section class="py-16 px-6 bg-gray-950 border-t border-gray-900">
-    <div class="max-w-xl mx-auto text-center">
-      <a href="/ideas" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm">
-        <span>开始阅读</span>
-        <span>→</span>
-      </a>
-    </div>
+  <!-- Footer -->
+  <section class="py-16 px-6 text-center" style="background: #0a1628; border-top: 1px solid rgba(100, 130, 170, 0.1);">
+    <p class="text-slate-500 text-xs tracking-widest">昨 · 夕 · 秋</p>
   </section>
 </Layout>
