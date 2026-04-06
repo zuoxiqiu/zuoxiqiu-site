@@ -132,8 +132,6 @@ a:hover {
   padding: 2.8rem 0;
   border-bottom: 0.5px solid var(--faint);
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(25px);
 }
 
 .writing-item:first-child {
