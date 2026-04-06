@@ -1,116 +1,73 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-// 示例想法数据（后续会从文件读取）
-const ideas = [
-  {
-    title: "双龙虾客服系统：用AI监督AI",
-    date: "2026-03-20",
-    tags: ["AI", "安全", "系统设计"],
-    status: "raw",
-    slug: "dual-lobster-cs-system",
-    excerpt: "用两个 AI 互相监督，解决电商客服的信息泄露风险。A龙虾生成回复，B龙虾审核安全..."
-  },
-  {
-    title: "OpenClaw 一键部署方案对比",
-    date: "2026-03-18",
-    tags: ["OpenClaw", "Docker"],
-    status: "thinking",
-    slug: "openclaw-one-click-deploy",
-    excerpt: "Tauri vs Docker 方案对比，GLM-5 锐评：用大炮打蚊子，还打歪了..."
-  },
-  {
-    title: "AI Agent 的下一个风口",
-    date: "2026-03-13",
-    tags: ["AI", "创业"],
-    status: "raw",
-    excerpt: "GitHub Trending 上的 Agent 项目正在爆发..."
-  },
-  {
-    title: "个人知识库的自动化",
-    date: "2026-03-12",
-    tags: ["工具", "效率"],
-    status: "thinking",
-    excerpt: "如何让碎片化的想法自动组织成知识体系..."
-  }
-];
+const ideas = await getCollection('ideas');
+ideas.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const statusLabels = {
-  raw: { text: "💡 突发奇想", color: "bg-blue-100 text-blue-700" },
-  thinking: { text: "🤔 在思考", color: "bg-yellow-100 text-yellow-700" },
-  testing: { text: "🧪 验证中", color: "bg-green-100 text-green-700" },
-  done: { text: "✅ 已实现", color: "bg-purple-100 text-purple-700" },
-  abandoned: { text: "❌ 已放弃", color: "bg-red-100 text-red-700" }
+const statusLabels: Record<string, { text: string }> = {
+  raw: { text: '💡 突发奇想' },
+  thinking: { text: '🤔 在思考' },
+  testing: { text: '🧪 验证中' },
+  done: { text: '✅ 已实现' },
+  abandoned: { text: '❌ 已放弃' },
 };
 ---
 
-<Layout title="想法流">
-  <div class="max-w-4xl mx-auto">
-    <div class="mb-12">
-      <h1 class="text-3xl md:text-4xl font-bold mb-3 text-gray-900">想法流</h1>
-      <p class="text-lg text-gray-600">记录每一个灵感瞬间，不筛选，不加工</p>
+<Layout title="想法">
+  <div class="page-wrap">
+    <div class="page-header">
+      <h1 class="page-title">想法</h1>
+      <p class="page-desc">记录每一个灵感瞬间，不筛选，不加工</p>
     </div>
 
-    <!-- Filters -->
-    <div class="flex gap-3 mb-10 overflow-x-auto pb-2">
-      <button class="px-5 py-2.5 bg-blue-500 text-white text-sm font-medium transition hover:bg-blue-400 rounded-full">全部</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-blue-300 hover:text-blue-600 transition rounded-full">AI</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-green-300 hover:text-green-600 transition rounded-full">创业</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-purple-300 hover:text-purple-600 transition rounded-full">工具</button>
-      <button class="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-medium hover:border-pink-300 hover:text-pink-600 transition rounded-full">生活</button>
-    </div>
+    <div class="divider"><div class="divider-dot"></div></div>
 
-    <!-- Ideas List -->
-    <div class="space-y-6">
+    <div class="writing-list">
       {ideas.map((idea) => (
-        <article class="bg-white p-8 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl border border-gray-100">
-          <div class="flex items-start justify-between mb-4">
-            <div class="flex gap-2 flex-wrap">
-              {idea.tags.map((tag) => (
-                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-medium rounded-full">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-            <span class={`px-3 py-1.5 rounded-full text-sm font-medium ${statusLabels[idea.status].color}`}>
-              {statusLabels[idea.status].text}
-            </span>
+        <a href={`/ideas/${idea.id}`} class="writing-item">
+          <div class="writing-date">
+            {idea.data.date.toISOString().slice(0, 10)}
+            &nbsp;·&nbsp;
+            {idea.data.tags.map(t => `#${t}`).join(' ')}
+            &nbsp;·&nbsp;
+            {statusLabels[idea.data.status]?.text}
           </div>
-          
-          <h2 class="text-2xl font-bold mb-3 text-gray-900 hover:text-blue-600 cursor-pointer transition">
-            {idea.title}
-          </h2>
-          
-          <p class="text-gray-600 leading-relaxed mb-4">
-            {idea.excerpt}
-          </p>
-          
-          <div class="flex items-center justify-between text-sm text-gray-500">
-            <time>{idea.date}</time>
-            <span class="text-gray-300">|</span>
-            <a href={`/ideas/${idea.slug}`} class="text-blue-500 hover:text-blue-600 cursor-pointer">阅读全文 →</a>
-          </div>
-        </article>
+          <div class="writing-title">{idea.data.title}</div>
+        </a>
       ))}
     </div>
 
-    {/* Empty State */}
     {ideas.length === 0 && (
-      <div class="text-center py-24">
-        <div class="text-7xl mb-8 opacity-20">💭</div>
-        <h3 class="text-2xl font-semibold mb-3 text-gray-900">还没有想法</h3>
-        <p class="text-gray-600 mb-6">开始记录你的第一个灵感吧</p>
-        <div class="inline-block bg-gray-100 px-6 py-4 rounded-lg font-mono text-sm text-gray-500">
-          src/content/ideas/your-idea.md
-        </div>
+      <div class="empty-state">
+        <p>还没有想法</p>
       </div>
     )}
-
-    <!-- Add New Button -->
-    <div class="mt-16 text-center">
-      <button class="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-        <span>➕ 添加新想法</span>
-      </button>
-    </div>
   </div>
 </Layout>
+
+<style>
+  .page-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+  }
+
+  .page-header {
+    padding: 6rem 0 2rem;
+  }
+
+  .page-title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    margin-right: -0.2em;
+    color: var(--ink);
+  }
+
+  .page-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+</style>

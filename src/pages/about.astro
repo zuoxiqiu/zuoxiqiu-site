@@ -3,71 +3,123 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="关于">
-  <div class="max-w-3xl mx-auto">
-    <!-- Header -->
-    <div class="text-center mb-16">
-      <div class="mb-6">
-        <span class="text-6xl">🦞</span>
-      </div>
-      <h1 class="text-4xl font-bold mb-3 text-gray-900">关于 zuoxiqiu</h1>
-      <p class="text-xl text-gray-600">一个好奇者的 <strong class="text-blue-600">数字花园</strong></p>
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="about-emoji">🦞</div>
+      <h1 class="page-title">关于</h1>
+      <p class="about-subtitle">一个好奇者的数字花园</p>
     </div>
 
-    <!-- What -->
-    <div class="bg-white p-10 rounded-2xl shadow-sm border border-gray-100 mb-12">
-      <h2 class="text-2xl font-bold mb-6 text-gray-900">这个网站是什么？</h2>
-      <p class="text-gray-600 mb-4 leading-relaxed">
-        这是我的 <strong class="text-blue-600">数字花园</strong> —— 一个用来种想法、养实验、收知识的地方。
-      </p>
-      <p class="text-gray-600 mb-8 leading-relaxed">
-        不追求完美，只求真实。每一个粗糙的想法，都可能长出意想不到的花。
-      </p>
-      <blockquote class="border-l-4 border-blue-500 pl-6 py-3 my-8 bg-blue-50 italic text-lg text-gray-700">
-        "小小的想法改变世界，世界总需要更多好奇心的人。"
-        <footer class="mt-3 text-sm text-gray-500">— zuoxiqiu</footer>
-      </blockquote>
-      <div class="space-y-3 text-gray-600">
-        <p><strong>💡 突发奇想</strong> — 随手记录，不筛选，不加工</p>
-        <p><strong>🧪 MVP实验</strong> — 有潜力的想法进入验证阶段</p>
-        <p><strong>✅ 已实现</strong> — 验证成功，形成项目或产品</p>
+    <div class="divider"><div class="divider-dot"></div></div>
+
+    <div class="about-section">
+      <div class="section-label">This Site</div>
+      <div class="about-text">
+        <p>这是我的<em>数字花园</em>——一个用来种想法、养实验、收知识的地方。</p>
+        <p>不追求完美，只求真实。每一个粗糙的想法，都可能长出意想不到的花。</p>
+        <blockquote>"小小的想法改变世界，世界总需要更多好奇心的人。"</blockquote>
       </div>
     </div>
 
-    <!-- Tech -->
-    <div class="bg-white p-10 rounded-2xl shadow-sm border border-gray-100 mb-12">
-      <h2 class="text-2xl font-bold mb-6 text-gray-900">技术栈</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="p-5 bg-gray-50 rounded-xl">
-          <h3 class="font-semibold mb-2 text-gray-900">Astro</h3>
-          <p class="text-gray-600 text-sm">静态网站生成器，快如闪电</p>
-        </div>
-        <div class="p-5 bg-gray-50 rounded-xl">
-          <h3 class="font-semibold mb-2 text-gray-900">Tailwind CSS</h3>
-          <p class="text-gray-600 text-sm">原子化 CSS，精准控制样式</p>
-        </div>
-        <div class="p-5 bg-gray-50 rounded-xl">
-          <h3 class="font-semibold mb-2 text-gray-900">Netlify</h3>
-          <p class="text-gray-600 text-sm">免费托管，自动部署，全球 CDN</p>
-        </div>
-        <div class="p-5 bg-gray-50 rounded-xl">
-          <h3 class="font-semibold mb-2 text-gray-900">Markdown</h3>
-          <p class="text-gray-600 text-sm">内容用 Markdown 管理，版本可控</p>
-        </div>
+    <div class="about-section">
+      <div class="section-label">Structure</div>
+      <div class="about-text">
+        <p><em>💡 想法</em> — 随手记录，不筛选，不加工</p>
+        <p><em>🧪 实验</em> — 有潜力的想法进入验证阶段</p>
+        <p><em>✅ 实现</em> — 验证成功，形成项目或产品</p>
       </div>
     </div>
 
-    <!-- Contact -->
-    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-10 rounded-2xl shadow-sm border border-gray-100 text-center">
-      <h2 class="text-2xl font-bold mb-6 text-gray-900">联系方式</h2>
-      <p class="text-gray-600 mb-8">有问题或合作意向？欢迎联系</p>
-      <div class="flex justify-center gap-10 text-lg">
-        <a href="https://github.com/zuoxiqiu" class="text-gray-700 hover:text-blue-600 transition flex items-center gap-2 font-medium">
-          <span>🐙</span> GitHub
-        </a>
-        <a href="mailto:2658828897@qq.com" class="text-gray-700 hover:text-purple-600 transition flex items-center gap-2 font-medium">
-          <span>✉️</span> Email
-        </a>
+    <div class="about-section">
+      <div class="section-label">Stack</div>
+      <div class="about-text">
+        <p>Astro · Tailwind CSS · Cloudflare Pages · Markdown</p>
       </div>
+    </div>
+
+    <div class="divider"><div class="divider-dot"></div></div>
+
+    <div class="about-contact">
+      <a href="https://github.com/zuoxiqiu">GitHub</a>
+      <span class="contact-dot">·</span>
+      <a href="mailto:2658828897@qq.com">2658828897@qq.com</a>
     </div>
   </div>
 </Layout>
+
+<style>
+  .page-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+  }
+
+  .page-header {
+    padding: 6rem 0 2rem;
+    text-align: center;
+  }
+
+  .about-emoji {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+  }
+
+  .page-title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    margin-right: -0.2em;
+    color: var(--ink);
+  }
+
+  .about-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .about-section {
+    margin: 4rem 0;
+  }
+
+  .about-text em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .about-text p + p {
+    margin-top: 1rem;
+  }
+
+  .about-text blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--muted);
+    border-left: 2px solid var(--accent);
+    padding-left: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .about-contact {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .about-contact a:hover {
+    color: var(--accent);
+  }
+
+  .contact-dot {
+    color: var(--faint);
+  }
+</style>

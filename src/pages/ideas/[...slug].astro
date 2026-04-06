@@ -3,37 +3,39 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const mvps = await getCollection('mvp');
-  return mvps.map((mvp) => ({
-    params: { slug: mvp.id },
-    props: { mvp },
+  const ideas = await getCollection('ideas');
+  return ideas.map((idea) => ({
+    params: { slug: idea.id },
+    props: { idea },
   }));
 }
 
-const { mvp } = Astro.props;
-const { Content } = await render(mvp);
+const { idea } = Astro.props;
+const { Content } = await render(idea);
 
 const statusLabels: Record<string, string> = {
+  raw: '💡 突发奇想',
+  thinking: '🤔 在思考',
   testing: '🧪 验证中',
   done: '✅ 已实现',
   abandoned: '❌ 已放弃',
 };
 ---
 
-<Layout title={mvp.data.title}>
+<Layout title={idea.data.title}>
   <article class="article-wrap">
     <div class="article-meta">
       <div class="article-tags">
-        {mvp.data.tags.map((tag: string) => (
+        {idea.data.tags.map((tag: string) => (
           <span class="tag">#{tag}</span>
         ))}
       </div>
-      <div class="article-status">{statusLabels[mvp.data.status]}</div>
+      <div class="article-status">{statusLabels[idea.data.status]}</div>
     </div>
 
-    <h1 class="article-title">{mvp.data.title}</h1>
+    <h1 class="article-title">{idea.data.title}</h1>
 
-    <time class="article-date">{mvp.data.date.toISOString().slice(0, 10)}</time>
+    <time class="article-date">{idea.data.date.toISOString().slice(0, 10)}</time>
 
     <div class="divider"><div class="divider-dot"></div></div>
 
@@ -42,7 +44,7 @@ const statusLabels: Record<string, string> = {
     </div>
 
     <div class="article-back">
-      <a href="/mvp">← 实验</a>
+      <a href="/ideas">← 想法</a>
     </div>
   </article>
 </Layout>

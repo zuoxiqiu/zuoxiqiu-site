@@ -6,7 +6,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "小小的想法改变世界，世界总需要更多好奇心的人" } = Astro.props;
+const { title, description = "捕捉昨日的灵感，沉淀今日的思考" } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -16,31 +16,66 @@ const { title, description = "小小的想法改变世界，世界总需要更�
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} | zuoxiqiu.com</title>
+    <title>{title} · zuoxiqiu.com</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body class="min-h-screen">
-    <header class="py-6 px-4 mb-8" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 50; border-bottom: 1px solid #f3f4f6;">
-      <nav class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a href="/" class="text-xl font-bold text-gray-900 hover:text-blue-600 transition">
-          🦞 昨夕秋
-        </a>
-        <div class="flex gap-6 text-sm">
-          <a href="/ideas" class="text-gray-600 hover:text-blue-600 transition">想法流</a>
-          <a href="/mvp" class="text-gray-600 hover:text-blue-600 transition">实验场</a>
-          <a href="/about" class="text-gray-600 hover:text-blue-600 transition">关于</a>
-        </div>
+  <body>
+    <header>
+      <nav id="nav">
+        <a href="/" class="nav-logo">昨夕秋</a>
+        <ul class="nav-links">
+          <li><a href="/ideas">想法</a></li>
+          <li><a href="/mvp">实验</a></li>
+          <li><a href="/about">关于</a></li>
+        </ul>
       </nav>
     </header>
     
-    <main class="max-w-4xl mx-auto px-4 pb-16">
+    <main>
       <slot />
     </main>
     
-    <footer class="py-8 px-4 border-t border-gray-100 mt-16">
-      <div class="max-w-4xl mx-auto text-center text-sm text-gray-500">
-        <p>© 2026 zuoxiqiu.com · 小小的想法改变世界</p>
+    <footer>
+      <div class="divider">
+        <div class="divider-dot"></div>
+      </div>
+      <div class="footer-content">
+        <p class="footer-pinyin">昨 · 夕 · 秋</p>
       </div>
     </footer>
+
+    <script>
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          nav?.classList.add('scrolled');
+        } else {
+          nav?.classList.remove('scrolled');
+        }
+      });
+    </script>
   </body>
 </html>
+
+<style>
+  main {
+    padding-top: 80px;
+  }
+
+  footer {
+    padding: 0 2rem 4rem;
+    text-align: center;
+  }
+
+  .footer-content {
+    margin-top: 2rem;
+  }
+
+  .footer-pinyin {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    color: var(--faint);
+    margin-right: -0.5em;
+  }
+</style>
