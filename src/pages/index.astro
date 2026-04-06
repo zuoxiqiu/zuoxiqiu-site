@@ -44,7 +44,7 @@ const allPosts = [
     <div class="section-label">Writings</div>
     <div class="writing-list">
       {allPosts.map((post) => (
-        <a href={`/${post.type}/${post.slug}`} class="writing-item">
+        <a href={`/${post.type}/${post.id}`} class="writing-item">
           <div class="writing-date">{post.data.date.toISOString().slice(0, 10)} · {post.type === 'ideas' ? '想法' : '实验'}</div>
           <div class="writing-title">{post.data.title}</div>
           {post.data.description && (

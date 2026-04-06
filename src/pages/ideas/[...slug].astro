@@ -5,7 +5,7 @@ import Layout from '../../layouts/Layout.astro';
 export async function getStaticPaths() {
   const ideas = await getCollection('ideas');
   return ideas.map((idea) => ({
-    params: { slug: idea.id },
+    params: { slug: idea.id.replace(/.md$/, '') },
     props: { idea },
   }));
 }
