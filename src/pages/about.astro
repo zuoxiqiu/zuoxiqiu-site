@@ -25,24 +25,18 @@ import Layout from '../layouts/Layout.astro';
       <div class="section-label">Structure</div>
       <div class="about-text">
         <p><em>💡 想法</em> — 随手记录，不筛选，不加工</p>
+        <p><em>💭 思考</em> — 没有答案的问题</p>
         <p><em>🧪 实验</em> — 有潜力的想法进入验证阶段</p>
-        <p><em>✅ 实现</em> — 验证成功，形成项目或产品</p>
-      </div>
-    </div>
-
-    <div class="about-section">
-      <div class="section-label">Stack</div>
-      <div class="about-text">
-        <p>Astro · Tailwind CSS · Cloudflare Pages · Markdown</p>
       </div>
     </div>
 
     <div class="divider"><div class="divider-dot"></div></div>
 
-    <div class="about-contact">
-      <a href="https://github.com/zuoxiqiu">GitHub</a>
-      <span class="contact-dot">·</span>
-      <a href="mailto:2658828897@qq.com">2658828897@qq.com</a>
+    <div class="about-section">
+      <div class="section-label">Contact</div>
+      <div class="about-text">
+        <p><a href="mailto:2658828897@qq.com">2658828897@qq.com</a></p>
+      </div>
     </div>
   </div>
 </Layout>
@@ -105,21 +99,11 @@ import Layout from '../layouts/Layout.astro';
     margin-top: 2rem;
   }
 
-  .about-contact {
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--muted);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .about-contact a:hover {
+  .about-text a {
     color: var(--accent);
   }
 
-  .contact-dot {
-    color: var(--faint);
+  .about-text a:hover {
+    color: var(--ink);
   }
 </style>
