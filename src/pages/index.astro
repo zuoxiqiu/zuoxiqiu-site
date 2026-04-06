@@ -4,11 +4,13 @@ import { getCollection } from 'astro:content';
 
 const ideas = await getCollection('ideas');
 const mvp = await getCollection('mvp');
+const thinking = await getCollection('thinking');
 
 const allPosts = [
-  ...ideas.map(p => ({ ...p, type: 'ideas' })),
-  ...mvp.map(p => ({ ...p, type: 'mvp' }))
-].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 6);
+  ...ideas.map(p => ({ ...p, type: 'ideas', typeLabel: '想法' })),
+  ...mvp.map(p => ({ ...p, type: 'mvp', typeLabel: '实验' })),
+  ...thinking.map(p => ({ ...p, type: 'thinking', typeLabel: '思考' }))
+].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 8);
 ---
 
 <Layout title="昨夕秋">
@@ -45,7 +47,7 @@ const allPosts = [
     <div class="writing-list">
       {allPosts.map((post) => (
         <a href={`/${post.type}/${post.id}`} class="writing-item">
-          <div class="writing-date">{post.data.date.toISOString().slice(0, 10)} · {post.type === 'ideas' ? '想法' : '实验'}</div>
+          <div class="writing-date">{post.data.date.toISOString().slice(0, 10)} · {post.typeLabel}</div>
           <div class="writing-title">{post.data.title}</div>
           {post.data.description && (
             <div class="writing-excerpt">{post.data.description}</div>
