@@ -129,8 +129,7 @@ a:hover {
 
 /* Writing item */
 .writing-item {
-  padding: 2.8rem 0;
-  border-bottom: 0.5px solid var(--faint);
+  padding: 2.2rem 0 0;
   cursor: pointer;
 }
 
@@ -147,14 +146,17 @@ a:hover {
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   color: var(--faint);
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 .writing-title {
   font-size: 1.2rem;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.4;
   transition: color 0.3s;
+  padding-bottom: 2rem;
+  border-bottom: 0.5px solid var(--faint);
+  margin-bottom: -0.5px;
 }
 
 .writing-excerpt {
