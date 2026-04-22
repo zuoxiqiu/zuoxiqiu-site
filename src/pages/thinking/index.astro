@@ -7,16 +7,8 @@ const thoughts = (await getCollection('thinking')).sort(
 );
 
 const formatDate = (date: Date) => date.toISOString().slice(0, 10);
-
-const tagCounts = new Map<string, number>();
-
-for (const thought of thoughts) {
-  for (const tag of thought.data.tags) {
-    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
-  }
-}
-
-const topTag = [...tagCounts.entries()].sort((a, b) => b[1] - a[1])[0];
+const latestDate = thoughts[0] ? formatDate(thoughts[0].data.date) : '--';
+const earliestDate = thoughts[thoughts.length - 1] ? formatDate(thoughts[thoughts.length - 1].data.date) : '--';
 ---
 
 <Layout title="思考" description="那些还没有答案、但值得反复停留的问题。">
@@ -38,14 +30,12 @@ const topTag = [...tagCounts.entries()].sort((a, b) => b[1] - a[1])[0];
             <div class="page-stat-label">篇思考</div>
           </div>
           <div class="page-stat">
-            <div class="page-stat-value">{topTag ? topTag[1] : 0}</div>
-            <div class="page-stat-label">{topTag ? `#${topTag[0]}` : '常见主题'}</div>
+            <div class="page-stat-value">{latestDate.slice(5)}</div>
+            <div class="page-stat-label">最近更新</div>
           </div>
           <div class="page-stat">
-            <div class="page-stat-value">
-              {thoughts[0] ? formatDate(thoughts[0].data.date).slice(5) : '--'}
-            </div>
-            <div class="page-stat-label">最近更新</div>
+            <div class="page-stat-value">{earliestDate.slice(5)}</div>
+            <div class="page-stat-label">最早记录</div>
           </div>
         </div>
       </aside>
@@ -58,7 +48,6 @@ const topTag = [...tagCounts.entries()].sort((a, b) => b[1] - a[1])[0];
         <a href={`/thinking/${thought.id}`} class="writing-item reveal">
           <div class="writing-meta">
             <span>{formatDate(thought.data.date)}</span>
-            <span>Thinking</span>
           </div>
 
           <div class="writing-title-row">
@@ -67,12 +56,6 @@ const topTag = [...tagCounts.entries()].sort((a, b) => b[1] - a[1])[0];
           </div>
 
           <p class="writing-summary">不是所有问题都需要立刻回答，有些问题本身就是一种更慢的理解方式。</p>
-
-          <div class="writing-tags">
-            {thought.data.tags.map((tag) => (
-              <span class="tag">#{tag}</span>
-            ))}
-          </div>
         </a>
       ))}
     </div>

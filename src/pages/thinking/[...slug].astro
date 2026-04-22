@@ -18,26 +18,20 @@ const formatDate = (date: Date) => date.toISOString().slice(0, 10);
 
 <Layout title={thought.data.title} description={thought.data.title}>
   <article class="article-wrap">
-    <header class="article-shell reveal">
+    <header class="article-shell">
       <div class="article-shell-top">
-        <div class="article-tags">
-          <span class="status-badge">Thinking</span>
-        </div>
+        <div></div>
         <span class="tag">{formatDate(thought.data.date)}</span>
       </div>
 
       <h1 class="article-title">{thought.data.title}</h1>
-
-      <p class="article-submeta">
-        {thought.data.tags.map((tag: string) => `#${tag}`).join(' · ')}
-      </p>
     </header>
 
-    <div class="article-content prose reveal">
+    <div class="article-content prose">
       <Content />
     </div>
 
-    <div class="article-back reveal">
+    <div class="article-back">
       <a href="/thinking" class="back-link">返回思考列表</a>
     </div>
   </article>

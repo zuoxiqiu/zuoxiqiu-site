@@ -14,23 +14,14 @@ const { idea } = Astro.props;
 const { Content } = await render(idea);
 
 const formatDate = (date: Date) => date.toISOString().slice(0, 10);
-
-const statusLabels: Record<string, string> = {
-  raw: '突发奇想',
-  thinking: '在思考',
-  testing: '验证中',
-  done: '已实现',
-  abandoned: '已放弃',
-};
 ---
 
 <Layout title={idea.data.title} description={idea.data.title}>
   <article class="article-wrap">
-    <header class="article-shell reveal">
+    <header class="article-shell">
       <div class="article-shell-top">
         <div class="article-tags">
           <span class="status-badge">Ideas</span>
-          <span class="status-badge">{statusLabels[idea.data.status]}</span>
         </div>
         <span class="tag">{formatDate(idea.data.date)}</span>
       </div>
@@ -42,11 +33,11 @@ const statusLabels: Record<string, string> = {
       </p>
     </header>
 
-    <div class="article-content prose reveal">
+    <div class="article-content prose">
       <Content />
     </div>
 
-    <div class="article-back reveal">
+    <div class="article-back">
       <a href="/ideas" class="back-link">返回想法列表</a>
     </div>
   </article>

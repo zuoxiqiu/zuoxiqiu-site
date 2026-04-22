@@ -2,7 +2,7 @@
 title: "Docker OpenClaw + 飞书部署指南"
 date: 2026-03-18
 tags: ["OpenClaw", "Docker", "飞书", "部署"]
-status: "done"
+status: "abandoned"
 ---
 
 ## 背景

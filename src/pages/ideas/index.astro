@@ -7,22 +7,8 @@ const ideas = (await getCollection('ideas')).sort(
 );
 
 const formatDate = (date: Date) => date.toISOString().slice(0, 10);
-
-const statusLabels: Record<string, string> = {
-  raw: '突发奇想',
-  thinking: '在思考',
-  testing: '验证中',
-  done: '已实现',
-  abandoned: '已放弃',
-};
-
-const counts = {
-  raw: ideas.filter((item) => item.data.status === 'raw').length,
-  thinking: ideas.filter((item) => item.data.status === 'thinking').length,
-  testing: ideas.filter((item) => item.data.status === 'testing').length,
-  done: ideas.filter((item) => item.data.status === 'done').length,
-  abandoned: ideas.filter((item) => item.data.status === 'abandoned').length,
-};
+const uniqueTagCount = new Set(ideas.flatMap((item) => item.data.tags)).size;
+const latestDate = ideas[0] ? formatDate(ideas[0].data.date) : '--';
 ---
 
 <Layout title="想法" description="记录突然冒出来的灵感，以及它们如何慢慢找到自己的形状。">
@@ -37,19 +23,19 @@ const counts = {
       </div>
 
       <aside class="page-panel">
-        <p class="page-panel-label">Status spread</p>
+        <p class="page-panel-label">Ideas snapshot</p>
         <div class="page-stat-grid">
           <div class="page-stat">
-            <div class="page-stat-value">{counts.raw}</div>
-            <div class="page-stat-label">突发奇想</div>
+            <div class="page-stat-value">{ideas.length}</div>
+            <div class="page-stat-label">篇想法</div>
           </div>
           <div class="page-stat">
-            <div class="page-stat-value">{counts.thinking}</div>
-            <div class="page-stat-label">在思考</div>
+            <div class="page-stat-value">{uniqueTagCount}</div>
+            <div class="page-stat-label">个主题标签</div>
           </div>
           <div class="page-stat">
-            <div class="page-stat-value">{counts.testing}</div>
-            <div class="page-stat-label">验证中</div>
+            <div class="page-stat-value">{latestDate.slice(5)}</div>
+            <div class="page-stat-label">最近更新</div>
           </div>
         </div>
       </aside>
@@ -62,7 +48,6 @@ const counts = {
         <a href={`/ideas/${idea.id}`} class="writing-item reveal">
           <div class="writing-meta">
             <span>{formatDate(idea.data.date)}</span>
-            <span class="status-badge">{statusLabels[idea.data.status]}</span>
           </div>
 
           <div class="writing-title-row">

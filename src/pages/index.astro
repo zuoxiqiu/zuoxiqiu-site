@@ -28,15 +28,6 @@ const activeMvpCount = mvps.filter((post) => post.data.status === 'testing').len
 
 const collectionCards = [
   {
-    href: '/ideas',
-    label: 'Ideas',
-    title: '想法',
-    tone: 'clay',
-    count: ideas.length,
-    description: '把还不成熟、但值得留下来的灵感先保存下来，给它们之后长成方法的机会。',
-    latest: ideas[0],
-  },
-  {
     href: '/thinking',
     label: 'Thinking',
     title: '思考',
@@ -44,6 +35,15 @@ const collectionCards = [
     count: thinking.length,
     description: '收纳那些暂时没有答案的问题，让判断在反复停留和回看中慢慢成形。',
     latest: thinking[0],
+  },
+  {
+    href: '/ideas',
+    label: 'Ideas',
+    title: '想法',
+    tone: 'clay',
+    count: ideas.length,
+    description: '把还不成熟、但值得留下来的灵感先保存下来，给它们之后长成方法的机会。',
+    latest: ideas[0],
   },
   {
     href: '/mvp',
@@ -82,13 +82,13 @@ const typeNotes: Record<string, string> = {
       </p>
 
       <div class="home-actions">
-        <a href="/ideas" class="button button-primary">看最新想法</a>
+        <a href="/thinking" class="button button-primary">看最新思考</a>
         <a href="/about" class="button button-secondary">了解这个站</a>
       </div>
 
       <ul class="home-chips" aria-label="站点关键词">
-        <li>Ideas first</li>
         <li>Thinking in public</li>
+        <li>Ideas in motion</li>
         <li>Experiment-driven</li>
       </ul>
     </div>

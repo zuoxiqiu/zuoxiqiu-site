@@ -1,7 +1,7 @@
 ---
 title: "个人网站 zuoxiqiu.com"
 date: 2026-03-13
-status: "testing"
+status: "abandoned"
 tags: ["产品", "网站"]
 ---
 
