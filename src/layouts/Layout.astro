@@ -6,7 +6,31 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "捕捉昨日的灵感，沉淀今日的思考" } = Astro.props;
+const {
+  title,
+  description = "昨夕秋的数字花园，记录想法、思考与实验。",
+} = Astro.props;
+
+const currentYear = new Date().getFullYear();
+const normalizePath = (path: string) =>
+  path.length > 1 && path.endsWith('/') ? path.slice(0, -1) : path;
+const currentPath = normalizePath(Astro.url.pathname);
+
+const navItems = [
+  { href: '/ideas', label: '想法' },
+  { href: '/thinking', label: '思考' },
+  { href: '/mvp', label: '实验' },
+  { href: '/about', label: '关于' },
+];
+
+const isActive = (href: string) => {
+  const target = normalizePath(href);
+  if (target === '/') {
+    return currentPath === '/';
+  }
+
+  return currentPath === target || currentPath.startsWith(`${target}/`);
+};
 ---
 
 <!DOCTYPE html>
@@ -21,63 +45,85 @@ const { title, description = "捕捉昨日的灵感，沉淀今日的思考" } =
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   </head>
   <body>
-    <header>
-      <nav id="nav">
-        <a href="/" class="nav-logo">昨夕秋</a>
+    <div class="site-ambient site-ambient-left" aria-hidden="true"></div>
+    <div class="site-ambient site-ambient-right" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <nav id="nav" class="site-nav" aria-label="主导航">
+        <a href="/" class="nav-logo" aria-label="返回首页">
+          <span class="nav-mark">昨夕秋</span>
+          <span class="nav-note">digital garden / zuoxiqiu.com</span>
+        </a>
+
         <ul class="nav-links">
-          <li><a href="/ideas">想法</a></li>
-          <li><a href="/thinking">思考</a></li>
-          <li><a href="/mvp">实验</a></li>
-          <li><a href="/about">关于</a></li>
+          {navItems.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
+
+        <a href="/about" class="nav-cta">关于这个站</a>
       </nav>
     </header>
-    
-    <main>
+
+    <main class="site-main">
       <slot />
     </main>
-    
-    <footer>
-      <div class="divider">
-        <div class="divider-dot"></div>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <p class="footer-kicker">Digital Garden / Zuo Xi Qiu</p>
+        <h2>昨夕秋</h2>
+        <p class="footer-copy">
+          把突然冒出来的想法、还没有答案的问题，以及正在验证中的实验，放进同一片持续生长的场域。
+        </p>
       </div>
-      <div class="footer-content">
-        <p class="footer-pinyin">昨 · 夕 · 秋</p>
+
+      <div class="footer-links" aria-label="页脚链接">
+        <a href="/">首页</a>
+        {navItems.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))}
       </div>
+
+      <p class="footer-meta">© {currentYear} zuoxiqiu.com</p>
     </footer>
 
-    <script>
+    <script is:inline>
       const nav = document.getElementById('nav');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          nav?.classList.add('scrolled');
-        } else {
-          nav?.classList.remove('scrolled');
-        }
-      });
+      const revealTargets = document.querySelectorAll('.reveal');
+
+      const toggleNav = () => {
+        if (!nav) return;
+        nav.classList.toggle('scrolled', window.scrollY > 30);
+      };
+
+      toggleNav();
+      window.addEventListener('scroll', toggleNav, { passive: true });
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.12,
+            rootMargin: '0px 0px -8% 0px',
+          }
+        );
+
+        revealTargets.forEach((node) => observer.observe(node));
+      } else {
+        revealTargets.forEach((node) => node.classList.add('is-visible'));
+      }
     </script>
   </body>
 </html>
-
-<style>
-  main {
-    padding-top: 80px;
-  }
-
-  footer {
-    padding: 0 2rem 4rem;
-    text-align: center;
-  }
-
-  .footer-content {
-    margin-top: 2rem;
-  }
-
-  .footer-pinyin {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.5em;
-    color: var(--faint);
-    margin-right: -0.5em;
-  }
-</style>

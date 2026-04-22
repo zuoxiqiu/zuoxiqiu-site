@@ -2,190 +2,613 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-const ideas = await getCollection('ideas');
-const mvp = await getCollection('mvp');
-const thinking = await getCollection('thinking');
+const ideas = (await getCollection('ideas')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const mvps = (await getCollection('mvp')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const thinking = (await getCollection('thinking')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const formatDate = (date: Date) => date.toISOString().slice(0, 10);
 
 const allPosts = [
-  ...ideas.map(p => ({ ...p, type: 'ideas', typeLabel: '想法' })),
-  ...mvp.map(p => ({ ...p, type: 'mvp', typeLabel: '实验' })),
-  ...thinking.map(p => ({ ...p, type: 'thinking', typeLabel: '思考' }))
-].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 8);
+  ...ideas.map((post) => ({ ...post, type: 'ideas', typeLabel: '想法' })),
+  ...mvps.map((post) => ({ ...post, type: 'mvp', typeLabel: '实验' })),
+  ...thinking.map((post) => ({ ...post, type: 'thinking', typeLabel: '思考' })),
+]
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 6);
+
+const heroPost = allPosts[0];
+const totalCount = ideas.length + mvps.length + thinking.length;
+const activeMvpCount = mvps.filter((post) => post.data.status === 'testing').length;
+
+const collectionCards = [
+  {
+    href: '/ideas',
+    label: 'Ideas',
+    title: '想法',
+    tone: 'clay',
+    count: ideas.length,
+    description: '把还不成熟、但值得留下来的灵感先保存下来，给它们之后长成方法的机会。',
+    latest: ideas[0],
+  },
+  {
+    href: '/thinking',
+    label: 'Thinking',
+    title: '思考',
+    tone: 'forest',
+    count: thinking.length,
+    description: '收纳那些暂时没有答案的问题，让判断在反复停留和回看中慢慢成形。',
+    latest: thinking[0],
+  },
+  {
+    href: '/mvp',
+    label: 'MVP',
+    title: '实验',
+    tone: 'gold',
+    count: mvps.length,
+    description: '把值得动手的东西推进到验证阶段，让想法和现实发生真正的碰撞。',
+    latest: mvps[0],
+  },
+];
+
+const typeNotes: Record<string, string> = {
+  ideas: '灵感不必立刻完整，但值得先被保存。',
+  thinking: '有些问题并不催着得出结论，却值得反复停留。',
+  mvp: '从概念到验证，是让网站真正有生命力的一步。',
+};
 ---
 
-<Layout title="昨夕秋">
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-title-wrap">
-      <h1 class="hero-title">昨夕秋</h1>
-      <p class="hero-subtitle">捕捉昨日的灵感，沉淀今日的思考</p>
-      <p class="hero-pinyin">ZUO XI QIU</p>
+<Layout
+  title="昨夕秋"
+  description="昨夕秋的数字花园，收纳想法、思考与实验，让内容和气质一起生长。"
+>
+  <section class="page-wrap home-hero reveal">
+    <div class="home-copy">
+      <p class="page-kicker">Digital Garden / Zuo Xi Qiu</p>
+      <h1 class="home-title">
+        <span>昨夕秋</span>
+        <small>Zuo Xi Qiu</small>
+      </h1>
+      <p class="home-lead">
+        把突然冒出来的想法、还没有答案的问题，以及正在验证中的实验，放在同一个持续生长的场域里。
+      </p>
+      <p class="home-detail">
+        这里不是完整答案的展厅，而是一张长期展开的工作桌。内容会继续长，判断会继续变，站点也该有承载这种过程的气质。
+      </p>
+
+      <div class="home-actions">
+        <a href="/ideas" class="button button-primary">看最新想法</a>
+        <a href="/about" class="button button-secondary">了解这个站</a>
+      </div>
+
+      <ul class="home-chips" aria-label="站点关键词">
+        <li>Ideas first</li>
+        <li>Thinking in public</li>
+        <li>Experiment-driven</li>
+      </ul>
     </div>
-    <div class="scroll-hint">
-      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+
+    <div class="hero-panel">
+      <article class="hero-feature">
+        <p class="panel-kicker">Latest field note</p>
+        <h2>{heroPost ? heroPost.data.title : '把内容和审美，做成一体。'}</h2>
+        <p>
+          {heroPost
+            ? typeNotes[heroPost.type]
+            : '一个真正耐看的个人网站，不只是内容整齐，而是连节奏、留白、层次和气味都统一。'}
+        </p>
+      </article>
+
+      <div class="metric-grid">
+        <article class="metric-card">
+          <p class="metric-value">{String(totalCount).padStart(2, '0')}</p>
+          <p class="metric-label">篇记录</p>
+          <p class="metric-note">想法、思考和实验同时累积。</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-value">{String(activeMvpCount).padStart(2, '0')}</p>
+          <p class="metric-label">个实验进行中</p>
+          <p class="metric-note">让灵感真的进入现实碰撞。</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-value">{heroPost ? formatDate(heroPost.data.date).slice(5) : '--'}</p>
+          <p class="metric-label">最近更新</p>
+          <p class="metric-note">{heroPost ? heroPost.typeLabel : '内容仍在生长中'}</p>
+        </article>
+        <article class="metric-card">
+          <p class="metric-value">03</p>
+          <p class="metric-label">内容轨道</p>
+          <p class="metric-note">想法、思考、实验彼此照应。</p>
+        </article>
+      </div>
     </div>
   </section>
 
-  <!-- About -->
-  <section class="about">
-    <div class="section-label">About</div>
-    <div class="about-text">
-      <p>这是一个<em>随手记录灵感</em>的地方。</p>
-      <p>想法、实验、知识——所有都在这里沉淀，等待被验证或遗忘。</p>
-      <p>没有固定方向，只有持续产出。</p>
-    </div>
+  <section class="page-wrap manifesto reveal">
+    <p class="panel-kicker">Why this site</p>
+    <blockquote>
+      灵感先被保存，才有机会成为方法；问题先被认真停留，才可能长成判断。
+    </blockquote>
   </section>
 
-  <!-- Divider -->
-  <div class="divider">
-    <div class="divider-dot"></div>
-  </div>
+  <section class="page-wrap home-section reveal">
+    <div class="home-section-head">
+      <p class="page-kicker">Three lanes</p>
+      <h2>内容分成三条轨道，各自生长，也互相照亮。</h2>
+    </div>
 
-  <!-- Writings -->
-  <section class="writings">
-    <div class="section-label">Writings</div>
-    <div class="writing-list">
-      {allPosts.map((post) => (
-        <a href={`/${post.type}/${post.id}`} class="writing-item">
-          <div class="writing-date">{post.data.date.toISOString().slice(0, 10)} · {post.typeLabel}</div>
-          <div class="writing-title">{post.data.title}</div>
-          {post.data.description && (
-            <div class="writing-excerpt">{post.data.description}</div>
+    <div class="collection-grid">
+      {collectionCards.map((item) => (
+        <a href={item.href} class={`collection-card collection-card-${item.tone}`}>
+          <div class="collection-head">
+            <p>{item.label}</p>
+            <span>{String(item.count).padStart(2, '0')}</span>
+          </div>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+
+          {item.latest && (
+            <div class="collection-latest">
+              <span>Latest</span>
+              <strong>{item.latest.data.title}</strong>
+              <small>{formatDate(item.latest.data.date)}</small>
+            </div>
           )}
         </a>
       ))}
     </div>
   </section>
+
+  <section class="page-wrap home-section reveal">
+    <div class="home-section-head">
+      <p class="page-kicker">Recent entries</p>
+      <h2>最近更新</h2>
+    </div>
+
+    <div class="recent-grid">
+      {allPosts.map((post, index) => (
+        <a
+          href={`/${post.type}/${post.id}`}
+          class={`recent-card ${index === 0 ? 'is-featured' : ''}`}
+        >
+          <div class="recent-meta">
+            <span>{post.typeLabel}</span>
+            <span>{formatDate(post.data.date)}</span>
+          </div>
+          <h3>{post.data.title}</h3>
+          <p>{typeNotes[post.type]}</p>
+
+          <div class="recent-tags">
+            {post.data.tags.slice(0, 3).map((tag) => (
+              <span class="recent-tag">#{tag}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="page-wrap closing-panel reveal">
+    <div class="closing-copy">
+      <p class="page-kicker">Keep going</p>
+      <h2>这个站会继续长，不急着一次说完。</h2>
+    </div>
+
+    <div class="closing-actions">
+      <a href="/thinking" class="button button-primary">去看思考</a>
+      <a href="/mvp" class="button button-secondary">去看实验</a>
+    </div>
+  </section>
 </Layout>
 
 <style>
-  /* Hero */
-  .hero {
-    min-height: calc(100vh - 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    position: relative;
+  .home-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.06fr) minmax(320px, 0.94fr);
+    gap: 2rem;
+    align-items: end;
+    padding-top: clamp(4.8rem, 7vw, 7rem);
   }
 
-  .hero-title-wrap {
-    text-align: center;
-    opacity: 0;
-    animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+  .home-copy {
+    display: grid;
+    gap: 1rem;
   }
 
-  .hero-title {
-    font-size: clamp(4rem, 12vw, 9rem);
-    font-weight: 200;
+  .home-title {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .home-title span {
+    font-size: clamp(4.8rem, 11vw, 9rem);
+    line-height: 0.86;
+    letter-spacing: 0.04em;
+  }
+
+  .home-title small {
+    font-family: var(--mono);
+    font-size: 0.75rem;
     letter-spacing: 0.3em;
-    margin-right: -0.3em;
-    color: var(--ink);
-    position: relative;
+    text-transform: uppercase;
+    color: var(--soft);
   }
 
-  .hero-title::after {
-    content: '';
-    position: absolute;
-    bottom: -0.4em;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2em;
-    height: 1px;
-    background: var(--accent);
-    opacity: 0;
-    animation: fadeIn 0.8s ease 1.4s forwards;
-  }
-
-  .hero-subtitle {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(0.8rem, 1.5vw, 1rem);
-    font-weight: 300;
-    font-style: italic;
-    letter-spacing: 0.35em;
-    margin-right: -0.35em;
+  .home-lead {
+    max-width: 34rem;
+    font-size: clamp(1.12rem, 1.8vw, 1.35rem);
     color: var(--muted);
-    margin-top: 3rem;
-    opacity: 0;
-    animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
   }
 
-  .hero-pinyin {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 300;
-    letter-spacing: 0.5em;
-    margin-right: -0.5em;
-    color: var(--faint);
-    margin-top: 1.2rem;
-    opacity: 0;
-    animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+  .home-detail {
+    max-width: 36rem;
+    color: var(--muted);
   }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    animation: fadeIn 1s ease 2s forwards, float 3s ease-in-out 2s infinite;
+  .home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
   }
 
-  .scroll-hint svg {
-    width: 20px;
-    height: 20px;
-    stroke: var(--faint);
-    stroke-width: 1.5;
-    fill: none;
+  .home-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 1.2rem 0 0;
+    list-style: none;
   }
 
-  /* About */
-  .about {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 8rem 2rem 10rem;
+  .home-chips li {
+    padding: 0.72rem 0.95rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 252, 247, 0.7);
+    box-shadow: var(--shadow-soft);
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
-  .about-text em {
-    font-style: normal;
-    color: var(--accent);
+  .hero-panel {
+    display: grid;
+    gap: 1rem;
   }
 
-  .about-text p + p {
-    margin-top: 1.8rem;
+  .hero-feature {
+    display: grid;
+    gap: 1.2rem;
+    min-height: 20rem;
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    color: #f9f2eb;
+    background:
+      radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.1), transparent 20%),
+      radial-gradient(circle at 85% 12%, rgba(216, 140, 107, 0.18), transparent 22%),
+      linear-gradient(180deg, #295149 0%, #152723 100%);
+    box-shadow: 0 28px 70px rgba(23, 30, 27, 0.24);
   }
 
-  /* Writings */
-  .writings {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 0 2rem 10rem;
+  .hero-feature h2 {
+    max-width: 11ch;
+    font-size: clamp(2.2rem, 4.2vw, 3.5rem);
+    line-height: 0.98;
+    text-wrap: balance;
   }
 
-  /* Scroll reveal - optional enhancement */
-  .section-label.visible,
-  .about-text.visible {
-    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  .hero-feature p:last-child {
+    max-width: 26rem;
+    color: rgba(249, 242, 235, 0.76);
   }
 
-  .writing-item.visible {
-    animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .metric-card {
+    padding: 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.8), transparent 34%),
+      rgba(255, 251, 245, 0.76);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .metric-value {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+  }
+
+  .metric-label {
+    margin-top: 0.65rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+
+  .metric-note {
+    margin-top: 0.7rem;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  .manifesto {
+    margin-top: 2.4rem;
+    padding: 2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.82), transparent 28%),
+      var(--surface);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .manifesto blockquote {
+    max-width: 16ch;
+    margin-top: 0.7rem;
+    font-size: clamp(2.3rem, 4.6vw, 4rem);
+    line-height: 1.02;
+  }
+
+  .home-section {
+    padding-top: 4.8rem;
+  }
+
+  .home-section-head {
+    display: grid;
+    gap: 0.7rem;
+    max-width: 40rem;
+  }
+
+  .home-section-head h2,
+  .closing-copy h2 {
+    font-size: clamp(2.7rem, 5vw, 4.6rem);
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  .collection-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .collection-card,
+  .recent-card,
+  .closing-panel {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .collection-card {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+    min-height: 22rem;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.68), transparent 28%),
+      rgba(255, 252, 247, 0.74);
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .collection-card:hover,
+  .recent-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-deep);
+  }
+
+  .collection-card-clay {
+    background:
+      radial-gradient(circle at 80% 0%, rgba(216, 140, 107, 0.2), transparent 26%),
+      rgba(255, 250, 245, 0.78);
+  }
+
+  .collection-card-forest {
+    background:
+      radial-gradient(circle at 80% 0%, rgba(53, 102, 91, 0.16), transparent 24%),
+      rgba(248, 251, 249, 0.78);
+  }
+
+  .collection-card-gold {
+    background:
+      radial-gradient(circle at 80% 0%, rgba(174, 127, 53, 0.18), transparent 24%),
+      rgba(255, 250, 243, 0.78);
+  }
+
+  .collection-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+
+  .collection-head span {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    letter-spacing: 0;
+    color: var(--ink);
+  }
+
+  .collection-card h3 {
+    font-size: clamp(2rem, 3.8vw, 2.8rem);
+    line-height: 0.98;
+  }
+
+  .collection-card > p {
+    color: var(--muted);
+  }
+
+  .collection-latest {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(24, 20, 17, 0.08);
+  }
+
+  .collection-latest span,
+  .collection-latest small {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+
+  .collection-latest strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .recent-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .recent-card {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.82), transparent 32%),
+      rgba(255, 252, 247, 0.76);
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .recent-card.is-featured {
+    grid-column: span 2;
+    background:
+      radial-gradient(circle at 85% 0%, rgba(53, 102, 91, 0.18), transparent 24%),
+      radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.82), transparent 28%),
+      rgba(255, 252, 247, 0.78);
+  }
+
+  .recent-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+
+  .recent-card h3 {
+    max-width: 20ch;
+    font-size: clamp(1.7rem, 3vw, 2.6rem);
+    line-height: 1.02;
+  }
+
+  .recent-card p {
+    color: var(--muted);
+  }
+
+  .recent-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .recent-tag {
+    padding: 0.42rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(24, 20, 17, 0.08);
+    background: rgba(255, 252, 247, 0.7);
+    font-size: 0.74rem;
+    color: var(--muted);
+  }
+
+  .closing-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 4.8rem;
+    padding: 2rem;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(216, 140, 107, 0.18), transparent 28%),
+      rgba(255, 252, 247, 0.82);
+  }
+
+  .closing-copy {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .closing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 980px) {
+    .home-hero,
+    .collection-grid,
+    .closing-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .recent-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .recent-card.is-featured {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .home-hero {
+      padding-top: 4rem;
+    }
+
+    .hero-feature,
+    .manifesto,
+    .collection-card,
+    .recent-card,
+    .closing-panel {
+      border-radius: 24px;
+    }
+
+    .metric-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .home-actions,
+    .closing-actions {
+      display: grid;
+    }
   }
 </style>
-
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        (entry.target as HTMLElement).style.animationDelay = `${i * 0.1}s`;
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.writing-item, .section-label, .about-text').forEach(el => {
-    observer.observe(el);
-  });
-</script>

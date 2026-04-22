@@ -2,115 +2,85 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-const mvps = await getCollection('mvp');
-mvps.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const mvps = (await getCollection('mvp')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 
-const statusLabels: Record<string, { text: string }> = {
-  testing: { text: '🧪 验证中' },
-  done: { text: '✅ 已实现' },
-  abandoned: { text: '❌ 已放弃' },
+const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+
+const statusLabels: Record<string, string> = {
+  testing: '验证中',
+  done: '已实现',
+  abandoned: '已放弃',
 };
 
 const counts = {
-  testing: mvps.filter(m => m.data.status === 'testing').length,
-  done: mvps.filter(m => m.data.status === 'done').length,
-  abandoned: mvps.filter(m => m.data.status === 'abandoned').length,
+  testing: mvps.filter((mvp) => mvp.data.status === 'testing').length,
+  done: mvps.filter((mvp) => mvp.data.status === 'done').length,
+  abandoned: mvps.filter((mvp) => mvp.data.status === 'abandoned').length,
 };
 ---
 
-<Layout title="实验">
-  <div class="page-wrap">
-    <div class="page-header">
-      <h1 class="page-title">实验</h1>
-      <p class="page-desc">从想法到验证，记录完整的实验过程</p>
+<Layout title="实验" description="把值得动手的部分推进到验证阶段，看看它能不能真的成立。">
+  <section class="page-wrap page-shell">
+    <div class="page-header reveal">
+      <div class="page-header-copy">
+        <p class="page-kicker">MVP archive</p>
+        <h1 class="page-title">实验</h1>
+        <p class="page-desc">
+          这里记录的是那些已经开始动手验证的东西。它们不一定成功，但会把抽象的想法推进到更接近现实的一步。
+        </p>
+      </div>
+
+      <aside class="page-panel">
+        <p class="page-panel-label">Current state</p>
+        <div class="page-stat-grid">
+          <div class="page-stat">
+            <div class="page-stat-value">{counts.testing}</div>
+            <div class="page-stat-label">验证中</div>
+          </div>
+          <div class="page-stat">
+            <div class="page-stat-value">{counts.done}</div>
+            <div class="page-stat-label">已实现</div>
+          </div>
+          <div class="page-stat">
+            <div class="page-stat-value">{counts.abandoned}</div>
+            <div class="page-stat-label">已放弃</div>
+          </div>
+        </div>
+      </aside>
     </div>
 
-    <!-- Stats -->
-    <div class="stats">
-      <div class="stat-item">
-        <div class="stat-num">{counts.testing}</div>
-        <div class="stat-label">验证中</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">{counts.done}</div>
-        <div class="stat-label">已实现</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">{counts.abandoned}</div>
-        <div class="stat-label">已放弃</div>
-      </div>
-    </div>
-
-    <div class="divider"><div class="divider-dot"></div></div>
+    <div class="divider reveal"><div class="divider-dot"></div></div>
 
     <div class="writing-list">
       {mvps.map((mvp) => (
-        <a href={`/mvp/${mvp.id}`} class="writing-item">
-          <div class="writing-date">
-            {mvp.data.date.toISOString().slice(0, 10)}
-            &nbsp;·&nbsp;
-            {mvp.data.tags.map(t => `#${t}`).join(' ')}
-            &nbsp;·&nbsp;
-            {statusLabels[mvp.data.status]?.text}
+        <a href={`/mvp/${mvp.id}`} class="writing-item reveal">
+          <div class="writing-meta">
+            <span>{formatDate(mvp.data.date)}</span>
+            <span class="status-badge">{statusLabels[mvp.data.status]}</span>
           </div>
-          <div class="writing-title">{mvp.data.title}</div>
+
+          <div class="writing-title-row">
+            <h2 class="writing-title">{mvp.data.title}</h2>
+            <span class="writing-arrow">↗</span>
+          </div>
+
+          <p class="writing-summary">实验不是为了展示完成度，而是为了让一个判断接受现实的摩擦。</p>
+
+          <div class="writing-tags">
+            {mvp.data.tags.map((tag) => (
+              <span class="tag">#{tag}</span>
+            ))}
+          </div>
         </a>
       ))}
     </div>
 
     {mvps.length === 0 && (
-      <div class="empty-state">
-        <p>还没有实验</p>
+      <div class="empty-state reveal">
+        <p>这里还没有实验条目。</p>
       </div>
     )}
-  </div>
+  </section>
 </Layout>
-
-<style>
-  .page-wrap {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 0 2rem 8rem;
-  }
-
-  .page-header {
-    padding: 6rem 0 2rem;
-  }
-
-  .page-title {
-    font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 200;
-    letter-spacing: 0.2em;
-    margin-right: -0.2em;
-    color: var(--ink);
-  }
-
-  .page-desc {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin-top: 1rem;
-  }
-
-  .stats {
-    display: flex;
-    gap: 3rem;
-    margin-top: 3rem;
-  }
-
-  .stat-item {
-    text-align: center;
-  }
-
-  .stat-num {
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--ink);
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 0.3rem;
-    letter-spacing: 0.1em;
-  }
-</style>

@@ -13,103 +13,39 @@ export async function getStaticPaths() {
 const { mvp } = Astro.props;
 const { Content } = await render(mvp);
 
+const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+
 const statusLabels: Record<string, string> = {
-  testing: '🧪 验证中',
-  done: '✅ 已实现',
-  abandoned: '❌ 已放弃',
+  testing: '验证中',
+  done: '已实现',
+  abandoned: '已放弃',
 };
 ---
 
-<Layout title={mvp.data.title}>
+<Layout title={mvp.data.title} description={mvp.data.title}>
   <article class="article-wrap">
-    <div class="article-meta">
-      <div class="article-tags">
-        {mvp.data.tags.map((tag: string) => (
-          <span class="tag">#{tag}</span>
-        ))}
+    <header class="article-shell reveal">
+      <div class="article-shell-top">
+        <div class="article-tags">
+          <span class="status-badge">MVP</span>
+          <span class="status-badge">{statusLabels[mvp.data.status]}</span>
+        </div>
+        <span class="tag">{formatDate(mvp.data.date)}</span>
       </div>
-      <div class="article-status">{statusLabels[mvp.data.status]}</div>
-    </div>
 
-    <h1 class="article-title">{mvp.data.title}</h1>
+      <h1 class="article-title">{mvp.data.title}</h1>
 
-    <time class="article-date">{mvp.data.date.toISOString().slice(0, 10)}</time>
+      <p class="article-submeta">
+        {mvp.data.tags.map((tag: string) => `#${tag}`).join(' · ')}
+      </p>
+    </header>
 
-    <div class="divider"><div class="divider-dot"></div></div>
-
-    <div class="prose article-content">
+    <div class="article-content prose reveal">
       <Content />
     </div>
 
-    <div class="article-back">
-      <a href="/mvp">← 实验</a>
+    <div class="article-back reveal">
+      <a href="/mvp" class="back-link">返回实验列表</a>
     </div>
   </article>
 </Layout>
-
-<style>
-  .article-wrap {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 0 2rem 8rem;
-  }
-
-  .article-meta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-  }
-
-  .article-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    font-size: 0.75rem;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .article-status {
-    font-size: 0.75rem;
-    color: var(--accent);
-  }
-
-  .article-title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 400;
-    line-height: 1.3;
-    letter-spacing: 0.02em;
-    color: var(--ink);
-  }
-
-  .article-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--faint);
-    letter-spacing: 0.2em;
-    display: block;
-    margin-top: 1.5rem;
-  }
-
-  .article-content {
-    margin-top: 3rem;
-  }
-
-  .article-back {
-    margin-top: 4rem;
-  }
-
-  .article-back a {
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-
-  .article-back a:hover {
-    color: var(--accent);
-  }
-</style>

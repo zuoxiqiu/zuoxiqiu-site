@@ -2,72 +2,89 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
-const ideas = await getCollection('ideas');
-ideas.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const ideas = (await getCollection('ideas')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 
-const statusLabels: Record<string, { text: string }> = {
-  raw: { text: '💡 突发奇想' },
-  thinking: { text: '🤔 在思考' },
-  testing: { text: '🧪 验证中' },
-  done: { text: '✅ 已实现' },
-  abandoned: { text: '❌ 已放弃' },
+const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+
+const statusLabels: Record<string, string> = {
+  raw: '突发奇想',
+  thinking: '在思考',
+  testing: '验证中',
+  done: '已实现',
+  abandoned: '已放弃',
+};
+
+const counts = {
+  raw: ideas.filter((item) => item.data.status === 'raw').length,
+  thinking: ideas.filter((item) => item.data.status === 'thinking').length,
+  testing: ideas.filter((item) => item.data.status === 'testing').length,
+  done: ideas.filter((item) => item.data.status === 'done').length,
+  abandoned: ideas.filter((item) => item.data.status === 'abandoned').length,
 };
 ---
 
-<Layout title="想法">
-  <div class="page-wrap">
-    <div class="page-header">
-      <h1 class="page-title">想法</h1>
-      <p class="page-desc">记录每一个灵感瞬间，不筛选，不加工</p>
+<Layout title="想法" description="记录突然冒出来的灵感，以及它们如何慢慢找到自己的形状。">
+  <section class="page-wrap page-shell">
+    <div class="page-header reveal">
+      <div class="page-header-copy">
+        <p class="page-kicker">Ideas archive</p>
+        <h1 class="page-title">想法</h1>
+        <p class="page-desc">
+          记录每一个突然冒出来的念头，不要求成熟，也不急着给出结论。先把火花保存下来，之后才知道它会不会变成方向。
+        </p>
+      </div>
+
+      <aside class="page-panel">
+        <p class="page-panel-label">Status spread</p>
+        <div class="page-stat-grid">
+          <div class="page-stat">
+            <div class="page-stat-value">{counts.raw}</div>
+            <div class="page-stat-label">突发奇想</div>
+          </div>
+          <div class="page-stat">
+            <div class="page-stat-value">{counts.thinking}</div>
+            <div class="page-stat-label">在思考</div>
+          </div>
+          <div class="page-stat">
+            <div class="page-stat-value">{counts.testing}</div>
+            <div class="page-stat-label">验证中</div>
+          </div>
+        </div>
+      </aside>
     </div>
 
-    <div class="divider"><div class="divider-dot"></div></div>
+    <div class="divider reveal"><div class="divider-dot"></div></div>
 
     <div class="writing-list">
       {ideas.map((idea) => (
-        <a href={`/ideas/${idea.id}`} class="writing-item">
-          <div class="writing-date">
-            {idea.data.date.toISOString().slice(0, 10)}
-            &nbsp;·&nbsp;
-            {idea.data.tags.map(t => `#${t}`).join(' ')}
-            &nbsp;·&nbsp;
-            {statusLabels[idea.data.status]?.text}
+        <a href={`/ideas/${idea.id}`} class="writing-item reveal">
+          <div class="writing-meta">
+            <span>{formatDate(idea.data.date)}</span>
+            <span class="status-badge">{statusLabels[idea.data.status]}</span>
           </div>
-          <div class="writing-title">{idea.data.title}</div>
+
+          <div class="writing-title-row">
+            <h2 class="writing-title">{idea.data.title}</h2>
+            <span class="writing-arrow">↗</span>
+          </div>
+
+          <p class="writing-summary">有些想法不是为了立刻解决问题，而是为了让一个方向先出现。</p>
+
+          <div class="writing-tags">
+            {idea.data.tags.map((tag) => (
+              <span class="tag">#{tag}</span>
+            ))}
+          </div>
         </a>
       ))}
     </div>
 
     {ideas.length === 0 && (
-      <div class="empty-state">
-        <p>还没有想法</p>
+      <div class="empty-state reveal">
+        <p>这里还没有想法条目。</p>
       </div>
     )}
-  </div>
+  </section>
 </Layout>
-
-<style>
-  .page-wrap {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 0 2rem 8rem;
-  }
-
-  .page-header {
-    padding: 6rem 0 2rem;
-  }
-
-  .page-title {
-    font-size: clamp(3rem, 8vw, 5rem);
-    font-weight: 200;
-    letter-spacing: 0.2em;
-    margin-right: -0.2em;
-    color: var(--ink);
-  }
-
-  .page-desc {
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin-top: 1rem;
-  }
-</style>
