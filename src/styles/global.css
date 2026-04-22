@@ -23,6 +23,7 @@
   --radius-md: 20px;
   --content-max: 1180px;
   --content-narrow: 760px;
+  --reading-measure: 42rem;
   --display:
     "Iowan Old Style", "Baskerville", "Palatino Linotype", "Book Antiqua",
     "Songti SC", "STSong", serif;
@@ -84,8 +85,8 @@ body::after {
 }
 
 ::selection {
-  background: rgba(184, 92, 54, 0.78);
-  color: #fff7f1;
+  background: rgba(184, 92, 54, 0.12);
+  color: var(--ink);
 }
 
 a {
@@ -573,13 +574,30 @@ p {
 .article-content {
   width: min(100%, var(--content-narrow));
   margin: 2.4rem auto 0;
-  padding: clamp(1.4rem, 2.8vw, 2rem);
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  text-align: center;
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background:
     radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.82), transparent 30%),
     rgba(255, 251, 245, 0.76);
   box-shadow: var(--shadow-soft);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.article-prose {
+  display: inline-block;
+  width: min(100%, var(--reading-measure));
+  text-align: left;
+  vertical-align: top;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.article-prose * {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .article-back {
@@ -594,6 +612,10 @@ p {
 
 .prose > * + * {
   margin-top: 1.25rem;
+}
+
+.article-prose > :where(table, pre) {
+  max-width: 100%;
 }
 
 .prose :where(h1, h2, h3) {

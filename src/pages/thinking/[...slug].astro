@@ -27,8 +27,10 @@ const formatDate = (date: Date) => date.toISOString().slice(0, 10);
       <h1 class="article-title">{thought.data.title}</h1>
     </header>
 
-    <div class="article-content prose">
-      <Content />
+    <div class="article-content">
+      <div class="article-prose prose">
+        <Content />
+      </div>
     </div>
 
     <div class="article-back">
