@@ -2,10 +2,13 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
+import cloudflare from '@astrojs/cloudflare';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.zuoxiqiu.com',
   output: 'static',
+
   vite: {
     plugins: [tailwindcss({
       theme: {
@@ -31,9 +34,12 @@ export default defineConfig({
       }
     })]
   },
+
   markdown: {
     shikiConfig: {
       theme: 'github-dark'
     }
-  }
+  },
+
+  adapter: cloudflare()
 });
