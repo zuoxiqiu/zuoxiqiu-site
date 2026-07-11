@@ -70,7 +70,7 @@ const isActive = (href: string) => {
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f3ecdf" />
+    <meta name="theme-color" content="#f5f2eb" />
     <meta property="og:type" content={pageType} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
@@ -95,7 +95,6 @@ const isActive = (href: string) => {
       <nav id="nav" class="site-nav" aria-label="主导航">
         <a href="/" class="nav-logo" aria-label="返回首页">
           <span class="nav-mark">昨夕秋</span>
-          <span class="nav-note">digital garden / zuoxiqiu.com</span>
         </a>
 
         <ul class="nav-links">
@@ -107,8 +106,6 @@ const isActive = (href: string) => {
             </li>
           ))}
         </ul>
-
-        <a href="/about" class="nav-cta">关于这个站</a>
       </nav>
     </header>
 
@@ -117,22 +114,15 @@ const isActive = (href: string) => {
     </main>
 
     <footer class="site-footer">
-      <div class="footer-brand">
-        <p class="footer-kicker">Digital Garden / Zuo Xi Qiu</p>
-        <h2>昨夕秋</h2>
-        <p class="footer-copy">
-          把突然冒出来的想法、还没有答案的问题，以及正在验证中的实验，放进同一片持续生长的场域。
-        </p>
-      </div>
+      <a href="/" class="footer-wordmark">昨夕秋</a>
 
       <div class="footer-links" aria-label="页脚链接">
-        <a href="/">首页</a>
         {navItems.map((item) => (
           <a href={item.href}>{item.label}</a>
         ))}
       </div>
 
-      <p class="footer-meta">© {currentYear} zuoxiqiu.com</p>
+      <p class="footer-meta">© {currentYear} · zuoxiqiu.com</p>
     </footer>
 
     <script is:inline>
