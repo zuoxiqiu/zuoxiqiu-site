@@ -33,6 +33,29 @@ const collections = [
 ---
 
 <Layout title="昨夕秋" description="昨夕秋的数字花园，记录思考、想法与实验。">
+  <div class="opening-sequence" aria-hidden="true">
+    <div class="opening-meta">
+      <span>Zuoxi Qiu</span>
+      <span>Digital garden · 2026</span>
+    </div>
+    <div class="opening-center">
+      <span class="opening-number">01</span>
+      <p>昨夕秋</p>
+      <i></i>
+    </div>
+    <div class="opening-foot">
+      <span>Thinking</span>
+      <span>Ideas</span>
+      <span>Experiments</span>
+    </div>
+  </div>
+
+  <div class="scroll-meter" aria-hidden="true">
+    <span class="scroll-meter-label">Scroll</span>
+    <i><b></b></i>
+    <span class="scroll-meter-value">00</span>
+  </div>
+
   <div class="editorial-home">
     <section class="page-wrap editorial-hero" aria-labelledby="latest-title">
       <header class="issue-line">
@@ -97,7 +120,7 @@ const collections = [
 
       <ol class="archive-list">
         {recentPosts.map((post, index) => (
-          <li style={`--row: ${index}`}>
+          <li style={`--row: ${index}; --row-start: ${index % 2 === 0 ? '18px' : '-18px'}`}>
             <a href={`/${post.type}/${post.id}`}>
               <span class="archive-number">{String(index + 2).padStart(2, '0')}</span>
               <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
@@ -116,6 +139,133 @@ const collections = [
   .editorial-home {
     --editorial-line: rgba(24, 20, 17, 0.2);
     --editorial-accent: #bd3f1f;
+    --title-shift: 0px;
+    --index-shift: 0px;
+    --deck-shift: 0px;
+    --wheel-pull: 0px;
+  }
+
+  .opening-sequence {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(1.5rem, 3vw, 2.75rem);
+    color: #f8f4eb;
+    background: #191612;
+    pointer-events: none;
+    transform-origin: top;
+    animation: opening-exit 850ms 1250ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  }
+
+  .opening-meta,
+  .opening-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    font-family: var(--mono);
+    font-size: clamp(0.68rem, 1vw, 0.78rem);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: opening-fade 600ms 100ms var(--ease-out) forwards;
+  }
+
+  .opening-center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .opening-center p {
+    font-family: var(--display);
+    font-size: clamp(5.8rem, 17vw, 15rem);
+    line-height: 1.08;
+    letter-spacing: -0.06em;
+    opacity: 0;
+    transform: translateY(28px);
+    animation: opening-title 800ms 260ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .opening-number {
+    position: absolute;
+    top: 11%;
+    left: 0;
+    font-family: var(--display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1;
+    color: #d44b2a;
+    opacity: 0;
+    animation: opening-fade 500ms 420ms var(--ease-out) forwards;
+  }
+
+  .opening-center i {
+    position: absolute;
+    right: 0;
+    bottom: 13%;
+    width: min(24vw, 18rem);
+    height: 2px;
+    background: #d44b2a;
+    transform: scaleX(0);
+    transform-origin: right;
+    animation: opening-rule 750ms 470ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .opening-foot {
+    justify-content: flex-start;
+  }
+
+  .opening-foot span + span::before {
+    content: '/';
+    margin-right: 2rem;
+    color: #d44b2a;
+  }
+
+  .scroll-meter {
+    position: fixed;
+    top: 50%;
+    right: max(0.7rem, calc((100vw - var(--content-max)) / 2 - 2.1rem));
+    z-index: 45;
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+    color: var(--soft);
+    transform: translateY(-50%);
+    opacity: 0;
+    animation: meter-in 700ms 1900ms var(--ease-out) forwards;
+  }
+
+  .scroll-meter-label,
+  .scroll-meter-value {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .scroll-meter-label {
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-meter > i {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: min(26vh, 13rem);
+    overflow: hidden;
+    background: rgba(24, 20, 17, 0.15);
+  }
+
+  .scroll-meter b {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: var(--editorial-accent);
+    transform: scaleY(var(--scroll-progress, 0));
+    transform-origin: top;
+    transition: transform 80ms linear;
   }
 
   .editorial-hero {
@@ -130,6 +280,9 @@ const collections = [
     border-bottom: 2px solid var(--ink);
     font-size: 0.84rem;
     letter-spacing: 0.06em;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: editorial-in 700ms 1580ms var(--ease-out) forwards;
   }
 
   .issue-line span:nth-child(2),
@@ -153,19 +306,23 @@ const collections = [
     border-right: 1px solid var(--editorial-line);
     color: var(--editorial-accent);
     opacity: 0;
-    animation: editorial-in 650ms 60ms var(--ease-out) forwards;
+    animation: editorial-in 650ms 1660ms var(--ease-out) forwards;
   }
 
   .feature-index span {
     font-family: var(--display);
     font-size: clamp(4rem, 7vw, 6.5rem);
     line-height: 1;
+    transform: translate3d(0, var(--index-shift), 0);
+    transition: transform 120ms linear;
   }
 
   .feature-index i {
     width: 0.85rem;
     height: 0.85rem;
     background: currentColor;
+    transform: translate3d(0, var(--wheel-pull), 0);
+    transition: transform 80ms linear;
   }
 
   .feature-story {
@@ -176,7 +333,7 @@ const collections = [
     padding: clamp(2rem, 4vw, 3.5rem);
     border-right: 1px solid var(--editorial-line);
     opacity: 0;
-    animation: editorial-in 700ms 140ms var(--ease-out) forwards;
+    animation: editorial-in 700ms 1740ms var(--ease-out) forwards;
   }
 
   .feature-label,
@@ -198,7 +355,10 @@ const collections = [
     line-height: 1.05;
     letter-spacing: -0.04em;
     overflow: visible;
-    transition: color 400ms var(--ease-out);
+    transform: translate3d(var(--title-shift), var(--wheel-pull), 0);
+    transition:
+      color 400ms var(--ease-out),
+      transform 100ms linear;
   }
 
   .feature-link {
@@ -221,7 +381,7 @@ const collections = [
     gap: 3rem;
     padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
     opacity: 0;
-    animation: editorial-in 700ms 220ms var(--ease-out) forwards;
+    animation: editorial-in 700ms 1820ms var(--ease-out) forwards;
   }
 
   .feature-deck > p {
@@ -229,6 +389,8 @@ const collections = [
     font-size: clamp(1.08rem, 1.5vw, 1.3rem);
     line-height: 1.85;
     color: var(--muted);
+    transform: translate3d(0, var(--deck-shift), 0);
+    transition: transform 120ms linear;
   }
 
   .feature-signature {
@@ -253,7 +415,8 @@ const collections = [
     padding: 1.2rem 1.4rem;
     transition:
       color 400ms var(--ease-out),
-      background-color 400ms var(--ease-out);
+      background-color 400ms var(--ease-out),
+      transform 500ms var(--ease-out);
   }
 
   .section-index a + a {
@@ -263,6 +426,7 @@ const collections = [
   .section-index a:hover {
     color: #fffaf3;
     background: var(--ink);
+    transform: translateY(-0.25rem);
   }
 
   .section-number,
@@ -334,7 +498,7 @@ const collections = [
 
   .archive-list li {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translate3d(var(--row-start), 18px, 0);
     transition:
       opacity 700ms var(--ease-out),
       transform 700ms var(--ease-out);
@@ -343,7 +507,7 @@ const collections = [
 
   .archive-section.is-visible .archive-list li {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 
   .archive-list a {
@@ -397,7 +561,49 @@ const collections = [
     }
   }
 
+  @keyframes opening-fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes opening-title {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes opening-rule {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes opening-exit {
+    0% {
+      clip-path: inset(0 0 0 0);
+    }
+    99% {
+      clip-path: inset(0 0 100% 0);
+    }
+    100% {
+      visibility: hidden;
+      clip-path: inset(0 0 100% 0);
+    }
+  }
+
+  @keyframes meter-in {
+    to {
+      opacity: 1;
+    }
+  }
+
   @media (max-width: 900px) {
+    .scroll-meter {
+      display: none;
+    }
+
     .feature-grid {
       grid-template-columns: 6rem minmax(0, 1fr);
       min-height: auto;
@@ -432,6 +638,40 @@ const collections = [
   }
 
   @media (max-width: 620px) {
+    .opening-sequence {
+      padding: 1.4rem 1.2rem;
+    }
+
+    .opening-center {
+      align-items: flex-start;
+      padding-top: 25vh;
+    }
+
+    .opening-center p {
+      font-size: clamp(5.4rem, 28vw, 7rem);
+    }
+
+    .opening-number {
+      top: 10%;
+    }
+
+    .opening-center i {
+      bottom: 18%;
+      width: 32vw;
+    }
+
+    .opening-meta span:last-child {
+      display: none;
+    }
+
+    .opening-foot {
+      gap: 0.8rem;
+    }
+
+    .opening-foot span + span::before {
+      margin-right: 0.8rem;
+    }
+
     .issue-line {
       grid-template-columns: 1fr auto;
       font-size: 0.78rem;
@@ -512,6 +752,12 @@ const collections = [
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .opening-sequence,
+    .scroll-meter {
+      display: none;
+    }
+
+    .issue-line,
     .feature-index,
     .feature-story,
     .feature-deck,
@@ -521,5 +767,74 @@ const collections = [
       animation: none;
       transition: none;
     }
+
+    .feature-index span,
+    .feature-index i,
+    .feature-story h1,
+    .feature-deck > p {
+      transform: none;
+      transition: none;
+    }
   }
 </style>
+
+<script is:inline>
+  (() => {
+    const home = document.querySelector('.editorial-home');
+    const hero = document.querySelector('.editorial-hero');
+    const meter = document.querySelector('.scroll-meter');
+    const meterValue = document.querySelector('.scroll-meter-value');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!home || !hero || reduceMotion) return;
+
+    let frame = 0;
+    let wheelFrame = 0;
+    let wheelPull = 0;
+
+    const renderScroll = () => {
+      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const pageProgress = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
+      const heroProgress = Math.min(Math.max(window.scrollY / Math.max(hero.offsetHeight, 1), 0), 1);
+
+      document.documentElement.style.setProperty('--scroll-progress', pageProgress.toFixed(4));
+      home.style.setProperty('--title-shift', `${(heroProgress * 30).toFixed(2)}px`);
+      home.style.setProperty('--index-shift', `${(heroProgress * -24).toFixed(2)}px`);
+      home.style.setProperty('--deck-shift', `${(heroProgress * -18).toFixed(2)}px`);
+
+      if (meterValue) meterValue.textContent = String(Math.round(pageProgress * 100)).padStart(2, '0');
+      if (meter) meter.classList.toggle('is-active', pageProgress > 0.01);
+      frame = 0;
+    };
+
+    const requestScrollRender = () => {
+      if (!frame) frame = requestAnimationFrame(renderScroll);
+    };
+
+    const settleWheel = () => {
+      wheelPull *= 0.78;
+      home.style.setProperty('--wheel-pull', `${wheelPull.toFixed(2)}px`);
+
+      if (Math.abs(wheelPull) > 0.08) {
+        wheelFrame = requestAnimationFrame(settleWheel);
+      } else {
+        wheelPull = 0;
+        home.style.setProperty('--wheel-pull', '0px');
+        wheelFrame = 0;
+      }
+    };
+
+    window.addEventListener('scroll', requestScrollRender, { passive: true });
+    window.addEventListener(
+      'wheel',
+      (event) => {
+        wheelPull = Math.max(-9, Math.min(9, event.deltaY * 0.045));
+        if (!wheelFrame) wheelFrame = requestAnimationFrame(settleWheel);
+      },
+      { passive: true }
+    );
+    window.addEventListener('resize', requestScrollRender, { passive: true });
+
+    renderScroll();
+  })();
+</script>
