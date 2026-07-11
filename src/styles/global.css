@@ -147,8 +147,7 @@ p {
 }
 
 .site-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 50;
 }
 
@@ -157,8 +156,8 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  min-height: 4.6rem;
-  padding: 0.9rem 0.25rem;
+  min-height: 5.2rem;
+  padding: 1.05rem 0.25rem;
   border-bottom: 1px solid rgba(24, 20, 17, 0.1);
   background: rgba(248, 246, 241, 0.42);
   backdrop-filter: blur(16px);
@@ -179,7 +178,7 @@ p {
 
 .nav-mark {
   font-family: var(--display);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   letter-spacing: 0.12em;
 }
 
@@ -212,7 +211,7 @@ p {
 .nav-links a {
   position: relative;
   padding-bottom: 0.18rem;
-  font-size: 0.8rem;
+  font-size: 0.98rem;
   color: rgba(24, 20, 17, 0.74);
   transition: color 400ms var(--ease-out);
 }
@@ -727,7 +726,7 @@ p {
 
 .footer-wordmark {
   font-family: var(--display);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   letter-spacing: 0.12em;
 }
 
@@ -742,7 +741,7 @@ p {
   padding-bottom: 0.15rem;
   border-bottom: 1px solid transparent;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.96rem;
   transition:
     color 400ms var(--ease-out),
     border-color 400ms var(--ease-out);
@@ -756,7 +755,7 @@ p {
 .footer-meta {
   color: var(--soft);
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.76rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -764,17 +763,14 @@ p {
 .reveal {
   opacity: 0;
   transform: translateY(18px);
-  filter: blur(4px);
   transition:
     opacity 900ms var(--ease-out),
-    transform 900ms var(--ease-out),
-    filter 900ms var(--ease-out);
+    transform 900ms var(--ease-out);
 }
 
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -794,7 +790,6 @@ p {
   .reveal {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 
@@ -828,12 +823,12 @@ p {
   }
 
   .nav-links {
-    gap: 0.7rem;
+    gap: 1rem;
     justify-content: space-between;
   }
 
   .nav-links a {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .nav-cta,
