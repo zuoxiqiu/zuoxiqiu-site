@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { getExcerpt, getReadingMinutes } from '../../utils/content';
 
 export async function getStaticPaths() {
   const mvps = await getCollection('mvp');
@@ -14,6 +15,8 @@ const { mvp } = Astro.props;
 const { Content } = await render(mvp);
 
 const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+const description = getExcerpt(mvp.body, 120);
+const readingMinutes = getReadingMinutes(mvp.body);
 
 const statusLabels: Record<string, string> = {
   testing: '验证中',
@@ -22,13 +25,19 @@ const statusLabels: Record<string, string> = {
 };
 ---
 
-<Layout title={mvp.data.title} description={mvp.data.title}>
+<Layout
+  title={mvp.data.title}
+  description={description}
+  pageType="article"
+  publishedTime={mvp.data.date.toISOString()}
+>
   <article class="article-wrap">
     <header class="article-shell">
       <div class="article-shell-top">
         <div class="article-tags">
           <span class="status-badge">MVP</span>
           <span class="status-badge">{statusLabels[mvp.data.status]}</span>
+          <span class="article-read-time">约 {readingMinutes} 分钟阅读</span>
         </div>
         <span class="tag">{formatDate(mvp.data.date)}</span>
       </div>

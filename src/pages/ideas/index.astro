@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { getExcerpt, getReadingMinutes } from '../../utils/content';
 
 const ideas = (await getCollection('ideas')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -48,6 +49,7 @@ const latestDate = ideas[0] ? formatDate(ideas[0].data.date) : '--';
         <a href={`/ideas/${idea.id}`} class="writing-item reveal">
           <div class="writing-meta">
             <span>{formatDate(idea.data.date)}</span>
+            <span>约 {getReadingMinutes(idea.body)} 分钟</span>
           </div>
 
           <div class="writing-title-row">
@@ -55,7 +57,7 @@ const latestDate = ideas[0] ? formatDate(ideas[0].data.date) : '--';
             <span class="writing-arrow">↗</span>
           </div>
 
-          <p class="writing-summary">有些想法不是为了立刻解决问题，而是为了让一个方向先出现。</p>
+          <p class="writing-summary">{getExcerpt(idea.body, 108)}</p>
 
           <div class="writing-tags">
             {idea.data.tags.map((tag) => (

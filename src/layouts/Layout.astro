@@ -4,12 +4,41 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  pageType?: 'website' | 'article';
+  publishedTime?: string;
 }
 
 const {
   title,
   description = "昨夕秋的数字花园，记录想法、思考与实验。",
+  pageType = 'website',
+  publishedTime,
 } = Astro.props;
+
+const siteName = '昨夕秋';
+const pageTitle = title === siteName ? `${siteName}｜数字花园` : `${title}｜${siteName}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://zuoxiqiu.com').toString();
+const structuredData = JSON.stringify(
+  pageType === 'article'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description,
+        datePublished: publishedTime,
+        author: { '@type': 'Person', name: '昨夕秋' },
+        publisher: { '@type': 'Person', name: '昨夕秋' },
+        mainEntityOfPage: canonicalUrl,
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteName,
+        description,
+        url: canonicalUrl,
+        inLanguage: 'zh-CN',
+      }
+).replace(/</g, '\\u003c');
 
 const currentYear = new Date().getFullYear();
 const normalizePath = (path: string) =>
@@ -39,10 +68,24 @@ const isActive = (href: string) => {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} · zuoxiqiu.com</title>
+    <meta name="theme-color" content="#f3ecdf" />
+    <meta property="og:type" content={pageType} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{pageTitle}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <script type="application/ld+json" set:html={structuredData}></script>
   </head>
   <body>
     <div class="site-ambient site-ambient-left" aria-hidden="true"></div>

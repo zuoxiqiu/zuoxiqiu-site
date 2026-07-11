@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { getExcerpt, getReadingMinutes } from '../../utils/content';
 
 const mvps = (await getCollection('mvp')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -59,6 +60,7 @@ const counts = {
           <div class="writing-meta">
             <span>{formatDate(mvp.data.date)}</span>
             <span class="status-badge">{statusLabels[mvp.data.status]}</span>
+            <span>约 {getReadingMinutes(mvp.body)} 分钟</span>
           </div>
 
           <div class="writing-title-row">
@@ -66,7 +68,7 @@ const counts = {
             <span class="writing-arrow">↗</span>
           </div>
 
-          <p class="writing-summary">实验不是为了展示完成度，而是为了让一个判断接受现实的摩擦。</p>
+          <p class="writing-summary">{getExcerpt(mvp.body, 108)}</p>
 
           <div class="writing-tags">
             {mvp.data.tags.map((tag) => (

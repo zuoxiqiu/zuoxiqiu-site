@@ -571,6 +571,13 @@ p {
   color: var(--muted);
 }
 
+.article-read-time {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--soft);
+}
+
 .article-content {
   width: min(100%, var(--content-narrow));
   margin: 2.4rem auto 0;
@@ -693,6 +700,25 @@ p {
   border: none;
   border-top: 1px solid rgba(24, 20, 17, 0.1);
   margin: 2rem 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.prose th,
+.prose td {
+  padding: 0.75rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  color: var(--forest);
+  font-weight: 600;
 }
 
 .site-footer {

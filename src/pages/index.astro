@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { getExcerpt } from '../utils/content';
 
 const ideas = (await getCollection('ideas')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -56,11 +57,6 @@ const collectionCards = [
   },
 ];
 
-const typeNotes: Record<string, string> = {
-  ideas: '灵感不必立刻完整，但值得先被保存。',
-  thinking: '有些问题并不催着得出结论，却值得反复停留。',
-  mvp: '从概念到验证，是让网站真正有生命力的一步。',
-};
 ---
 
 <Layout
@@ -99,7 +95,7 @@ const typeNotes: Record<string, string> = {
         <h2>{heroPost ? heroPost.data.title : '把内容和审美，做成一体。'}</h2>
         <p>
           {heroPost
-            ? typeNotes[heroPost.type]
+            ? getExcerpt(heroPost.body, 82)
             : '一个真正耐看的个人网站，不只是内容整齐，而是连节奏、留白、层次和气味都统一。'}
         </p>
       </article>
@@ -181,7 +177,7 @@ const typeNotes: Record<string, string> = {
             <span>{formatDate(post.data.date)}</span>
           </div>
           <h3>{post.data.title}</h3>
-          <p>{typeNotes[post.type]}</p>
+          <p>{getExcerpt(post.body, 88)}</p>
 
           <div class="recent-tags">
             {post.data.tags.slice(0, 3).map((tag) => (

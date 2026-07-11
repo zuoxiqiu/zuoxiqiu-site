@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { getExcerpt, getReadingMinutes } from '../../utils/content';
 
 export async function getStaticPaths() {
   const thoughts = await getCollection('thinking');
@@ -14,13 +15,20 @@ const { thought } = Astro.props;
 const { Content } = await render(thought);
 
 const formatDate = (date: Date) => date.toISOString().slice(0, 10);
+const description = getExcerpt(thought.body, 120);
+const readingMinutes = getReadingMinutes(thought.body);
 ---
 
-<Layout title={thought.data.title} description={thought.data.title}>
+<Layout
+  title={thought.data.title}
+  description={description}
+  pageType="article"
+  publishedTime={thought.data.date.toISOString()}
+>
   <article class="article-wrap">
     <header class="article-shell">
       <div class="article-shell-top">
-        <div></div>
+        <span class="article-read-time">约 {readingMinutes} 分钟阅读</span>
         <span class="tag">{formatDate(thought.data.date)}</span>
       </div>
 
