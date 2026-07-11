@@ -21,76 +21,89 @@ const allPosts = [
   ...mvps.map((post) => ({ ...post, type: 'mvp', typeLabel: '实验' })),
 ]
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 6);
-
-const collections = [
-  { href: '/thinking', label: '思考', count: thinking.length },
-  { href: '/ideas', label: '想法', count: ideas.length },
-  { href: '/mvp', label: '实验', count: mvps.length },
-];
+  .slice(0, 7);
 
 const latestPost = allPosts[0];
+const recentPosts = allPosts.slice(1);
+const collections = [
+  { href: '/thinking', label: '思考', english: 'Thinking', count: thinking.length },
+  { href: '/ideas', label: '想法', english: 'Ideas', count: ideas.length },
+  { href: '/mvp', label: '实验', english: 'Experiments', count: mvps.length },
+];
 ---
 
-<Layout
-  title="昨夕秋"
-  description="昨夕秋的数字花园，记录思考、想法与实验。"
->
-  <div class="home-root">
-    <section class="page-wrap home-intro" aria-labelledby="home-title">
-      <div class="home-hero-grid">
-        <div class="home-heading">
-          <p class="home-eyebrow">Zuo Xiqiu / Digital notes</p>
-          <h1 id="home-title"><span>昨夕秋</span></h1>
-          <p class="home-statement">记录看见、理解与改变。</p>
-        </div>
+<Layout title="昨夕秋" description="昨夕秋的数字花园，记录思考、想法与实验。">
+  <div class="editorial-home">
+    <section class="page-wrap editorial-hero" aria-labelledby="latest-title">
+      <header class="issue-line">
+        <span>昨夕秋 · 数字花园</span>
+        <span>Vol. 01</span>
+        <span>{latestPost ? formatDate(latestPost.data.date) : '2026'}</span>
+      </header>
 
-        {latestPost && (
-          <a href={`/${latestPost.type}/${latestPost.id}`} class="latest-entry">
-            <div class="latest-meta">
+      {latestPost && (
+        <div class="feature-grid">
+          <div class="feature-index" aria-hidden="true">
+            <span>01</span>
+            <i></i>
+          </div>
+
+          <a href={`/${latestPost.type}/${latestPost.id}`} class="feature-story">
+            <div class="feature-label">
               <span>最新文章</span>
+              <span>{latestPost.typeLabel}</span>
+            </div>
+            <h1 id="latest-title">{latestPost.data.title}</h1>
+            <div class="feature-link">
+              <span>阅读文章</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+          </a>
+
+          <aside class="feature-deck">
+            <p>{getExcerpt(latestPost.body, 92)}</p>
+            <div class="feature-signature">
+              <span>Latest note</span>
               <time datetime={latestPost.data.date.toISOString()}>
                 {formatDate(latestPost.data.date)}
               </time>
             </div>
-            <h2>{latestPost.data.title}</h2>
-            <p>{getExcerpt(latestPost.body, 68)}</p>
-            <span class="latest-action">阅读全文 <b aria-hidden="true">↗</b></span>
-          </a>
-        )}
-      </div>
+          </aside>
+        </div>
+      )}
 
-      <div class="home-intro-footer">
-        <nav class="home-collections" aria-label="内容分类">
-          {collections.map((item, index) => (
-            <a href={item.href}>
-              <span class="collection-index">0{index + 1}</span>
+      <nav class="section-index" aria-label="内容分类">
+        {collections.map((item, index) => (
+          <a href={item.href}>
+            <span class="section-number">0{index + 1}</span>
+            <span class="section-name">
               <strong>{item.label}</strong>
-              <span class="collection-count">{String(item.count).padStart(2, '0')}</span>
-            </a>
-          ))}
-        </nav>
-      </div>
+              <small>{item.english}</small>
+            </span>
+            <span class="section-count">{String(item.count).padStart(2, '0')}</span>
+          </a>
+        ))}
+      </nav>
     </section>
 
-    <section class="page-wrap home-recent reveal" aria-labelledby="recent-title">
-      <header class="recent-heading">
+    <section class="page-wrap archive-section reveal" aria-labelledby="archive-title">
+      <header class="archive-header">
         <div>
-          <p class="home-eyebrow">Recently published</p>
-          <h2 id="recent-title">最近</h2>
+          <span>02</span>
+          <p>Archive / 最近发布</p>
         </div>
-        <p>{String(allPosts.length).padStart(2, '0')} entries</p>
+        <h2 id="archive-title">最近</h2>
       </header>
 
-      <ol class="entry-list">
-        {allPosts.map((post, index) => (
+      <ol class="archive-list">
+        {recentPosts.map((post, index) => (
           <li style={`--row: ${index}`}>
-            <a href={`/${post.type}/${post.id}`} class="entry-row">
-              <span class="entry-number">{String(index + 1).padStart(2, '0')}</span>
-              <span class="entry-type">{post.typeLabel}</span>
-              <h3>{post.data.title}</h3>
+            <a href={`/${post.type}/${post.id}`}>
+              <span class="archive-number">{String(index + 2).padStart(2, '0')}</span>
               <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
-              <span class="entry-arrow" aria-hidden="true">↗</span>
+              <h3>{post.data.title}</h3>
+              <span class="archive-type">{post.typeLabel}</span>
+              <span class="archive-arrow" aria-hidden="true">↗</span>
             </a>
           </li>
         ))}
@@ -100,293 +113,283 @@ const latestPost = allPosts[0];
 </Layout>
 
 <style>
-  .home-root {
-    --home-line: rgba(24, 20, 17, 0.14);
+  .editorial-home {
+    --editorial-line: rgba(24, 20, 17, 0.2);
+    --editorial-accent: #bd3f1f;
   }
 
-  .home-intro {
-    position: relative;
-    padding-top: clamp(4.5rem, 8vw, 7rem);
-    padding-bottom: clamp(2.8rem, 5vw, 4rem);
-    border-bottom: 1px solid var(--home-line);
+  .editorial-hero {
+    padding-top: clamp(2.8rem, 5vw, 4.5rem);
   }
 
-  .home-hero-grid {
+  .issue-line {
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(22rem, 0.72fr);
-    gap: clamp(3rem, 8vw, 8rem);
-    align-items: end;
-    min-height: clamp(27rem, 58vh, 40rem);
+    grid-template-columns: 1fr auto auto;
+    gap: 2rem;
+    padding: 0 0 1rem;
+    border-bottom: 2px solid var(--ink);
+    font-size: 0.84rem;
+    letter-spacing: 0.06em;
   }
 
-  .home-heading {
-    display: grid;
-    gap: clamp(1.1rem, 2vw, 1.7rem);
-  }
-
-  .home-eyebrow {
+  .issue-line span:nth-child(2),
+  .issue-line span:nth-child(3) {
     font-family: var(--mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--soft);
-  }
-
-  .home-heading .home-eyebrow {
-    opacity: 0;
-    animation: home-fade-in 700ms 80ms var(--ease-out) forwards;
-  }
-
-  .home-heading h1 {
-    overflow: hidden;
-    margin: 0;
-    font-size: clamp(5.8rem, 12.5vw, 9.7rem);
-    line-height: 0.84;
-    letter-spacing: 0.02em;
-  }
-
-  .home-heading h1 span {
-    display: block;
-    transform: translateY(108%);
-    animation: home-title-in 850ms 40ms var(--ease-out) forwards;
-  }
-
-  .home-statement {
-    max-width: none;
-    font-family: var(--display);
-    font-size: clamp(1.55rem, 2.4vw, 2rem);
-    line-height: 1.2;
-    letter-spacing: -0.025em;
-    white-space: nowrap;
-    opacity: 0;
-    animation: home-fade-in 700ms 280ms var(--ease-out) forwards;
-  }
-
-  .latest-entry {
-    display: grid;
-    gap: 1.25rem;
-    min-height: 20rem;
-    padding: 0.5rem 0 0.5rem clamp(1.8rem, 4vw, 3.2rem);
-    border-left: 1px solid var(--home-line);
-    opacity: 0;
-    animation: home-fade-in 750ms 300ms var(--ease-out) forwards;
-  }
-
-  .latest-meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    font-family: var(--mono);
-    font-size: 0.76rem;
-    letter-spacing: 0.08em;
-    color: var(--soft);
-  }
-
-  .latest-entry h2 {
-    align-self: end;
-    font-size: clamp(2.8rem, 5vw, 4.6rem);
-    line-height: 0.96;
-    transition: transform 500ms var(--ease-out);
-  }
-
-  .latest-entry > p {
-    max-width: 31rem;
-    font-size: 1.05rem;
-    line-height: 1.75;
     color: var(--muted);
   }
 
-  .latest-action {
+  .feature-grid {
+    display: grid;
+    grid-template-columns: minmax(7rem, 0.17fr) minmax(0, 0.55fr) minmax(17rem, 0.28fr);
+    min-height: clamp(30rem, 63vh, 46rem);
+    border-bottom: 1px solid var(--editorial-line);
+  }
+
+  .feature-index {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(2rem, 4vw, 3.5rem) 1.5rem clamp(2rem, 4vw, 3rem) 0;
+    border-right: 1px solid var(--editorial-line);
+    color: var(--editorial-accent);
+    opacity: 0;
+    animation: editorial-in 650ms 60ms var(--ease-out) forwards;
+  }
+
+  .feature-index span {
+    font-family: var(--display);
+    font-size: clamp(4rem, 7vw, 6.5rem);
+    line-height: 1;
+  }
+
+  .feature-index i {
+    width: 0.85rem;
+    height: 0.85rem;
+    background: currentColor;
+  }
+
+  .feature-story {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: clamp(2rem, 4vw, 3.5rem);
+    border-right: 1px solid var(--editorial-line);
+    opacity: 0;
+    animation: editorial-in 700ms 140ms var(--ease-out) forwards;
+  }
+
+  .feature-label,
+  .feature-signature {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .feature-label span:first-child {
+    color: var(--editorial-accent);
+  }
+
+  .feature-story h1 {
+    margin: auto 0;
+    font-size: clamp(5rem, 11vw, 9rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    overflow: visible;
+    transition: color 400ms var(--ease-out);
+  }
+
+  .feature-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--home-line);
-    font-size: 0.95rem;
+    border-top: 1px solid var(--editorial-line);
+    font-size: 1.05rem;
   }
 
-  .latest-action b {
-    font-size: 1.1rem;
-    font-weight: 400;
-    transition: transform 500ms var(--ease-out);
+  .feature-story:hover h1 {
+    color: var(--editorial-accent);
   }
 
-  .latest-entry:hover h2 {
-    transform: translateX(0.35rem);
-  }
-
-  .latest-entry:hover .latest-action b {
-    transform: translate(0.2rem, -0.2rem);
-  }
-
-  .home-intro-footer {
-    margin-top: clamp(4rem, 8vw, 7rem);
-  }
-
-  .home-collections {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--home-line);
-    opacity: 0;
-    animation: home-fade-in 700ms 460ms var(--ease-out) forwards;
-  }
-
-  .home-collections a {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 0.8rem;
-    align-items: baseline;
-    padding: 1.25rem 1.1rem 1.15rem;
-    border-bottom: 1px solid var(--home-line);
-    transition:
-      color 500ms var(--ease-out),
-      background-color 500ms var(--ease-out),
-      padding 500ms var(--ease-out);
-  }
-
-  .home-collections a + a {
-    border-left: 1px solid var(--home-line);
-  }
-
-  .home-collections a:hover {
-    padding-inline: 1.35rem 0.85rem;
-    color: var(--forest);
-    background: rgba(255, 255, 255, 0.24);
-  }
-
-  .collection-index,
-  .collection-count {
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: var(--soft);
-  }
-
-  .home-collections strong {
-    font-family: var(--display);
-    font-size: 1.45rem;
-    font-weight: 600;
-  }
-
-  .home-recent {
-    padding-top: clamp(6rem, 11vw, 10rem);
-    padding-bottom: clamp(6rem, 11vw, 10rem);
-  }
-
-  .recent-heading {
+  .feature-deck {
     display: flex;
-    align-items: end;
+    flex-direction: column;
     justify-content: space-between;
-    gap: 2rem;
-    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+    gap: 3rem;
+    padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
+    opacity: 0;
+    animation: editorial-in 700ms 220ms var(--ease-out) forwards;
   }
 
-  .recent-heading > div {
-    display: grid;
-    gap: 0.8rem;
+  .feature-deck > p {
+    margin-top: auto;
+    font-size: clamp(1.08rem, 1.5vw, 1.3rem);
+    line-height: 1.85;
+    color: var(--muted);
   }
 
-  .recent-heading h2 {
-    font-size: clamp(3.8rem, 8vw, 7rem);
-    line-height: 0.82;
-  }
-
-  .recent-heading > p {
+  .feature-signature {
+    padding-top: 1rem;
+    border-top: 1px solid var(--editorial-line);
     font-family: var(--mono);
     font-size: 0.78rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  }
+
+  .section-index {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-index a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    min-height: 7.5rem;
+    padding: 1.2rem 1.4rem;
+    transition:
+      color 400ms var(--ease-out),
+      background-color 400ms var(--ease-out);
+  }
+
+  .section-index a + a {
+    border-left: 1px solid var(--editorial-line);
+  }
+
+  .section-index a:hover {
+    color: #fffaf3;
+    background: var(--ink);
+  }
+
+  .section-number,
+  .section-count {
+    font-family: var(--mono);
+    font-size: 0.82rem;
     color: var(--soft);
   }
 
-  .entry-list {
+  .section-name {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .section-name strong {
+    font-family: var(--display);
+    font-size: 1.65rem;
+    line-height: 1;
+  }
+
+  .section-name small {
+    font-size: 0.78rem;
+    color: var(--soft);
+  }
+
+  .archive-section {
+    padding-top: clamp(7rem, 12vw, 11rem);
+    padding-bottom: clamp(7rem, 12vw, 11rem);
+  }
+
+  .archive-header {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.28fr) 1fr;
+    align-items: end;
+    gap: 2rem;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .archive-header > div {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .archive-header span {
+    font-family: var(--display);
+    font-size: 3.6rem;
+    line-height: 1;
+    color: var(--editorial-accent);
+  }
+
+  .archive-header p {
+    font-size: 0.88rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .archive-header h2 {
+    font-size: clamp(4.8rem, 9vw, 7.8rem);
+    line-height: 0.95;
+  }
+
+  .archive-list {
     padding: 0;
     margin: 0;
-    border-top: 1px solid var(--home-line);
     list-style: none;
   }
 
-  .entry-list li {
+  .archive-list li {
     opacity: 0;
     transform: translateY(12px);
     transition:
-      opacity 750ms var(--ease-out),
-      transform 750ms var(--ease-out);
-    transition-delay: calc(var(--row) * 65ms + 120ms);
+      opacity 700ms var(--ease-out),
+      transform 700ms var(--ease-out);
+    transition-delay: calc(var(--row) * 55ms + 100ms);
   }
 
-  .home-recent.is-visible .entry-list li {
+  .archive-section.is-visible .archive-list li {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .entry-row {
+  .archive-list a {
     display: grid;
-    grid-template-columns: 2.8rem 5.2rem minmax(0, 1fr) auto 1.5rem;
+    grid-template-columns: 3rem 7.2rem minmax(0, 1fr) 3.5rem 1.5rem;
     gap: 1rem;
     align-items: center;
-    min-height: 7rem;
-    border-bottom: 1px solid var(--home-line);
+    min-height: 7.3rem;
+    border-bottom: 1px solid var(--editorial-line);
     transition:
-      background-color 500ms var(--ease-out),
-      padding 500ms var(--ease-out);
+      color 400ms var(--ease-out),
+      padding 400ms var(--ease-out);
   }
 
-  .entry-row:hover {
+  .archive-list a:hover {
     padding-inline: 0.8rem;
-    background: rgba(255, 255, 255, 0.26);
+    color: var(--editorial-accent);
   }
 
-  .entry-number,
-  .entry-type,
-  .entry-row time {
-    font-family: var(--mono);
-    font-size: 0.76rem;
-    letter-spacing: 0.07em;
+  .archive-number,
+  .archive-list time,
+  .archive-type {
+    font-size: 0.84rem;
     color: var(--soft);
   }
 
-  .entry-type {
-    color: var(--forest-soft);
+  .archive-list time {
+    font-family: var(--mono);
   }
 
-  .entry-row h3 {
+  .archive-list h3 {
     overflow: hidden;
-    font-size: clamp(1.65rem, 2.8vw, 2.3rem);
-    line-height: 1.08;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.1;
     text-overflow: ellipsis;
     white-space: nowrap;
-    transition: transform 500ms var(--ease-out);
   }
 
-  .entry-row:hover h3 {
-    transform: translateX(0.35rem);
+  .archive-arrow {
+    font-size: 1.1rem;
   }
 
-  .entry-arrow {
-    font-size: 1.05rem;
-    color: var(--soft);
-    transition:
-      color 500ms var(--ease-out),
-      transform 500ms var(--ease-out);
-  }
-
-  .entry-row:hover .entry-arrow {
-    color: var(--ink);
-    transform: translate(0.15rem, -0.15rem);
-  }
-
-  @keyframes home-title-in {
-    to {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes home-fade-in {
+  @keyframes editorial-in {
     from {
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(14px);
     }
     to {
       opacity: 1;
@@ -394,86 +397,125 @@ const latestPost = allPosts[0];
     }
   }
 
-  @media (max-width: 860px) {
-    .home-hero-grid {
-      grid-template-columns: 1fr;
-      gap: 4rem;
+  @media (max-width: 900px) {
+    .feature-grid {
+      grid-template-columns: 6rem minmax(0, 1fr);
       min-height: auto;
     }
 
-    .home-statement {
-      max-width: none;
+    .feature-index {
+      grid-row: span 2;
     }
 
-    .latest-entry {
-      min-height: 17rem;
-      padding: 2.5rem 0 0;
-      border-top: 1px solid var(--home-line);
-      border-left: 0;
+    .feature-story {
+      min-height: 27rem;
+      border-right: 0;
     }
 
-    .entry-row {
-      grid-template-columns: 2rem 3.5rem minmax(0, 1fr) 1.2rem;
+    .feature-deck {
+      grid-column: 2;
+      padding: 2rem 0 2.5rem 2.5rem;
+      border-top: 1px solid var(--editorial-line);
     }
 
-    .entry-row time {
+    .section-index a {
+      min-height: 6.8rem;
+    }
+
+    .archive-list a {
+      grid-template-columns: 2.5rem minmax(0, 1fr) 3rem 1.2rem;
+    }
+
+    .archive-list time {
       display: none;
     }
   }
 
   @media (max-width: 620px) {
-    .home-intro {
-      padding-top: 4rem;
+    .issue-line {
+      grid-template-columns: 1fr auto;
+      font-size: 0.78rem;
     }
 
-    .home-heading h1 {
-      font-size: 22vw;
-      line-height: 0.84;
-      letter-spacing: 0.02em;
-    }
-
-    .home-collections {
-      grid-template-columns: 1fr;
-    }
-
-    .home-collections a + a {
-      border-left: 0;
-    }
-
-    .latest-entry h2 {
-      font-size: 3.2rem;
-    }
-
-    .latest-entry > p {
-      font-size: 1rem;
-    }
-
-    .recent-heading {
-      align-items: start;
-    }
-
-    .entry-row {
-      grid-template-columns: 1.8rem minmax(0, 1fr) 1rem;
-      gap: 0.8rem;
-      min-height: 6.2rem;
-    }
-
-    .entry-type {
+    .issue-line span:nth-child(2) {
       display: none;
     }
 
-    .entry-row h3 {
-      font-size: 1.45rem;
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .feature-index {
+      grid-row: auto;
+      flex-direction: row;
+      align-items: center;
+      padding: 1.6rem 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--editorial-line);
+    }
+
+    .feature-index span {
+      font-size: 3.5rem;
+    }
+
+    .feature-story {
+      min-height: 24rem;
+      padding: 2.2rem 0;
+      border-bottom: 1px solid var(--editorial-line);
+    }
+
+    .feature-story h1 {
+      font-size: clamp(5rem, 26vw, 6.4rem);
+    }
+
+    .feature-deck {
+      grid-column: 1;
+      padding: 2rem 0 2.4rem;
+      border-top: 0;
+    }
+
+    .section-index {
+      grid-template-columns: 1fr;
+    }
+
+    .section-index a + a {
+      border-top: 1px solid var(--editorial-line);
+      border-left: 0;
+    }
+
+    .section-index a {
+      min-height: 6.2rem;
+      padding-inline: 0;
+    }
+
+    .archive-header {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .archive-header h2 {
+      font-size: 5.2rem;
+    }
+
+    .archive-list a {
+      grid-template-columns: 2.2rem minmax(0, 1fr) 1.2rem;
+      min-height: 6.5rem;
+    }
+
+    .archive-type {
+      display: none;
+    }
+
+    .archive-list h3 {
+      font-size: 1.65rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .home-heading .home-eyebrow,
-    .home-heading h1 span,
-    .home-statement,
-    .latest-entry,
-    .home-collections,
-    .entry-list li {
+    .feature-index,
+    .feature-story,
+    .feature-deck,
+    .archive-list li {
       opacity: 1;
       transform: none;
       animation: none;
