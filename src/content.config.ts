@@ -7,6 +7,8 @@ const thinking = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()),
+    summary: z.string().optional(),
+    readingMinutes: z.number().int().positive().optional(),
   }),
 });
 

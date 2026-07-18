@@ -49,7 +49,7 @@ const earliestDate = thoughts[thoughts.length - 1] ? formatDate(thoughts[thought
         <a href={`/thinking/${thought.id}`} class="writing-item reveal">
           <div class="writing-meta">
             <span>{formatDate(thought.data.date)}</span>
-            <span>约 {getReadingMinutes(thought.body)} 分钟</span>
+            <span>约 {thought.data.readingMinutes ?? getReadingMinutes(thought.body)} 分钟</span>
           </div>
 
           <div class="writing-title-row">
@@ -57,7 +57,7 @@ const earliestDate = thoughts[thoughts.length - 1] ? formatDate(thoughts[thought
             <span class="writing-arrow">↗</span>
           </div>
 
-          <p class="writing-summary">{getExcerpt(thought.body, 108)}</p>
+          <p class="writing-summary">{thought.data.summary ?? getExcerpt(thought.body, 108)}</p>
         </a>
       ))}
     </div>

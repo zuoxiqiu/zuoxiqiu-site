@@ -1,0 +1,1419 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const description =
+  '事实不会自己说明原因。我们如何从观察走向解释、评价和预测，又如何让观点始终保留被现实反驳与更新的入口。';
+---
+
+<Layout
+  title="事实与观点"
+  description={description}
+  pageType="article"
+  publishedTime="2026-07-18T00:00:00.000Z"
+>
+  <div class="fact-progress" id="factProgress" aria-hidden="true"></div>
+
+  <div class="fact-opinion-page">
+    <main class="shell">
+      <article class="paper">
+      <header class="hero">
+        <p class="kicker">Fact · Interpretation · Judgment · 2026.07.18</p>
+        <h1>事实不等于<br><em>我们对事实的解释</em></h1>
+        <p class="deck">关于事实与观点、解释模型、思考的快与慢，以及投资中那些“无论现实怎样变化，自己都不会错”的判断方式。</p>
+      </header>
+
+      <nav class="chapter-nav" aria-label="文章章节">
+        <a href="#facts">事实与观点</a>
+        <a href="#models">解释模型</a>
+        <a href="#thinking">快与慢</a>
+        <a href="#beliefs">不可证伪</a>
+        <a href="#investing">投资镜像</a>
+        <a href="#audit">观点审计</a>
+      </nav>
+
+      <div class="content">
+        <section class="chapter" id="facts">
+          <span class="chapter-mark">一</span>
+          <h2>问题不在于有观点，而在于不知道它是观点</h2>
+          <p class="lead">事实与观点并不是“客观”和“胡说”的简单对立。事实是已经发生或存在、原则上能够通过观察、记录和交叉验证加以确认的情况；观点则是人对事实作出的解释、评价、预测和行动判断。</p>
+          <p>事实回答“发生了什么”，解释回答“为什么会发生”，评价回答“这意味着好还是坏”，预测回答“以后可能怎样”。后三者都可以广义地归入观点，但受证据约束的方式并不相同：解释需要因果链，评价需要明确标准，预测需要期限、阈值和失败条件。</p>
+
+          <div class="visual-block">
+            <div class="visual-head">
+              <h3>一句话里的五个层级</h3>
+              <p>越往右，加入的人类解释越多；观点并不因此无效，但必须承认它已经不是原始观察。</p>
+            </div>
+            <div class="layer-map" role="img" aria-label="事实经过解释评价预测形成行动">
+              <div class="node"><b>事实</b><small>发生了什么<br>可观察、可核对</small></div><div class="arrow">→</div>
+              <div class="node model"><b>解释</b><small>为什么发生<br>选择原因与权重</small></div><div class="arrow">→</div>
+              <div class="node output"><b>评价</b><small>好还是坏<br>依赖评价标准</small></div><div class="arrow">→</div>
+              <div class="node output"><b>预测</b><small>以后怎样<br>需要期限与条件</small></div><div class="arrow">→</div>
+              <div class="node output"><b>行动</b><small>现在做什么<br>还受目标与约束影响</small></div>
+            </div>
+            <div class="constraint-row" aria-label="每个层级的主要约束">
+              <div class="constraint">数据 · 口径 · 来源</div>
+              <div class="constraint">机制 · 替代解释</div>
+              <div class="constraint">标准 · 比较对象</div>
+              <div class="constraint">时间 · 阈值 · 概率</div>
+              <div class="constraint">目标 · 风险 · 承受力</div>
+            </div>
+          </div>
+
+          <p>牛顿第二定律也能说明这种区别。物体运动状态的变化是观察事实，力、质量、加速度及其关系是人用概念和数学建立的理论表达。理论不是未经加工地“躺在世界里”的原始事实，却也不是靠个人偏好或多数赞成成立的普通观点；它的客观性来自明确的适用条件、预测能力，以及实验和反例的持续约束。因此，“由人描述或建构”不等于“任意”，“大家都认同”也只说明形成了共识。</p>
+
+          <div class="visual-block">
+            <div class="visual-head">
+              <h3>把一句话拆开看</h3>
+              <p>语言会把观察、原因、价值和未来压缩在一起，让观点获得“事实感”。</p>
+            </div>
+            <div class="xray">
+              <div class="xray-claim"><span>一句看似客观的话</span><b>“这就是泡沫。”</b></div>
+              <div class="xray-parts">
+                <div class="xray-part"><b>观察</b><span>价格上涨</span></div>
+                <div class="xray-part"><b>解释</b><span>上涨由非基本面力量推动</span></div>
+                <div class="xray-part"><b>评价</b><span>价格已经偏离价值</span></div>
+                <div class="xray-part"><b>预测</b><span>以后会回落</span></div>
+              </div>
+            </div>
+          </div>
+
+          <p>现实争论的麻烦通常就发生在这种压缩中。人们真正争论的往往不是已经发生的结果，而是这个结果意味着什么；但解释被说成确定语气以后，人主观上感受到的不是“我提出了一种解释”，而是“事情本来就是这样”。</p>
+        </section>
+
+        <section class="chapter" id="models">
+          <span class="chapter-mark">二</span>
+          <h2>解释模型不是事实，但也不是毫无价值的主观意见</h2>
+          <p class="lead">事实不会自己说明原因。复杂结果通常由多个变量共同造成，人必须选择哪些变量重要、它们怎样连接、各自权重多大，这套因果结构就是解释模型。</p>
+          <p>模型的价值不在于听起来完整，而在于能否压缩已有事实、区分不同情形、产生新的可检验预期，并在遇到反例时作出有规则的修改。有的模型只是贴标签，有的能够打开机制，有的还能说明自己在什么条件下失效。</p>
+
+          <div class="visual-block">
+            <div class="visual-head">
+              <h3>模型并非只由事实生成</h3>
+              <p>同一组事实进入不同的先验、情绪和身份结构，可能输出完全不同的解释。</p>
+            </div>
+            <div class="model-funnel" role="img" aria-label="事实先验情绪身份和群体进入解释模型，再输出评价预测与行动">
+              <div class="chip-cloud">
+                <span class="chip">观察事实</span><span class="chip">第一次经验</span><span class="chip">既往得失</span><span class="chip">群体叙事</span><span class="chip">身份认同</span><span class="chip">喜欢／厌恶</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="model-core">解释<br>模型</div>
+              <div class="arrow">→</div>
+              <div class="model-output"><span class="output-pill">评价</span><span class="output-pill">预测</span><span class="output-pill">行动</span></div>
+            </div>
+            <div class="formula-strip">态度先形成时：态度 → 理由 → 筛选证据 → 强化态度</div>
+          </div>
+
+          <p>评价和解释也需要分开。“某种结果主要由营销造成”是因果解释，“它只有营销、没有实力”则已经加入价值判断，还偷渡了一个未经证明的前提：营销能力和产品能力互相排斥。相反，“结果很好，所以产品一定最好”同样越过证据边界。结果只能直接证明结果本身；它可以提高某种解释的可信度，却不能自动证明唯一原因。</p>
+          <p>人经常先有一个模糊的整体印象，再建立模型为它服务。正面信息被降格为偶然，负面信息被提升为本质，中性信息则被理解成问题尚未暴露。这时解释的主要功能已经不再是发现原因，而是维持原印象的稳定。</p>
+        </section>
+
+        <section class="chapter" id="thinking">
+          <span class="chapter-mark">三</span>
+          <h2>快思考如何把解释变成“看见的现实”</h2>
+          <p class="lead">借用《思考，快与慢》的说法，系统 1 和系统 2 不是脑内两个独立器官，而是两种思考状态的概括。快思考会自动识别模式、补全原因并形成整体印象。</p>
+
+          <div class="visual-block">
+            <div class="visual-head">
+              <h3>同一组线索，两条认知路径</h3>
+              <p>快思考追求迅速形成可用故事；慢思考把被省略的中间步骤重新展开。</p>
+            </div>
+            <div class="lanes" role="img" aria-label="快思考和慢思考的路径比较">
+              <div class="lane">
+                <div class="lane-name">快思考</div>
+                <div class="lane-flow"><div class="lane-step">有限线索</div><div class="arrow">→</div><div class="lane-step">熟悉标签</div><div class="arrow">→</div><div class="lane-step">完整故事</div><div class="arrow">→</div><div class="lane-step">确定感</div></div>
+              </div>
+              <div class="lane slow">
+                <div class="lane-name">慢思考</div>
+                <div class="lane-flow"><div class="lane-step">有限线索</div><div class="arrow">→</div><div class="lane-step">拆开层级</div><div class="arrow">→</div><div class="lane-step">替代解释</div><div class="arrow">→</div><div class="lane-step">证伪条件</div><div class="arrow">→</div><div class="lane-step">暂时判断</div></div>
+              </div>
+            </div>
+            <div class="warning-strip"><strong>关键警告：</strong>系统 2 也可能只是为系统 1 的结论搜集更漂亮的理由。分析变多，不等于审计发生了。</div>
+          </div>
+
+          <p>快思考的优势是速度快、消耗低，能让人在信息不完整时及时行动；代价是容易把有限线索组织成一个过于连贯的故事。慢思考也不只是“多想一会儿”或“列出更多理由”，真正的慢思考是一种审计：拆开观察、原因、标准和预测，检查缺失前提、替代模型和反转条件。</p>
+          <div class="quote">慢思考不保证正确；它的价值，是让错误有机会暴露。</div>
+          <p>因此，事实和观点的混淆并非简单的知识不足。大脑本来就倾向于把复杂世界压缩成可用模型；问题发生在高不确定、强情绪或后果重大的领域：人仍使用“好／坏、行／不行、真实／炒作”这样的低分辨率标签，却忘记标签已经包含了解释和评价。</p>
+        </section>
+
+        <section class="chapter" id="beliefs">
+          <span class="chapter-mark">四</span>
+          <h2>不可证伪观点：它的功能不是预测，而是免于失败</h2>
+          <p class="lead">不可证伪观点最典型的结构是：结果向好时，说这是偶然、外力或暂时现象；结果稳定时，说时间还不够长；结果转坏时，说现实终于验证了原判断。</p>
+
+          <div class="visual-block">
+            <div class="visual-head">
+              <h3>它如何吞掉所有结果</h3>
+              <p>看似解释了一切，实际没有排除任何可能，因此几乎没有提供可检验的信息。</p>
+            </div>
+            <div class="belief-flow" role="img" aria-label="向好稳定和转坏都被翻译成原观点正确">
+              <div class="outcome">结果向好</div><div class="arrow">→</div><div class="translation">偶然、外力、暂时</div>
+              <div class="outcome">结果稳定</div><div class="arrow">→</div><div class="translation">时间还不够长</div>
+              <div class="outcome">结果转坏</div><div class="arrow">→</div><div class="translation">终于验证了我</div>
+              <div class="arrow merge-arrow">↓　↓　↓</div>
+              <div class="fixed-belief"><b>原观点仍然正确</b><small>没有任何现实路径能够让它失败</small></div>
+            </div>
+            <div class="benefits" aria-label="封闭观点的三种心理收益">
+              <div class="benefit"><b>认知成本低</b><small>一个标签替代对变量和机制的持续分析</small></div>
+              <div class="benefit"><b>不确定性更少</b><small>获得“我已经看懂”的稳定感</small></div>
+              <div class="benefit"><b>身份受到保护</b><small>不必承认过去判断可能有误</small></div>
+            </div>
+          </div>
+
+          <p>这类观点更像一套信念的免疫系统：新事实不是用来更新模型的，而是被重新翻译成支持旧结论的材料。尤其当观点已经与“我是清醒的人”“我不会被欺骗”“我比多数人更懂”绑定时，修改观点便不再只是改一个判断，而像是在承认判断力和自我形象出了问题。</p>
+          <p>这也解释了为什么工作能力很强的人，在某些领域仍会显得像“降智”。专业能力、智力和一般理性并不是同一件事，严谨方法也不会自动从专业场景迁移到所有场景。能力强的人甚至可能更善于为既有立场组织材料，使偏见变得更精致，而不一定更容易放弃偏见。</p>
+
+          <div class="visual-block">
+            <div class="visual-head"><h3>评论区不是总体样本</h3><p>“几乎所有评论都这样”可以准确描述所见，却不能直接推出社会中的大多数人都这样思考。</p></div>
+            <div class="sample-funnel" role="img" aria-label="总体经过发言选择和平台放大形成可见评论">
+              <div class="sample-step">所有看见的人</div><div class="arrow">→</div>
+              <div class="sample-step">立场更强的人更愿意发言</div><div class="arrow">→</div>
+              <div class="sample-step">确定、激烈的评论更容易被放大</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="chapter" id="investing">
+          <span class="chapter-mark">五</span>
+          <h2>投资为什么特别容易产生封闭模型</h2>
+          <p class="lead">投资把这些机制集中在一个环境中：原因复杂、反馈延迟、价格每天波动、结果包含随机性，而且判断直接连接金钱、自尊和身份。</p>
+          <p>正确的过程短期可能亏损，错误的过程也可能碰巧赚钱；价格变化可以来自基本面、预期、估值、流动性、风险偏好和交易结构，单一结果很少能立刻证明某一个原因。正因为现实反馈含混，几乎任何立场都能在每日信息中找到支持材料。</p>
+
+          <div class="visual-block">
+            <div class="visual-head">
+              <h3>多空叙事的镜像结构</h3>
+              <p>中间是可观察的价格事实，两侧是对原因和意义的命名。</p>
+            </div>
+            <div class="market-grid" role="img" aria-label="上涨横盘下跌在多空叙事中都能支持原立场">
+              <div class="market-head">看空叙事</div><div class="market-head">价格事实</div><div class="market-head">看多叙事</div>
+              <div class="market-cell bear">资金炒作</div><div class="price-path">上涨</div><div class="market-cell bull">价值发现</div>
+              <div class="market-cell bear">出货维持</div><div class="price-path">横盘</div><div class="market-cell bull">蓄势等待</div>
+              <div class="market-cell bear">问题暴露</div><div class="price-path">下跌</div><div class="market-cell bull">洗盘错杀</div>
+            </div>
+            <div class="market-lock"><div class="lock-node">↓ 看空立场不变</div><div></div><div class="lock-node">看多立场不变 ↓</div></div>
+            <div class="test-bar" aria-label="检验投资预测的四个维度">
+              <div class="test-point">何时发生</div><div class="arrow">→</div><div class="test-point">幅度多大</div><div class="arrow">→</div><div class="test-point">何种机制</div><div class="arrow">→</div><div class="test-point">什么算错</div>
+            </div>
+          </div>
+
+          <p>两种叙事形式完全对称。问题不在看多或看空，而在模型是否提前规定了失败条件。如果任何价格路径都能保留原结论，它就不是在承担预测风险，而是在利用市场噪声保护立场。</p>
+          <p>投资中的“事实”还需要口径纪律。股价、成交额、收入、利润率、订单、现金流和市场份额可以是事实，但必须带上时间、范围、单位、分母和来源；“资金认可”“增长有质量”“只是周期反弹”“估值一定会修复”则属于解释或预测。持仓也会改变信息处理：买入后容易为自己的选择辩护，卖出或错过后也容易寻找它不值得上涨的理由。</p>
+          <p>某一次结果符合预测，不能单独证明原模型正确。若长期笼统地说“以后会下降”，任何对象总会有下降的月份；真正需要检验的是，它是否发生在事先给出的时间窗口内，幅度是否达到阈值，是否由所说机制导致，以及什么结果原本应当让观点反转。</p>
+        </section>
+
+        <section class="chapter" id="audit">
+          <span class="chapter-mark">六</span>
+          <h2>把观点重新暴露给现实</h2>
+          <p class="lead">解决办法不是消灭观点，也不是遇到分歧就简单说“这只是你的观点”，而是让每个重要判断保持可定位、可比较、可更新。</p>
+          <p>没有解释、评价和预测，人就无法行动；而观点仍然可能有真假、强弱和证据质量之分。下面这张审计器不判断观点是否正确，只检查它给现实留下了多少个可以反驳、修正自己的入口。</p>
+
+          <div class="visual-block">
+            <div class="visual-head">
+              <h3>观点开放度审计</h3>
+              <p>每勾选一项，代表判断已经把这部分说清楚。圆环显示的是结构完整度，不是正确率。</p>
+            </div>
+            <div class="audit">
+              <div class="gauge-wrap">
+                <div class="gauge" id="auditGauge" role="img" aria-label="模型开放入口零项，共六项">
+                  <div class="gauge-readout"><b id="auditScore">0 / 6</b><small>开放入口</small></div>
+                </div>
+              </div>
+              <fieldset class="audit-list">
+                <legend class="sr-only">观点审计清单</legend>
+                <label class="audit-item"><input type="checkbox">事实有日期、口径和来源</label>
+                <label class="audit-item"><input type="checkbox">原因与中间机制已说明</label>
+                <label class="audit-item"><input type="checkbox">认真保留了替代解释</label>
+                <label class="audit-item"><input type="checkbox">预测有时间窗口和阈值</label>
+                <label class="audit-item"><input type="checkbox">事前写明什么结果算错</label>
+                <label class="audit-item"><input type="checkbox">新证据对应明确更新规则</label>
+              </fieldset>
+            </div>
+            <div class="audit-status" id="auditStatus" aria-live="polite">目前更像一个标签：现实还没有可以反驳它的入口。</div>
+          </div>
+
+          <p>慢思考在这里不是无限延长分析，而是在关键节点建立一道间隔：先确认“我看到的是什么”，再标明“我补上的是什么”。事实更新时，检查模型是否仍然适用；模型失败时，修改解释，而不是通过移动期限、改变口径或追加新理由使原结论永远正确。对概率问题，也不追求一次性宣布“我对了”，而看预测在多次判断中是否校准、是否比替代模型更有效。</p>
+          <p>最终，事实与观点的边界并不要求人变得没有立场，而要求人清楚自己的立场站在哪一层。成熟的判断不是“我没有观点”，也不是“我的观点就是真相”，而是：“这是我基于当前事实形成的解释，它依赖这些假设，也可能被这些结果推翻。”</p>
+
+          <div class="closing">
+            <small>Final thought</small>
+            <p>最危险的并不只是判断错误，而是拥有一种无论现实怎样变化、自己都永远不会错的判断方式。</p>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <span>事实 · 解释 · 评价 · 预测</span>
+        <span>图文融合版</span>
+      </footer>
+    </article>
+    </main>
+  </div>
+</Layout>
+
+<style>
+
+    .fact-opinion-page {
+      --page: #f5f2eb;
+      --paper: #faf8f4;
+      --paper-soft: #eee8de;
+      --ink: #181411;
+      --muted: #5d5750;
+      --line: rgba(24, 20, 17, .13);
+      --green: #315f55;
+      --green-soft: #e4ebe7;
+      --red: #b85c36;
+      --red-soft: #f2e4dc;
+      --gold: #ae7f35;
+      --gold-soft: #f4ecd8;
+      --blue: #376887;
+      --blue-soft: #e5edf2;
+      --violet: #775f8e;
+      --violet-soft: #ece7f0;
+      --shadow: 0 22px 70px rgba(36, 24, 16, .08);
+      --radius-page: 28px;
+      --radius-panel: 20px;
+      --radius-node: 15px;
+      --radius-pill: 999px;
+      --serif: var(--display);
+      --sans: var(--body);
+    }
+
+    * { box-sizing: border-box; }
+    .fact-opinion-page { scroll-behavior: smooth; }
+
+    .fact-opinion-page {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 6% 5%, color-mix(in srgb, var(--gold) 12%, transparent), transparent 25rem),
+        radial-gradient(circle at 94% 24%, color-mix(in srgb, var(--green) 11%, transparent), transparent 30rem),
+        var(--page);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.9;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+
+    .fact-progress {
+      position: fixed;
+      z-index: 100;
+      inset: 0 auto auto 0;
+      width: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+    }
+
+    .shell {
+      width: min(940px, calc(100% - 34px));
+      margin: 34px auto 72px;
+    }
+
+    .paper {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      background: var(--paper);
+      box-shadow: none;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 620px;
+      padding: 52px 68px 62px;
+      overflow: hidden;
+      color: #f8f5ec;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.055) 0 1px, transparent 1px 100%),
+        radial-gradient(circle at 84% 10%, rgba(223, 183, 97, .22), transparent 28%),
+        linear-gradient(145deg, #181411, #28211c 62%, #342820);
+      background-size: 31px 31px, auto, auto;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 360px;
+      height: 360px;
+      right: -140px;
+      top: -145px;
+    }
+
+    .hero::after {
+      width: 170px;
+      height: 170px;
+      right: 82px;
+      top: 92px;
+      box-shadow: 0 0 0 44px rgba(255,255,255,.03), 0 0 0 88px rgba(255,255,255,.018);
+    }
+
+    .hero-tools {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .tool-button {
+      min-width: 46px;
+      min-height: 46px;
+      padding: 0 15px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: var(--radius-pill);
+      color: #f8f5ec;
+      background: rgba(255,255,255,.07);
+      cursor: pointer;
+    }
+
+    .tool-button:hover { background: rgba(255,255,255,.13); }
+    .tool-button:focus-visible,
+    .chapter-nav a:focus-visible,
+    .audit-item:focus-within {
+      outline: 3px solid color-mix(in srgb, var(--gold) 58%, transparent);
+      outline-offset: 3px;
+    }
+
+    .kicker {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 56px 0 58px;
+      color: #e4c66e;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(48px, 7.2vw, 76px);
+      font-weight: 650;
+      line-height: 1.12;
+      letter-spacing: -.05em;
+    }
+
+    .hero h1 em {
+      color: #e5c36c;
+      font-style: normal;
+    }
+
+    .deck {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 30px 0 0;
+      color: rgba(248,245,236,.76);
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.75;
+    }
+
+    .chapter-nav {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      background: color-mix(in srgb, var(--paper) 92%, transparent);
+    }
+
+    .chapter-nav a {
+      display: grid;
+      min-height: 46px;
+      padding: 8px 10px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      text-align: center;
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .chapter-nav a:hover {
+      color: var(--green);
+      border-color: color-mix(in srgb, var(--green) 35%, var(--line));
+      background: var(--green-soft);
+    }
+
+    .content { padding: 22px 68px 76px; }
+
+    .chapter {
+      scroll-margin-top: 18px;
+      padding: 72px 0 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .chapter:first-child {
+      padding-top: 54px;
+      border-top: 0;
+    }
+
+    .chapter-mark {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      margin-bottom: 17px;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--red) 52%, transparent);
+      border-radius: 50%;
+      color: var(--red);
+      font-family: var(--serif);
+      font-size: 14px;
+    }
+
+    h2 {
+      max-width: 720px;
+      margin: 0 0 30px;
+      color: var(--green);
+      font-family: var(--serif);
+      font-size: clamp(30px, 4.4vw, 43px);
+      font-weight: 650;
+      line-height: 1.27;
+      letter-spacing: -.035em;
+    }
+
+    h3 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 23px;
+      line-height: 1.35;
+    }
+
+    p { margin: 0 0 24px; }
+    strong { color: var(--green); }
+
+    .lead {
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 21px;
+      line-height: 1.92;
+    }
+
+    .lead::first-letter {
+      float: left;
+      margin: 11px 9px 0 0;
+      color: var(--red);
+      font-size: 59px;
+      font-weight: 700;
+      line-height: .72;
+    }
+
+    .visual-block {
+      margin: 42px 0;
+      padding: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-panel);
+      background: var(--paper-soft);
+    }
+
+    .visual-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 22px;
+      margin-bottom: 27px;
+    }
+
+    .visual-head p {
+      max-width: 390px;
+      margin: 0;
+      color: var(--muted);
+      text-align: right;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .node {
+      display: flex;
+      min-width: 0;
+      min-height: 115px;
+      padding: 16px;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid color-mix(in srgb, var(--blue) 27%, var(--line));
+      border-radius: var(--radius-node);
+      background: var(--blue-soft);
+    }
+
+    .node.model {
+      border-color: color-mix(in srgb, var(--gold) 33%, var(--line));
+      background: var(--gold-soft);
+    }
+
+    .node.output {
+      border-color: color-mix(in srgb, var(--green) 28%, var(--line));
+      background: var(--green-soft);
+    }
+
+    .node b { font-size: 15px; }
+    .node small { color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+    .arrow {
+      display: grid;
+      min-width: 22px;
+      place-items: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .layer-map {
+      display: grid;
+      grid-template-columns: 1fr 24px 1.16fr 24px 1fr 24px 1fr 24px 1fr;
+      align-items: stretch;
+    }
+
+    .constraint-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .constraint {
+      padding-top: 9px;
+      border-top: 2px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .xray {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .xray-claim {
+      display: flex;
+      min-height: 220px;
+      padding: 25px;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid color-mix(in srgb, var(--red) 25%, var(--line));
+      border-radius: var(--radius-node);
+      background: var(--red-soft);
+    }
+
+    .xray-claim span { color: var(--muted); font-size: 12px; }
+    .xray-claim b { margin-top: 12px; font-family: var(--serif); font-size: 28px; }
+
+    .xray-parts { display: grid; gap: 8px; }
+
+    .xray-part {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .xray-part b { color: var(--red); }
+
+    .model-funnel {
+      display: grid;
+      grid-template-columns: 1fr 70px 165px 70px 1fr;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip-cloud {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-content: center;
+    }
+
+    .chip {
+      padding: 9px 12px;
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .model-core {
+      display: grid;
+      width: 165px;
+      aspect-ratio: 1;
+      place-items: center;
+      padding: 20px;
+      border: 1px solid color-mix(in srgb, var(--gold) 38%, var(--line));
+      border-radius: 50%;
+      background: var(--gold-soft);
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.4;
+    }
+
+    .model-output { display: grid; gap: 8px; }
+
+    .output-pill {
+      padding: 11px 13px;
+      border-radius: var(--radius-pill);
+      background: var(--green-soft);
+      border: 1px solid color-mix(in srgb, var(--green) 24%, var(--line));
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .formula-strip {
+      margin-top: 22px;
+      padding: 15px 18px;
+      border-radius: var(--radius-node);
+      color: var(--green);
+      background: color-mix(in srgb, var(--green-soft) 72%, var(--paper));
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 18px;
+    }
+
+    .lanes { display: grid; gap: 18px; }
+
+    .lane {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .lane-name {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .lane.slow .lane-name { color: var(--green); }
+
+    .lane-flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      align-items: center;
+    }
+
+    .lane.slow .lane-flow { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+
+    .lane-step {
+      display: grid;
+      min-height: 76px;
+      padding: 9px;
+      place-items: center;
+      border: 1px solid color-mix(in srgb, var(--gold) 26%, var(--line));
+      border-radius: 12px;
+      background: var(--gold-soft);
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .slow .lane-step {
+      border-color: color-mix(in srgb, var(--green) 25%, var(--line));
+      background: var(--green-soft);
+    }
+
+    .warning-strip {
+      margin-top: 21px;
+      padding: 15px 17px;
+      border-left: 4px solid var(--red);
+      border-radius: 4px var(--radius-node) var(--radius-node) 4px;
+      background: var(--red-soft);
+      font-size: 14px;
+    }
+
+    .belief-flow {
+      display: grid;
+      grid-template-columns: 1fr 28px 1.2fr;
+      gap: 9px;
+      align-items: center;
+    }
+
+    .outcome,
+    .translation {
+      display: grid;
+      min-height: 66px;
+      padding: 12px;
+      place-items: center;
+      border-radius: var(--radius-node);
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .outcome {
+      border: 1px solid color-mix(in srgb, var(--blue) 26%, var(--line));
+      background: var(--blue-soft);
+    }
+
+    .translation {
+      border: 1px solid color-mix(in srgb, var(--gold) 28%, var(--line));
+      background: var(--gold-soft);
+    }
+
+    .merge-arrow {
+      grid-column: 1 / -1;
+      min-height: 34px;
+    }
+
+    .fixed-belief {
+      grid-column: 1 / -1;
+      padding: 19px;
+      border-radius: var(--radius-node);
+      color: #f8f5ec;
+      background: linear-gradient(135deg, #14594d, #173f38);
+      text-align: center;
+    }
+
+    .fixed-belief b { display: block; margin-bottom: 3px; }
+    .fixed-belief small { color: rgba(255,255,255,.72); }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .benefit {
+      padding: 15px;
+      border: 1px solid color-mix(in srgb, var(--violet) 22%, var(--line));
+      border-radius: var(--radius-node);
+      background: var(--violet-soft);
+    }
+
+    .benefit b { display: block; margin-bottom: 4px; font-size: 13px; }
+    .benefit small { color: var(--muted); font-size: 11px; line-height: 1.45; }
+
+    .sample-funnel {
+      display: grid;
+      grid-template-columns: 1fr 25px 1fr 25px 1fr;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .sample-step {
+      padding: 12px;
+      border-radius: var(--radius-node);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .market-grid {
+      display: grid;
+      grid-template-columns: 1fr 94px 1fr;
+      gap: 8px 11px;
+      align-items: stretch;
+    }
+
+    .market-head {
+      padding-bottom: 8px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .market-cell,
+    .price-path {
+      display: grid;
+      min-height: 66px;
+      padding: 10px;
+      place-items: center;
+      border-radius: var(--radius-node);
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .market-cell.bear {
+      border: 1px solid color-mix(in srgb, var(--red) 25%, var(--line));
+      background: var(--red-soft);
+    }
+
+    .market-cell.bull {
+      border: 1px solid color-mix(in srgb, var(--green) 25%, var(--line));
+      background: var(--green-soft);
+    }
+
+    .price-path {
+      border: 1px solid color-mix(in srgb, var(--blue) 25%, var(--line));
+      background: var(--blue-soft);
+      font-weight: 700;
+    }
+
+    .market-lock {
+      display: grid;
+      grid-template-columns: 1fr 94px 1fr;
+      gap: 11px;
+      margin-top: 10px;
+    }
+
+    .lock-node {
+      padding: 12px;
+      border-radius: var(--radius-node);
+      color: var(--red);
+      background: color-mix(in srgb, var(--red-soft) 74%, var(--paper));
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .test-bar {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      align-items: center;
+      margin-top: 21px;
+      padding-top: 19px;
+      border-top: 1px solid var(--line);
+    }
+
+    .test-point {
+      display: grid;
+      min-height: 58px;
+      padding: 8px;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .audit {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .gauge-wrap { display: grid; place-items: center; }
+
+    .gauge {
+      --score-angle: 0deg;
+      position: relative;
+      display: grid;
+      width: 180px;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 50%;
+      background: conic-gradient(var(--green) var(--score-angle), var(--line) 0);
+      transition: background .22s ease;
+    }
+
+    .gauge::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: inherit;
+      background: var(--paper-soft);
+    }
+
+    .gauge-readout {
+      position: relative;
+      text-align: center;
+    }
+
+    .gauge-readout b {
+      display: block;
+      color: var(--green);
+      font-family: var(--serif);
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .gauge-readout small { color: var(--muted); font-size: 11px; }
+
+    .audit-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .audit-item {
+      display: flex;
+      min-height: 58px;
+      padding: 10px 12px;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-node);
+      background: var(--paper);
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .audit-item input {
+      width: 21px;
+      height: 21px;
+      flex: 0 0 auto;
+      accent-color: var(--green);
+    }
+
+    .audit-status {
+      margin-top: 20px;
+      padding: 15px 17px;
+      border-radius: var(--radius-node);
+      color: var(--green);
+      background: var(--green-soft);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .quote {
+      margin: 40px 0;
+      padding: 28px 31px;
+      border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
+      border-radius: var(--radius-panel);
+      color: var(--green);
+      background: var(--gold-soft);
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.7;
+    }
+
+    .closing {
+      margin-top: 38px;
+      padding: 40px;
+      border: 1px solid color-mix(in srgb, var(--gold) 35%, var(--line));
+      border-radius: var(--radius-panel);
+      background: color-mix(in srgb, var(--gold-soft) 68%, var(--paper));
+      text-align: center;
+    }
+
+    .closing small {
+      display: block;
+      margin-bottom: 13px;
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .closing p {
+      margin: 0;
+      color: var(--green);
+      font-family: var(--serif);
+      font-size: 28px;
+      line-height: 1.6;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 68px;
+      color: rgba(255,255,255,.58);
+      background: #181411;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 760px) {
+      .fact-opinion-page {
+        font-size: 16px;
+        line-height: 1.86;
+      }
+
+      .shell {
+        width: calc(100% - 20px);
+        margin: 10px auto 28px;
+      }
+
+      .paper { border-radius: 24px; }
+
+      .hero {
+        min-height: 530px;
+        padding: calc(18px + env(safe-area-inset-top)) 22px 48px;
+      }
+
+      .hero::before {
+        width: 250px;
+        height: 250px;
+        right: -120px;
+        top: -90px;
+      }
+
+      .hero::after {
+        width: 120px;
+        height: 120px;
+        right: 35px;
+        top: 112px;
+        box-shadow: 0 0 0 31px rgba(255,255,255,.028), 0 0 0 62px rgba(255,255,255,.015);
+      }
+
+      .tool-button {
+        min-width: 48px;
+        min-height: 48px;
+        padding: 0 14px;
+      }
+
+      .kicker { margin: 76px 0 45px; }
+      .hero h1 { font-size: clamp(42px, 12.5vw, 58px); }
+      .deck { margin-top: 25px; font-size: 17px; line-height: 1.72; }
+
+      .chapter-nav {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+        padding: 14px;
+      }
+
+      .chapter-nav a {
+        min-height: 48px;
+        padding: 8px 5px;
+        font-size: 11px;
+      }
+
+      .content { padding: 12px 21px 52px; }
+
+      .chapter {
+        padding: 58px 0 18px;
+        scroll-margin-top: 10px;
+      }
+
+      .chapter:first-child { padding-top: 46px; }
+      h2 { margin-bottom: 25px; font-size: 31px; line-height: 1.3; }
+      h3 { font-size: 21px; }
+      .lead { font-size: 19px; line-height: 1.9; }
+      .lead::first-letter { font-size: 53px; }
+
+      .visual-block {
+        margin: 34px -7px;
+        padding: 20px 17px;
+        border-radius: 18px;
+      }
+
+      .visual-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 21px;
+      }
+
+      .visual-head p { max-width: none; text-align: left; }
+
+      .layer-map {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .layer-map .arrow {
+        min-height: 22px;
+        transform: rotate(90deg);
+      }
+
+      .node {
+        min-height: 94px;
+        padding: 14px;
+      }
+
+      .constraint-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .constraint {
+        padding: 8px 10px;
+        border-top: 0;
+        border-left: 2px solid var(--line);
+        text-align: left;
+      }
+
+      .xray { grid-template-columns: 1fr; }
+      .xray-claim { min-height: 150px; }
+      .xray-part { grid-template-columns: 52px 1fr; }
+
+      .model-funnel {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 9px;
+      }
+
+      .model-funnel > .arrow {
+        min-height: 22px;
+        transform: rotate(90deg);
+      }
+
+      .chip-cloud { justify-content: center; }
+      .model-core { width: 152px; }
+      .model-output { width: 100%; grid-template-columns: repeat(3, 1fr); }
+
+      .lane { grid-template-columns: 1fr; gap: 8px; }
+      .lane-flow,
+      .lane.slow .lane-flow {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .lane-flow .arrow {
+        min-height: 20px;
+        transform: rotate(90deg);
+      }
+
+      .lane-step { min-height: 58px; }
+
+      .benefits { grid-template-columns: 1fr; }
+      .benefit { min-height: 78px; }
+
+      .sample-funnel {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .sample-funnel .arrow {
+        min-height: 20px;
+        transform: rotate(90deg);
+      }
+
+      .market-grid,
+      .market-lock {
+        grid-template-columns: minmax(0, 1fr) 68px minmax(0, 1fr);
+        gap: 7px;
+      }
+
+      .market-cell,
+      .price-path { min-height: 74px; padding: 8px 5px; font-size: 12px; }
+      .market-head { font-size: 11px; }
+      .lock-node { padding: 10px 5px; }
+
+      .test-bar {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .test-bar .arrow {
+        min-height: 20px;
+        transform: rotate(90deg);
+      }
+
+      .test-point { min-height: 52px; }
+
+      .audit {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .audit-list { grid-template-columns: 1fr; width: 100%; }
+      .audit-item { min-height: 62px; font-size: 13px; }
+      .audit-item input { width: 24px; height: 24px; }
+
+      .quote { padding: 23px 21px; border-radius: 18px; font-size: 20px; }
+      .closing { padding: 31px 21px; border-radius: 18px; }
+      .closing p { font-size: 24px; }
+      .footer { padding: 24px 21px; flex-direction: column; }
+    }
+
+    @media (max-width: 370px) {
+      .shell { width: calc(100% - 12px); margin-top: 6px; }
+      .hero { padding-inline: 18px; }
+      .content { padding-inline: 17px; }
+      .chapter-nav { padding-inline: 10px; }
+      .hero h1 { font-size: 40px; }
+      .model-output { grid-template-columns: 1fr; }
+      .visual-block { margin-inline: -5px; padding-inline: 14px; }
+    }
+
+    @media print {
+      .fact-opinion-page {
+        --page: #fff;
+        --paper: #fff;
+        --paper-soft: #f8f6f0;
+        --ink: #111;
+        --muted: #555;
+        --line: #ddd;
+      }
+
+      .fact-opinion-page { background: #fff; font-size: 11pt; }
+      .fact-progress, .hero-tools, .chapter-nav { display: none; }
+      .shell { width: 100%; margin: 0; }
+      .paper { border: 0; border-radius: 0; box-shadow: none; }
+      .hero { min-height: auto; padding: 45px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .kicker { margin: 20px 0 35px; }
+      .content { padding: 10px 45px 40px; }
+      .visual-block, .quote, .closing { break-inside: avoid; }
+      .footer { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
+  
+
+  .fact-opinion-page {
+    position: relative;
+    margin-top: clamp(2rem, 5vw, 4.5rem);
+    background: transparent;
+  }
+
+  .fact-opinion-page .shell {
+    margin-top: 0;
+  }
+
+  .fact-opinion-page .paper {
+    border-top: 2px solid var(--ink);
+  }
+
+  .fact-opinion-page .chapter-nav {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    backdrop-filter: blur(16px);
+  }
+
+  .fact-opinion-page .hero {
+    animation: fact-hero-in 900ms var(--ease-out) both;
+  }
+
+  .fact-opinion-page .hero h1,
+  .fact-opinion-page .hero .deck,
+  .fact-opinion-page .hero .kicker {
+    animation: fact-copy-in 900ms var(--ease-out) both;
+  }
+
+  .fact-opinion-page .hero h1 {
+    animation-delay: 120ms;
+  }
+
+  .fact-opinion-page .hero .deck {
+    animation-delay: 220ms;
+  }
+
+  .fact-opinion-page .chapter {
+    scroll-margin-top: 5.5rem;
+  }
+
+  @keyframes fact-hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+
+  @keyframes fact-copy-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .fact-opinion-page {
+      margin-top: 1.25rem;
+    }
+
+    .fact-opinion-page .shell {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .fact-opinion-page .paper {
+      border-inline: 0;
+      border-radius: 0;
+    }
+
+    .fact-opinion-page .chapter-nav {
+      top: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fact-opinion-page .hero,
+    .fact-opinion-page .hero h1,
+    .fact-opinion-page .hero .deck,
+    .fact-opinion-page .hero .kicker {
+      animation: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const progress = document.getElementById('factProgress');
+    const checks = [...document.querySelectorAll('.audit-list input[type="checkbox"]')];
+    const gauge = document.getElementById('auditGauge');
+    const score = document.getElementById('auditScore');
+    const status = document.getElementById('auditStatus');
+    const messages = [
+      '目前更像一个标签：现实还没有可以反驳它的入口。',
+      '开始接触事实，但判断仍然很容易吸收任何结果。',
+      '已有局部结构；还需要替代解释和明确边界。',
+      '模型开始成形，但尚未充分承担失败风险。',
+      '已经可以检验；新的结果能够提高或降低可信度。',
+      '模型高度开放，只剩更新规则需要提前固定。',
+      '它终于允许现实说“不”：这才是可更新的观点。'
+    ];
+
+    const updateProgress = () => {
+      if (!progress) return;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+      progress.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
+    };
+
+    const updateAudit = () => {
+      if (!gauge || !score || !status) return;
+      const count = checks.filter((item) => item.checked).length;
+      score.textContent = `${count} / 6`;
+      status.textContent = messages[count];
+      gauge.style.setProperty('--score-angle', `${count * 60}deg`);
+      gauge.setAttribute('aria-label', `模型开放入口${count}项，共六项`);
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    checks.forEach((check) => check.addEventListener('change', updateAudit));
+    updateProgress();
+    updateAudit();
+  })();
+</script>
+

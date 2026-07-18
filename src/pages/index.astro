@@ -84,7 +84,7 @@ const collections = [
           </a>
 
           <aside class="feature-deck">
-            <p>{getExcerpt(latestPost.body, 92)}</p>
+            <p>{latestPost.data.summary ?? getExcerpt(latestPost.body, 92)}</p>
             <div class="feature-signature">
               <span>Latest note</span>
               <time datetime={latestPost.data.date.toISOString()}>

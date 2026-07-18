@@ -5,7 +5,7 @@ import { getExcerpt, getReadingMinutes } from '../../utils/content';
 
 export async function getStaticPaths() {
   const thoughts = await getCollection('thinking');
-  return thoughts.map((thought) => ({
+  return thoughts.filter((thought) => thought.id !== 'facts-and-opinions').map((thought) => ({
     params: { slug: thought.id },
     props: { thought },
   }));
@@ -15,8 +15,8 @@ const { thought } = Astro.props;
 const { Content } = await render(thought);
 
 const formatDate = (date: Date) => date.toISOString().slice(0, 10);
-const description = getExcerpt(thought.body, 120);
-const readingMinutes = getReadingMinutes(thought.body);
+const description = thought.data.summary ?? getExcerpt(thought.body, 120);
+const readingMinutes = thought.data.readingMinutes ?? getReadingMinutes(thought.body);
 ---
 
 <Layout
