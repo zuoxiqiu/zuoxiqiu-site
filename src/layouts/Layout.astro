@@ -10,13 +10,13 @@ interface Props {
 
 const {
   title,
-  description = "昨夕秋的数字花园，记录想法、思考与实验。",
+  description = "昨夕秋，记录想法、思考与实验。",
   pageType = 'website',
   publishedTime,
 } = Astro.props;
 
 const siteName = '昨夕秋';
-const pageTitle = title === siteName ? `${siteName}｜数字花园` : `${title}｜${siteName}`;
+const pageTitle = title === siteName ? siteName : `${title}｜${siteName}`;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://zuoxiqiu.com').toString();
 const structuredData = JSON.stringify(
   pageType === 'article'
