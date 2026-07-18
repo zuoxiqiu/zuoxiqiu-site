@@ -1,16 +1,46 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import '../../styles/global.css';
 
 const description =
   '事实不会自己说明原因。我们如何从观察走向解释、评价和预测，又如何让观点始终保留被现实反驳与更新的入口。';
+const canonicalUrl = 'https://zuoxiqiu.com/thinking/facts-and-opinions/';
+const pageTitle = '事实与观点';
+const structuredData = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: pageTitle,
+  description,
+  datePublished: '2026-07-18T00:00:00.000Z',
+  author: { '@type': 'Person', name: '昨夕秋' },
+  mainEntityOfPage: canonicalUrl,
+}).replace(/</g, '\\u003c');
 ---
 
-<Layout
-  title="事实与观点"
-  description={description}
-  pageType="article"
-  publishedTime="2026-07-18T00:00:00.000Z"
->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="robots" content="index, follow" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="theme-color" content="#f5f2eb" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="article:published_time" content="2026-07-18T00:00:00.000Z" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+  <link rel="canonical" href={canonicalUrl} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <title>{pageTitle}</title>
+  <script type="application/ld+json" set:html={structuredData}></script>
+</head>
+<body>
   <div class="fact-progress" id="factProgress" aria-hidden="true"></div>
 
   <div class="fact-opinion-page">
@@ -247,8 +277,6 @@ const description =
     </article>
     </main>
   </div>
-</Layout>
-
 <style>
 
     .fact-opinion-page {
@@ -1416,4 +1444,5 @@ const description =
     updateAudit();
   })();
 </script>
-
+</body>
+</html>
