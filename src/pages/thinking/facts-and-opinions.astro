@@ -89,7 +89,93 @@ const structuredData = JSON.stringify({
             </div>
           </div>
 
-          <p>牛顿第二定律也能说明这种区别。物体运动状态的变化是观察事实，力、质量、加速度及其关系是人用概念和数学建立的理论表达。理论不是未经加工地“躺在世界里”的原始事实，却也不是靠个人偏好或多数赞成成立的普通观点；它的客观性来自明确的适用条件、预测能力，以及实验和反例的持续约束。因此，“由人描述或建构”不等于“任意”，“大家都认同”也只说明形成了共识。</p>
+          <p>以牛顿第二定律为例，实验者最先得到的并不是公式，而是一组带着单位、时间戳和误差的记录：小车在什么时刻位于什么位置，传感器读到了多大的拉力。人再用“速度”“加速度”“质量”“合外力”这些经过定义的概念整理记录，最后才写出变量之间的关系。公式不是从世界表面直接抄下来的句子，而是对大量稳定关系的高度压缩。</p>
+
+          <div class="visual-block newton-lab" id="newton-lab" style="--cart-position: 37%; --force-width: 60%;">
+            <div class="visual-head">
+              <h3>一条定律如何从测量走向预测</h3>
+              <p>改变合外力和质量，看模型是否能在实验发生之前给出一个明确、可被测量推翻的数字。</p>
+            </div>
+
+            <div class="newton-formulas" aria-label="牛顿第二定律的两种表达">
+              <div class="newton-formula-card general">
+                <span>更一般的表达</span>
+                <b>ΣF = dp/dt</b>
+                <small>合外力对应动量随时间的变化率</small>
+              </div>
+              <div class="formula-bridge"><i></i><span>质量恒定时</span><i></i></div>
+              <div class="newton-formula-card familiar">
+                <span>熟悉的形式</span>
+                <b>ΣF = ma</b>
+                <small>在惯性参考系中，把变化写成加速度</small>
+              </div>
+            </div>
+
+            <div class="newton-simulator">
+              <div class="newton-controls" aria-label="牛顿第二定律参数控制">
+                <div class="newton-control">
+                  <div class="control-label"><label for="forceInput">合外力 ΣF</label><output id="forceValue" for="forceInput">6 N</output></div>
+                  <input id="forceInput" type="range" min="1" max="10" step="1" value="6" />
+                  <div class="range-scale"><span>轻推</span><span>用力推</span></div>
+                </div>
+                <div class="newton-control">
+                  <div class="control-label"><label for="massInput">小车质量 m</label><output id="massValue" for="massInput">2 kg</output></div>
+                  <input id="massInput" type="range" min="1" max="5" step="0.5" value="2" />
+                  <div class="range-scale"><span>轻</span><span>重</span></div>
+                </div>
+                <p class="control-hint">试着保持力不变、只增加质量：相同的推力不会产生相同的加速度。</p>
+              </div>
+
+              <div class="newton-stage">
+                <div class="newton-readout" aria-live="polite">
+                  <span>模型预先给出的结果</span>
+                  <b>a = <strong id="accelerationValue">3.0</strong> m/s²</b>
+                </div>
+                <div class="newton-track" aria-hidden="true">
+                  <span class="track-mark mark-one"></span>
+                  <span class="track-mark mark-two"></span>
+                  <span class="track-mark mark-three"></span>
+                  <div class="newton-cart" id="newtonCart">
+                    <span class="force-vector">ΣF</span>
+                    <span class="cart-load">m</span>
+                    <i class="cart-wheel wheel-left"></i>
+                    <i class="cart-wheel wheel-right"></i>
+                  </div>
+                </div>
+                <p id="newtonPrediction">6 N 的合外力作用在 2 kg 的小车上，模型预测加速度为 3.0 m/s²。</p>
+              </div>
+            </div>
+
+            <div class="newton-chain" aria-label="从实验记录到理论检验的四个步骤">
+              <div class="newton-chain-card"><span>01</span><b>观察</b><p>位置—时间记录、测力计读数，以及每次测量的误差范围。</p></div>
+              <div class="newton-chain-card"><span>02</span><b>概念化</b><p>把记录整理成速度、加速度、质量与合外力等可比较的量。</p></div>
+              <div class="newton-chain-card"><span>03</span><b>建立模型</b><p>提出变量关系，不只解释已经发生的结果，还计算尚未测量的结果。</p></div>
+              <div class="newton-chain-card"><span>04</span><b>接受检验</b><p>比较预测值与新实验；持续、可复现的偏差会迫使模型修正边界。</p></div>
+            </div>
+
+            <div class="newton-scope" aria-label="熟悉形式的适用边界">
+              <span class="scope-title">使用 ΣF = ma 前先说明</span>
+              <span>惯性参考系</span>
+              <span>合外力而非某一个力</span>
+              <span>质量保持恒定</span>
+              <span>经典力学适用尺度</span>
+            </div>
+          </div>
+
+          <div class="theory-boundary">
+            <div>
+              <span>它不是原始事实</span>
+              <b>公式包含人的定义与建模</b>
+              <p>“力”和“质量”需要操作性定义，实验也要选择参考系、仪器和误差处理方式。</p>
+            </div>
+            <div>
+              <span>它也不是任意意见</span>
+              <b>模型必须承担预测失败的风险</b>
+              <p>换一组力与质量，任何人都能复现实验并核对数值；共识来自约束，而不是投票。</p>
+            </div>
+          </div>
+
+          <p>所以，“由人描述或建构”不等于“可以随意说”。理论的客观性不在于它未经人手，而在于它公开了概念、计算和适用边界，让现实能够反过来约束它。一次偏差可能来自测量误差；但如果在条件明确的重复实验中持续偏离，研究者就不能用一句“情况特殊”把结果吸收掉，而要检查仪器、边界条件，甚至修改模型本身。</p>
 
           <div class="visual-block">
             <div class="visual-head">
@@ -716,6 +802,453 @@ const structuredData = JSON.stringify({
       text-align: center;
       font-size: 11px;
       line-height: 1.45;
+    }
+
+    .newton-lab {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 84% 11%, rgba(177, 68, 48, .09), transparent 25%),
+        linear-gradient(155deg, color-mix(in srgb, var(--paper) 86%, white), var(--paper-deep));
+    }
+
+    .newton-lab::after {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -128px;
+      bottom: -142px;
+      border: 1px solid color-mix(in srgb, var(--gold) 25%, transparent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 34px color-mix(in srgb, var(--gold) 5%, transparent), 0 0 0 69px color-mix(in srgb, var(--gold) 4%, transparent);
+      content: '';
+      pointer-events: none;
+    }
+
+    .newton-formulas {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 132px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .newton-formula-card {
+      display: flex;
+      min-height: 158px;
+      padding: 20px 22px;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-node);
+      background: color-mix(in srgb, var(--paper) 90%, white);
+    }
+
+    .newton-formula-card.general {
+      border-color: color-mix(in srgb, var(--green) 30%, var(--line));
+      box-shadow: inset 4px 0 0 color-mix(in srgb, var(--green) 72%, transparent);
+    }
+
+    .newton-formula-card.familiar {
+      border-color: color-mix(in srgb, var(--red) 30%, var(--line));
+      box-shadow: inset 4px 0 0 color-mix(in srgb, var(--red) 72%, transparent);
+    }
+
+    .newton-formula-card span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+    }
+
+    .newton-formula-card b {
+      margin: 8px 0 5px;
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.8vw, 42px);
+      font-weight: 650;
+      letter-spacing: -.03em;
+    }
+
+    .newton-formula-card small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .formula-bridge {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .formula-bridge i {
+      position: relative;
+      display: block;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .formula-bridge i:first-child::after {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      right: 0;
+      top: -3px;
+      border-top: 1px solid var(--muted);
+      border-right: 1px solid var(--muted);
+      content: '';
+      transform: rotate(45deg);
+    }
+
+    .newton-simulator {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(220px, .72fr) minmax(360px, 1.28fr);
+      margin-top: 18px;
+      overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--ink) 22%, var(--line));
+      border-radius: 18px;
+      background: var(--ink);
+      box-shadow: 0 18px 45px rgba(35, 31, 26, .12);
+    }
+
+    .newton-controls {
+      display: grid;
+      gap: 20px;
+      align-content: center;
+      padding: 26px 25px;
+      color: var(--ink);
+      background: color-mix(in srgb, var(--paper) 92%, white);
+    }
+
+    .newton-control {
+      display: grid;
+      gap: 10px;
+    }
+
+    .control-label,
+    .range-scale {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .control-label label {
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .control-label output {
+      min-width: 52px;
+      padding: 5px 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-pill);
+      color: var(--red);
+      background: var(--paper);
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .newton-control input[type='range'] {
+      width: 100%;
+      height: 5px;
+      margin: 2px 0;
+      appearance: none;
+      border-radius: var(--radius-pill);
+      outline: none;
+      background: linear-gradient(90deg, var(--red), color-mix(in srgb, var(--red) 18%, var(--line)));
+      cursor: ew-resize;
+    }
+
+    .newton-control input[type='range']::-webkit-slider-thumb {
+      width: 19px;
+      height: 19px;
+      appearance: none;
+      border: 4px solid var(--paper);
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--red) 55%, var(--line)), 0 3px 9px rgba(35, 31, 26, .18);
+    }
+
+    .newton-control input[type='range']::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border: 4px solid var(--paper);
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--red) 55%, var(--line));
+    }
+
+    .range-scale {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .control-hint {
+      margin: 0;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .newton-stage {
+      display: grid;
+      min-height: 335px;
+      padding: 26px 28px 22px;
+      align-content: space-between;
+      color: #f4efe5;
+      background:
+        radial-gradient(circle at 72% 12%, rgba(198, 164, 89, .14), transparent 26%),
+        linear-gradient(145deg, #292b27, #1c1e1c);
+    }
+
+    .newton-readout span {
+      display: block;
+      color: rgba(244, 239, 229, .52);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+    }
+
+    .newton-readout b {
+      display: block;
+      margin-top: 5px;
+      font-family: var(--serif);
+      font-size: clamp(24px, 3.2vw, 35px);
+      font-weight: 500;
+    }
+
+    .newton-readout strong {
+      color: #d7bd79;
+      font-weight: 650;
+    }
+
+    .newton-track {
+      position: relative;
+      height: 94px;
+      margin: 24px 0 20px;
+      border-bottom: 2px solid rgba(244, 239, 229, .34);
+      background: repeating-linear-gradient(90deg, transparent 0, transparent 49px, rgba(244, 239, 229, .055) 50px);
+    }
+
+    .track-mark {
+      position: absolute;
+      bottom: -7px;
+      width: 1px;
+      height: 11px;
+      background: rgba(244, 239, 229, .38);
+    }
+
+    .mark-one { left: 16%; }
+    .mark-two { left: 50%; }
+    .mark-three { left: 84%; }
+
+    .newton-cart {
+      position: absolute;
+      width: 86px;
+      height: 48px;
+      left: var(--cart-position);
+      bottom: 11px;
+      border: 1px solid rgba(244, 239, 229, .5);
+      border-radius: 8px 8px 3px 3px;
+      background: linear-gradient(135deg, #c5624c, #9d3f31);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, .28);
+      transform: translateX(-50%);
+      transition: left 520ms cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .cart-load {
+      display: grid;
+      position: absolute;
+      width: 34px;
+      height: 29px;
+      left: 26px;
+      top: 9px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 4px;
+      color: rgba(255,255,255,.82);
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    .cart-wheel {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      bottom: -11px;
+      border: 3px solid #b9b4a9;
+      border-radius: 50%;
+      background: #252724;
+    }
+
+    .wheel-left { left: 12px; }
+    .wheel-right { right: 12px; }
+
+    .force-vector {
+      position: absolute;
+      width: var(--force-width);
+      max-width: 76px;
+      min-width: 34px;
+      right: calc(100% + 8px);
+      top: 22px;
+      border-top: 2px solid #d7bd79;
+      color: #d7bd79;
+      font-family: var(--serif);
+      font-size: 11px;
+      line-height: 0;
+      text-align: center;
+      transition: width 320ms ease;
+    }
+
+    .force-vector::after {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      right: -1px;
+      top: -5px;
+      border-top: 2px solid #d7bd79;
+      border-right: 2px solid #d7bd79;
+      content: '';
+      transform: rotate(45deg);
+    }
+
+    .newton-stage > p {
+      min-height: 43px;
+      margin: 0;
+      color: rgba(244, 239, 229, .68);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .newton-chain {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .newton-chain-card {
+      position: relative;
+      min-height: 177px;
+      padding: 19px 17px 16px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--paper) 90%, white);
+    }
+
+    .newton-chain-card::after {
+      position: absolute;
+      width: 46px;
+      height: 1px;
+      right: -28px;
+      top: 31px;
+      background: var(--red);
+      content: '';
+    }
+
+    .newton-chain-card:last-child::after { display: none; }
+
+    .newton-chain-card > span {
+      color: var(--red);
+      font-family: var(--serif);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+    }
+
+    .newton-chain-card b {
+      display: block;
+      margin: 17px 0 7px;
+      font-family: var(--serif);
+      font-size: 18px;
+    }
+
+    .newton-chain-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.65;
+    }
+
+    .newton-scope {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .newton-scope span {
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-pill);
+      color: var(--muted);
+      background: color-mix(in srgb, var(--paper) 86%, white);
+      font-size: 10px;
+      line-height: 1.2;
+    }
+
+    .newton-scope .scope-title {
+      border-color: var(--ink);
+      color: var(--paper);
+      background: var(--ink);
+      font-weight: 700;
+    }
+
+    .theory-boundary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 30px 0;
+    }
+
+    .theory-boundary > div {
+      padding: 22px 23px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+    }
+
+    .theory-boundary > div:first-child { border-top: 3px solid var(--gold); }
+    .theory-boundary > div:last-child { border-top: 3px solid var(--green); }
+
+    .theory-boundary span {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: .1em;
+    }
+
+    .theory-boundary b {
+      display: block;
+      margin: 9px 0 7px;
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .theory-boundary p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.75;
     }
 
     .xray {
@@ -1601,6 +2134,51 @@ const structuredData = JSON.stringify({
         text-align: left;
       }
 
+      .newton-formulas { grid-template-columns: 1fr; }
+
+      .newton-formula-card {
+        min-height: 132px;
+        padding: 18px 19px;
+      }
+
+      .newton-formula-card b { font-size: 31px; }
+
+      .formula-bridge {
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+      }
+
+      .formula-bridge i:first-child::after { display: none; }
+
+      .newton-simulator { grid-template-columns: 1fr; }
+      .newton-controls { padding: 23px 20px; }
+      .newton-stage { min-height: 305px; padding: 23px 20px 19px; }
+      .newton-track { margin-top: 18px; }
+      .newton-cart { width: 74px; }
+      .cart-load { left: 20px; }
+
+      .newton-chain {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .newton-chain-card {
+        min-height: auto;
+        padding: 17px 18px;
+      }
+
+      .newton-chain-card::after { display: none; }
+
+      .newton-chain-card b {
+        display: inline;
+        margin: 0 0 0 9px;
+        font-size: 17px;
+      }
+
+      .newton-chain-card p { margin-top: 8px; font-size: 12px; }
+      .newton-scope .scope-title { width: 100%; text-align: center; }
+      .theory-boundary { grid-template-columns: 1fr; margin: 28px 0; }
+
       .xray { grid-template-columns: 1fr; }
       .xray-claim { min-height: 150px; }
       .xray-part { grid-template-columns: 52px 1fr; }
@@ -1830,6 +2408,11 @@ const structuredData = JSON.stringify({
     .fact-opinion-page .hero .kicker {
       animation: none;
     }
+
+    .newton-cart,
+    .force-vector {
+      transition: none;
+    }
   }
 </style>
 
@@ -1849,6 +2432,14 @@ const structuredData = JSON.stringify({
     const openAction = document.getElementById('openAction');
     const openDelta = document.getElementById('openDelta');
     const openRule = document.getElementById('openRule');
+    const forceInput = document.getElementById('forceInput');
+    const massInput = document.getElementById('massInput');
+    const forceValue = document.getElementById('forceValue');
+    const massValue = document.getElementById('massValue');
+    const accelerationValue = document.getElementById('accelerationValue');
+    const newtonCart = document.getElementById('newtonCart');
+    const newtonPrediction = document.getElementById('newtonPrediction');
+    const newtonLab = newtonCart?.closest('.newton-lab');
     const outcomeStates = {
       up: {
         observed: '结果向好',
@@ -1921,12 +2512,36 @@ const structuredData = JSON.stringify({
       if (openRule) openRule.textContent = next.rule;
     };
 
+    const updateNewtonLab = () => {
+      if (!forceInput || !massInput || !newtonLab) return;
+
+      const force = Number(forceInput.value);
+      const mass = Number(massInput.value);
+      const acceleration = force / mass;
+      const accelerationLabel = acceleration.toFixed(1);
+      const massLabel = Number.isInteger(mass) ? mass.toFixed(0) : mass.toFixed(1);
+      const normalizedAcceleration = Math.min(1, Math.max(0, (acceleration - 0.2) / 9.8));
+
+      if (forceValue) forceValue.textContent = `${force} N`;
+      if (massValue) massValue.textContent = `${massLabel} kg`;
+      if (accelerationValue) accelerationValue.textContent = accelerationLabel;
+      if (newtonPrediction) {
+        newtonPrediction.textContent = `${force} N 的合外力作用在 ${massLabel} kg 的小车上，模型预测加速度为 ${accelerationLabel} m/s²。`;
+      }
+
+      newtonLab.style.setProperty('--cart-position', `${18 + normalizedAcceleration * 64}%`);
+      newtonLab.style.setProperty('--force-width', `${34 + ((force - 1) / 9) * 42}px`);
+    };
+
     window.addEventListener('scroll', updateProgress, { passive: true });
     checks.forEach((check) => check.addEventListener('change', updateAudit));
     outcomeButtons.forEach((button) => {
       button.addEventListener('click', () => updateOutcome(button.dataset.outcomeChoice));
     });
+    forceInput?.addEventListener('input', updateNewtonLab);
+    massInput?.addEventListener('input', updateNewtonLab);
     updateProgress();
+    updateNewtonLab();
     updateOutcome('up');
     updateAudit();
   })();
