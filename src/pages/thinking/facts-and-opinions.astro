@@ -168,29 +168,114 @@ const structuredData = JSON.stringify({
         <section class="chapter" id="beliefs">
           <span class="chapter-mark">四</span>
           <h2>不可证伪观点：它的功能不是预测，而是免于失败</h2>
-          <p class="lead">不可证伪观点最典型的结构是：结果向好时，说这是偶然、外力或暂时现象；结果稳定时，说时间还不够长；结果转坏时，说现实终于验证了原判断。</p>
+          <p class="lead">不可证伪并不等于“现在还没有足够证据”，而是一个判断没有预先承诺任何可能使它失败的观察。它可以不断更换解释、期限和口径，让所有后来发生的结果都继续保护原结论。</p>
 
-          <div class="visual-block">
+          <div class="visual-block falsify-lab" data-outcome="up">
             <div class="visual-head">
-              <h3>它如何吞掉所有结果</h3>
-              <p>看似解释了一切，实际没有排除任何可能，因此几乎没有提供可检验的信息。</p>
+              <h3>给观点一次证据压力测试</h3>
+              <p>选择一种现实结果，观察封闭模型和开放模型如何处理同一份证据。</p>
             </div>
-            <div class="belief-flow" role="img" aria-label="向好稳定和转坏都被翻译成原观点正确">
-              <div class="outcome">结果向好</div><div class="arrow">→</div><div class="translation">偶然、外力、暂时</div>
-              <div class="outcome">结果稳定</div><div class="arrow">→</div><div class="translation">时间还不够长</div>
-              <div class="outcome">结果转坏</div><div class="arrow">→</div><div class="translation">终于验证了我</div>
-              <div class="arrow merge-arrow">↓　↓　↓</div>
-              <div class="fixed-belief"><b>原观点仍然正确</b><small>没有任何现实路径能够让它失败</small></div>
+
+            <div class="outcome-switcher" role="group" aria-label="选择现实结果">
+              <button type="button" class="outcome-button is-active" data-outcome-choice="up" aria-pressed="true">
+                <span>01</span><b>结果向好</b><small>表现持续改善</small>
+              </button>
+              <button type="button" class="outcome-button" data-outcome-choice="flat" aria-pressed="false">
+                <span>02</span><b>结果稳定</b><small>没有明显变化</small>
+              </button>
+              <button type="button" class="outcome-button" data-outcome-choice="down" aria-pressed="false">
+                <span>03</span><b>结果转坏</b><small>表现明显恶化</small>
+              </button>
             </div>
-            <div class="benefits" aria-label="封闭观点的三种心理收益">
-              <div class="benefit"><b>认知成本低</b><small>一个标签替代对变量和机制的持续分析</small></div>
-              <div class="benefit"><b>不确定性更少</b><small>获得“我已经看懂”的稳定感</small></div>
-              <div class="benefit"><b>身份受到保护</b><small>不必承认过去判断可能有误</small></div>
+
+            <div class="model-compare" aria-live="polite">
+              <article class="belief-model belief-model-closed">
+                <header><span>Closed model</span><b>封闭模型</b></header>
+                <p class="model-premise">核心结论：“它本质上不行。”</p>
+                <div class="model-route">
+                  <span id="closedObserved">结果向好</span>
+                  <i>→</i>
+                  <span id="closedRescue">偶然、外力、暂时</span>
+                  <i>→</i>
+                  <strong>原观点不变</strong>
+                </div>
+                <div class="confidence-line"><span>证据影响</span><b>0</b><small>任何结果都被吸收</small></div>
+              </article>
+
+              <article class="belief-model belief-model-open">
+                <header><span>Open model</span><b>开放模型</b></header>
+                <p class="model-premise">暂时假设：“在这些条件下，它可能失败。”</p>
+                <div class="model-route">
+                  <span id="openObserved">结果向好</span>
+                  <i>→</i>
+                  <span id="openReading">与原预测冲突</span>
+                  <i>→</i>
+                  <strong id="openAction">下调置信度</strong>
+                </div>
+                <div class="confidence-line"><span>证据影响</span><b id="openDelta">−</b><small id="openRule">按事前规则更新</small></div>
+              </article>
+            </div>
+
+            <div class="difference-strip">
+              <span>真正的差别</span>
+              <p>不在于谁此刻更正确，而在于有没有一种未来结果，能够迫使自己承认“原来的模型需要修改”。</p>
             </div>
           </div>
 
-          <p>这类观点更像一套信念的免疫系统：新事实不是用来更新模型的，而是被重新翻译成支持旧结论的材料。尤其当观点已经与“我是清醒的人”“我不会被欺骗”“我比多数人更懂”绑定时，修改观点便不再只是改一个判断，而像是在承认判断力和自我形象出了问题。</p>
-          <p>这也解释了为什么工作能力很强的人，在某些领域仍会显得像“降智”。专业能力、智力和一般理性并不是同一件事，严谨方法也不会自动从专业场景迁移到所有场景。能力强的人甚至可能更善于为既有立场组织材料，使偏见变得更精致，而不一定更容易放弃偏见。</p>
+          <p>封闭观点并不是拒绝事实；它更常见的做法，是接受事实的存在，却夺走事实改变结论的权力。结果可以进入系统，但在到达核心观点之前，会先经过一层解释防火墙：不利证据被降格为例外，有利证据被提升为本质，模糊证据则被用来延长期限。</p>
+
+          <div class="visual-block immunity-block">
+            <div class="visual-head">
+              <h3>信念的免疫系统</h3>
+              <p>核心观点不直接面对现实。四种“救援动作”会在证据靠近时重新定义它。</p>
+            </div>
+
+            <div class="immunity-system" role="img" aria-label="新证据经过四种救援动作后保护核心观点">
+              <div class="evidence-input">
+                <span>Reality</span>
+                <b>新证据进入</b>
+                <small>结果与原判断不一致</small>
+              </div>
+
+              <div class="defense-layer">
+                <div class="defense-layer-title"><span>Interpretation firewall</span><b>解释防火墙</b></div>
+                <div class="defense-grid">
+                  <div class="defense-card"><span>01</span><b>移动期限</b><small>“再等等，真正结果还没出现。”</small></div>
+                  <div class="defense-card"><span>02</span><b>切换口径</b><small>“这个指标不能说明真正问题。”</small></div>
+                  <div class="defense-card"><span>03</span><b>追加隐因</b><small>“决定性原因暂时看不见。”</small></div>
+                  <div class="defense-card"><span>04</span><b>重画样本</b><small>“这些反例恰好都不算数。”</small></div>
+                </div>
+              </div>
+
+              <div class="belief-core">
+                <span>Protected core</span>
+                <div class="belief-lock" aria-hidden="true"><i></i></div>
+                <b>原观点仍然正确</b>
+                <small>证据被修改，核心保持不动</small>
+              </div>
+            </div>
+
+            <div class="belief-payoffs" aria-label="封闭观点的三种心理收益">
+              <div><span>01</span><b>节省认知成本</b><small>一个稳定标签替代持续分析</small></div>
+              <div><span>02</span><b>压低不确定感</b><small>维持“我已经看懂”的确定性</small></div>
+              <div><span>03</span><b>保护自我身份</b><small>不用承认判断力可能出了问题</small></div>
+            </div>
+          </div>
+
+          <p>尤其当观点已经与“我是清醒的人”“我不会被欺骗”“我比多数人更懂”绑定时，修改观点便不再只是更新一个判断，而像是在承认自己的判断力和身份出了问题。能力强的人甚至可能更善于为既有立场组织材料，使偏见变得更复杂、更精致，却没有因此变得更开放。</p>
+
+          <div class="falsify-boundary">
+            <article>
+              <span>仍可检验</span>
+              <b>“目前证据不足，我需要十二个月、三个指标和一个失败阈值。”</b>
+              <p>它只是暂时没有答案，但已经说明什么结果会改变判断。</p>
+            </article>
+            <article>
+              <span>不可证伪</span>
+              <b>“无论出现什么结果，都说明我对它本质的判断是对的。”</b>
+              <p>它不是预测困难，而是从一开始就没有允许现实否定自己。</p>
+            </article>
+          </div>
 
           <div class="visual-block">
             <div class="visual-head"><h3>评论区不是总体样本</h3><p>“几乎所有评论都这样”可以准确描述所见，却不能直接推出社会中的大多数人都这样思考。</p></div>
@@ -783,68 +868,382 @@ const structuredData = JSON.stringify({
       font-size: 14px;
     }
 
-    .belief-flow {
+    .falsify-lab {
+      --outcome-accent: var(--green);
+      --outcome-soft: var(--green-soft);
+      background:
+        linear-gradient(rgba(24, 20, 17, .028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(24, 20, 17, .028) 1px, transparent 1px),
+        var(--paper-soft);
+      background-size: 28px 28px;
+    }
+
+    .falsify-lab[data-outcome="flat"] {
+      --outcome-accent: var(--gold);
+      --outcome-soft: var(--gold-soft);
+    }
+
+    .falsify-lab[data-outcome="down"] {
+      --outcome-accent: var(--red);
+      --outcome-soft: var(--red-soft);
+    }
+
+    .outcome-switcher {
       display: grid;
-      grid-template-columns: 1fr 28px 1.2fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 9px;
-      align-items: center;
+      margin-bottom: 18px;
     }
 
-    .outcome,
-    .translation {
+    .outcome-button {
       display: grid;
-      min-height: 66px;
-      padding: 12px;
-      place-items: center;
+      min-height: 92px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
       border-radius: var(--radius-node);
+      color: var(--muted);
+      background: color-mix(in srgb, var(--paper) 88%, transparent);
+      text-align: left;
+      cursor: pointer;
+      transition:
+        border-color 280ms ease,
+        background-color 280ms ease,
+        color 280ms ease,
+        transform 280ms ease;
+    }
+
+    .outcome-button:hover { transform: translateY(-2px); }
+
+    .outcome-button.is-active {
+      border-color: color-mix(in srgb, var(--outcome-accent) 45%, var(--line));
+      color: var(--ink);
+      background: var(--outcome-soft);
+    }
+
+    .outcome-button span {
+      color: var(--outcome-accent);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .12em;
+    }
+
+    .outcome-button b { margin: 5px 0 1px; font-size: 14px; }
+    .outcome-button small { font-size: 11px; }
+
+    .model-compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .belief-model {
+      position: relative;
+      min-width: 0;
+      padding: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--paper);
+    }
+
+    .belief-model::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 5px;
+      height: 100%;
+      background: var(--red);
+      opacity: .75;
+    }
+
+    .belief-model-open::after { background: var(--green); }
+
+    .belief-model header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .belief-model header span {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .belief-model header b { font-family: var(--serif); font-size: 19px; }
+
+    .model-premise {
+      min-height: 53px;
+      margin: 14px 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .model-route {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 18px minmax(0, 1.15fr) 18px minmax(0, 1fr);
+      align-items: stretch;
+      gap: 4px;
+    }
+
+    .model-route span,
+    .model-route strong {
+      display: grid;
+      min-height: 72px;
+      padding: 8px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper-soft);
       text-align: center;
-      font-size: 13px;
-      line-height: 1.45;
+      font-size: 11px;
+      line-height: 1.4;
     }
 
-    .outcome {
-      border: 1px solid color-mix(in srgb, var(--blue) 26%, var(--line));
-      background: var(--blue-soft);
+    .model-route span:first-child {
+      border-color: color-mix(in srgb, var(--outcome-accent) 35%, var(--line));
+      background: var(--outcome-soft);
     }
 
-    .translation {
-      border: 1px solid color-mix(in srgb, var(--gold) 28%, var(--line));
+    .belief-model-closed .model-route strong {
+      color: #f8f5ec;
+      background: var(--red);
+    }
+
+    .belief-model-open .model-route strong {
+      color: #f8f5ec;
+      background: var(--green);
+    }
+
+    .model-route i {
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-style: normal;
+      font-size: 11px;
+    }
+
+    .confidence-line {
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      gap: 8px;
+      align-items: center;
+      margin-top: 13px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 10px;
+    }
+
+    .confidence-line > span { color: var(--muted); }
+    .confidence-line > b { color: var(--red); font-size: 19px; line-height: 1; }
+    .belief-model-open .confidence-line > b { color: var(--green); }
+    .confidence-line > small { color: var(--muted); text-align: right; }
+
+    .difference-strip {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--gold);
       background: var(--gold-soft);
     }
 
-    .merge-arrow {
-      grid-column: 1 / -1;
-      min-height: 34px;
+    .difference-strip span {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
     }
 
-    .fixed-belief {
-      grid-column: 1 / -1;
-      padding: 19px;
-      border-radius: var(--radius-node);
-      color: #f8f5ec;
-      background: linear-gradient(135deg, #14594d, #173f38);
+    .difference-strip p { font-size: 13px; line-height: 1.65; }
+
+    .immunity-block {
+      background: color-mix(in srgb, var(--paper-soft) 74%, var(--green-soft));
+    }
+
+    .immunity-system {
+      display: grid;
+      grid-template-columns: .72fr 1.8fr .9fr;
+      gap: 13px;
+      align-items: stretch;
+    }
+
+    .evidence-input,
+    .belief-core {
+      display: flex;
+      min-height: 250px;
+      padding: 18px;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 18px;
       text-align: center;
     }
 
-    .fixed-belief b { display: block; margin-bottom: 3px; }
-    .fixed-belief small { color: rgba(255,255,255,.72); }
+    .evidence-input { background: var(--blue-soft); }
 
-    .benefits {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 18px;
+    .evidence-input span,
+    .belief-core > span,
+    .defense-layer-title span {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
     }
 
-    .benefit {
-      padding: 15px;
+    .evidence-input b,
+    .belief-core > b { margin: 8px 0; font-family: var(--serif); font-size: 18px; }
+    .evidence-input small,
+    .belief-core > small { color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    .defense-layer {
+      padding: 16px;
+      border: 1px solid color-mix(in srgb, var(--gold) 35%, var(--line));
+      border-radius: 18px;
+      background: var(--gold-soft);
+    }
+
+    .defense-layer-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .defense-layer-title b { font-family: var(--serif); font-size: 17px; }
+
+    .defense-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .defense-card {
+      min-height: 96px;
+      padding: 11px;
+      border: 1px solid color-mix(in srgb, var(--gold) 23%, var(--line));
+      border-radius: 11px;
+      background: color-mix(in srgb, var(--paper) 80%, transparent);
+    }
+
+    .defense-card span {
+      color: var(--red);
+      font-family: var(--mono);
+      font-size: 9px;
+    }
+
+    .defense-card b { display: block; margin: 3px 0; font-size: 12px; }
+    .defense-card small { color: var(--muted); font-size: 10px; line-height: 1.45; }
+
+    .belief-core {
+      color: #f8f5ec;
+      background:
+        radial-gradient(circle at 50% 45%, rgba(255,255,255,.08), transparent 35%),
+        linear-gradient(145deg, #181411, #315f55);
+    }
+
+    .belief-core > span,
+    .belief-core > small { color: rgba(248,245,236,.66); }
+
+    .belief-lock {
+      position: relative;
+      width: 42px;
+      height: 36px;
+      margin: 17px auto 3px;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+    }
+
+    .belief-lock::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      bottom: calc(100% - 3px);
+      width: 22px;
+      height: 20px;
+      border: 2px solid var(--gold);
+      border-bottom: 0;
+      border-radius: 14px 14px 0 0;
+    }
+
+    .belief-lock i {
+      position: absolute;
+      top: 13px;
+      left: 17px;
+      width: 5px;
+      height: 10px;
+      border-radius: 4px;
+      background: var(--gold);
+    }
+
+    .belief-payoffs {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 13px;
+    }
+
+    .belief-payoffs > div {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3px 9px;
+      padding: 13px;
       border: 1px solid color-mix(in srgb, var(--violet) 22%, var(--line));
-      border-radius: var(--radius-node);
+      border-radius: 12px;
       background: var(--violet-soft);
     }
 
-    .benefit b { display: block; margin-bottom: 4px; font-size: 13px; }
-    .benefit small { color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .belief-payoffs span {
+      grid-row: span 2;
+      color: var(--violet);
+      font-family: var(--mono);
+      font-size: 9px;
+    }
+
+    .belief-payoffs b { font-size: 12px; }
+    .belief-payoffs small { color: var(--muted); font-size: 10px; line-height: 1.45; }
+
+    .falsify-boundary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin: 40px 0;
+    }
+
+    .falsify-boundary article {
+      padding: 23px;
+      border: 1px solid color-mix(in srgb, var(--green) 28%, var(--line));
+      border-radius: var(--radius-panel);
+      background: var(--green-soft);
+    }
+
+    .falsify-boundary article + article {
+      border-color: color-mix(in srgb, var(--red) 28%, var(--line));
+      background: var(--red-soft);
+    }
+
+    .falsify-boundary span {
+      display: inline-block;
+      margin-bottom: 13px;
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+    }
+
+    .falsify-boundary article + article span { color: var(--red); }
+    .falsify-boundary b { display: block; font-family: var(--serif); font-size: 18px; line-height: 1.65; }
+    .falsify-boundary p { margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.65; }
 
     .sample-funnel {
       display: grid;
@@ -1235,8 +1634,37 @@ const structuredData = JSON.stringify({
 
       .lane-step { min-height: 58px; }
 
-      .benefits { grid-template-columns: 1fr; }
-      .benefit { min-height: 78px; }
+      .outcome-switcher { gap: 6px; }
+
+      .outcome-button {
+        min-height: 82px;
+        padding: 10px;
+      }
+
+      .outcome-button small { display: none; }
+      .model-compare { grid-template-columns: 1fr; }
+
+      .belief-model { padding: 16px; }
+
+      .model-route {
+        grid-template-columns: minmax(0, 1fr) 14px minmax(0, 1.15fr) 14px minmax(0, 1fr);
+      }
+
+      .model-route span,
+      .model-route strong {
+        min-height: 66px;
+        padding: 6px;
+        font-size: 10px;
+      }
+
+      .difference-strip { grid-template-columns: 1fr; gap: 5px; }
+      .immunity-system { grid-template-columns: 1fr; }
+
+      .evidence-input,
+      .belief-core { min-height: 150px; }
+
+      .belief-payoffs,
+      .falsify-boundary { grid-template-columns: 1fr; }
 
       .sample-funnel {
         grid-template-columns: 1fr;
@@ -1412,6 +1840,41 @@ const structuredData = JSON.stringify({
     const gauge = document.getElementById('auditGauge');
     const score = document.getElementById('auditScore');
     const status = document.getElementById('auditStatus');
+    const falsifyLab = document.querySelector('.falsify-lab');
+    const outcomeButtons = [...document.querySelectorAll('[data-outcome-choice]')];
+    const closedObserved = document.getElementById('closedObserved');
+    const closedRescue = document.getElementById('closedRescue');
+    const openObserved = document.getElementById('openObserved');
+    const openReading = document.getElementById('openReading');
+    const openAction = document.getElementById('openAction');
+    const openDelta = document.getElementById('openDelta');
+    const openRule = document.getElementById('openRule');
+    const outcomeStates = {
+      up: {
+        observed: '结果向好',
+        rescue: '偶然、外力、暂时',
+        reading: '与原预测冲突',
+        action: '下调置信度',
+        delta: '−',
+        rule: '承认反证并检查替代模型',
+      },
+      flat: {
+        observed: '结果稳定',
+        rescue: '时间还不够长',
+        reading: '预测暂未兑现',
+        action: '保留但降权',
+        delta: '↓',
+        rule: '到期仍无变化就调整模型',
+      },
+      down: {
+        observed: '结果转坏',
+        rescue: '终于验证了我',
+        reading: '与预测方向一致',
+        action: '有限上调',
+        delta: '+',
+        rule: '继续排除巧合与替代解释',
+      },
+    };
     const messages = [
       '目前更像一个标签：现实还没有可以反驳它的入口。',
       '开始接触事实，但判断仍然很容易吸收任何结果。',
@@ -1438,9 +1901,33 @@ const structuredData = JSON.stringify({
       gauge.setAttribute('aria-label', `模型开放入口${count}项，共六项`);
     };
 
+    const updateOutcome = (choice) => {
+      const next = outcomeStates[choice];
+      if (!next || !falsifyLab) return;
+
+      falsifyLab.dataset.outcome = choice;
+      outcomeButtons.forEach((button) => {
+        const active = button.dataset.outcomeChoice === choice;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+
+      if (closedObserved) closedObserved.textContent = next.observed;
+      if (closedRescue) closedRescue.textContent = next.rescue;
+      if (openObserved) openObserved.textContent = next.observed;
+      if (openReading) openReading.textContent = next.reading;
+      if (openAction) openAction.textContent = next.action;
+      if (openDelta) openDelta.textContent = next.delta;
+      if (openRule) openRule.textContent = next.rule;
+    };
+
     window.addEventListener('scroll', updateProgress, { passive: true });
     checks.forEach((check) => check.addEventListener('change', updateAudit));
+    outcomeButtons.forEach((button) => {
+      button.addEventListener('click', () => updateOutcome(button.dataset.outcomeChoice));
+    });
     updateProgress();
+    updateOutcome('up');
     updateAudit();
   })();
 </script>
