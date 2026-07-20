@@ -272,6 +272,16 @@ const structuredData = JSON.stringify({
               <small>条形长度只演示相对更新，不是统计概率。</small>
             </div>
 
+            <div class="surprise-rule" aria-label="用模型之间的惊讶差判断证据区分力">
+              <header><span>操作规则</span><b>比较“惊讶差”，不是寻找绝对罕见</b></header>
+              <ol>
+                <li><b>01 · 事前估计</b><span>若模型成立，E 出现的概率有多高？</span></li>
+                <li><b>02 · 横向比较</b><span>哪个模型预先更不意外，哪个只是事后说得通？</span></li>
+                <li><b>03 · 相对更新</b><span>只有模型间预期不同，E 才真正拉开支持差距。</span></li>
+              </ol>
+              <p>如果 E 对 A、B、C 同样意外，它再罕见也缺少区分力；如果 A 事前就认为 E 更可能，而 B、C 没有，E 才会提高 A 的相对支持。</p>
+            </div>
+
             <div class="model-validity">
               <div><span>建模时可能影响我们</span><b>先验 · 情绪 · 身份 · 群体叙事</b><p>它们会影响先想到什么、愿意检查什么。</p></div>
               <i>≠</i>
@@ -279,7 +289,7 @@ const structuredData = JSON.stringify({
             </div>
           </div>
 
-          <p>一个解释变强，不是因为不断找到与它相容的材料，而是因为它比竞争解释更准确地预告了后来会出现什么。相容性只说明模型没有立刻失败；区分性证据才会真正改变不同模型之间的相对支持。</p>
+          <p>一个解释变强，不是因为不断找到与它相容的材料，而是因为它比竞争解释更准确地预告了后来会出现什么。相容性只说明模型没有立刻失败；区分性证据才会真正改变不同模型之间的相对支持。日常判断不必精确计算概率，但至少可以先问：“昨天还没看到这条证据时，各模型会有多意外？”</p>
           <p>评价也需要从解释中分开。“模型 A 比模型 B 更符合现有证据”是比较判断；“模型 B 毫无价值”则额外加入了评价标准。先验、情绪和身份会影响人先想到哪个模型，却不能替代模型本身接受证据检验。</p>
         </section>
 
@@ -457,7 +467,7 @@ const structuredData = JSON.stringify({
             </div>
           </div>
 
-          <p>两种叙事形式完全对称。问题不在看多或看空，而在模型是否提前规定了失败条件。如果任何价格路径都能保留原结论，它就不是在承担预测风险，而是在利用市场噪声保护立场。</p>
+          <p>这里对称的只是叙事救援的形式，不是双方的证据质量。若一方给出可复核的数据、因果链条、时间阈值和反证条件，另一方只有“涨太多了”或“迟早会涨”这样的情绪标签，两者并不对称。问题不在看多或看空，而在每一方是否承担了被现实修改的风险；如果任何价格路径都能保留原结论，它就只是在利用市场噪声保护立场。</p>
           <p>投资中的“事实”还需要口径纪律。股价、成交额、收入、利润率、订单、现金流和市场份额可以是事实，但必须带上时间、范围、单位、分母和来源；“资金认可”“增长有质量”“只是周期反弹”“估值一定会修复”则属于解释或预测。持仓也会改变信息处理：买入后容易为自己的选择辩护，卖出或错过后也容易寻找它不值得上涨的理由。</p>
           <p>因此，复盘不能只问“最后赚了还是亏了”，还要回到事前记录：信息是否真实，解释是否与替代模型竞争，预测是否给出期限和阈值，行动是否遵守原有约束。若长期笼统地说“以后会下降”，任何对象总会有下降的月份；真正需要检验的是，它是否在事先窗口内达到阈值，是否由所说机制导致，以及什么结果原本应当让观点反转。</p>
         </section>
@@ -510,8 +520,36 @@ const structuredData = JSON.stringify({
             <small class="audit-recap-hint">这里的修改会同步到开头，不会打断当前阅读位置。</small>
           </div>
 
+          <div class="audit-budget">
+            <header>
+              <span>Stop rule · 审计也有成本</span>
+              <h3>什么时候可以合法地停止审计</h3>
+              <p>目标不是把每个判断都分析到底，而是把审计预算留给高代价、难逆转和高不确定的决定。</p>
+            </header>
+            <div>
+              <article><span>01</span><b>低代价且可逆</b><p>错误容易纠正，继续分析的成本高于一次试错。</p></article>
+              <article><span>02</span><b>已有稳定校准</b><p>同类判断反复记录过，直觉表现长期稳定，而非只记得成功。</p></article>
+              <article><span>03</span><b>决策窗口将关闭</b><p>继续审计带来的预期改善，已经小于时间与机会成本。</p></article>
+            </div>
+            <strong>停止审计不是拒绝修正，而是预先说明：为什么此刻继续分析不再值得。</strong>
+          </div>
+
           <p>慢思考在这里不是无限延长分析，而是在关键节点建立一道间隔：先确认“我看到的是什么”，再标明“我补上的是什么”。事实更新时，检查模型是否仍然适用；模型失败时，修改解释，而不是通过移动期限、改变口径或追加新理由使原结论永远正确。对概率问题，也不追求一次性宣布“我对了”，而看预测在多次判断中是否校准、是否比替代模型更有效。</p>
           <p>最终，事实与观点的边界并不要求人变得没有立场，而要求人清楚自己的立场站在哪一层。成熟的判断不是“我没有观点”，也不是“我的观点就是真相”，而是：“这是我基于当前事实形成的解释，它依赖这些假设，也可能被这些结果推翻。”</p>
+
+          <div class="self-audit">
+            <header>
+              <span>Self-audit · 把工具也放回边界内</span>
+              <h3>这篇文章能被自己的审计器审计吗？</h3>
+              <p>能，但不能粗暴地只算一个总分。本文混合了三类主张，而开头的四维量表主要适合经验、因果与预测判断。</p>
+            </header>
+            <div class="self-audit-grid">
+              <article><span>经验主张</span><b>接受证据审计</b><p>检查事实来源、竞争解释、预测精度与失败条件。</p></article>
+              <article><span>规范主张</span><b>接受理由审计</b><p>公开价值前提、适用范围、冲突代价与反例；不能因为“主观”就免于论证。</p></article>
+              <article><span>工具主张</span><b>接受实践审计</b><p>观察它是否改善校准与复盘质量；若收益不足或成本过高，工具本身也应修改。</p></article>
+            </div>
+            <strong>“重要判断应给现实留下修改入口”是一项规范主张。承认量表无法单独证明它，不是让本文免于审计，而是把它放到正确的审计层级。</strong>
+          </div>
 
           <div class="closing">
             <small>Final thought</small>
@@ -1929,6 +1967,71 @@ const structuredData = JSON.stringify({
       font-size: 12px;
     }
 
+    .surprise-rule {
+      margin-top: 12px;
+      padding: 18px 19px;
+      border: 1px solid color-mix(in srgb, var(--gold) 28%, var(--line));
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--gold-soft) 58%, var(--paper));
+    }
+
+    .surprise-rule header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .surprise-rule header span {
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .surprise-rule header b {
+      color: var(--green);
+      font-family: var(--serif);
+      font-size: 17px;
+    }
+
+    .surprise-rule ol {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      margin: 14px 0 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .surprise-rule li {
+      min-height: 92px;
+      padding: 12px 13px;
+      border: 1px solid color-mix(in srgb, var(--gold) 20%, var(--line));
+      border-radius: 11px;
+      background: color-mix(in srgb, var(--paper) 88%, white);
+    }
+
+    .surprise-rule li b {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--green);
+      font-size: 13px;
+    }
+
+    .surprise-rule li span,
+    .surprise-rule > p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .surprise-rule > p {
+      margin: 0;
+      padding-top: 11px;
+      border-top: 1px solid color-mix(in srgb, var(--gold) 22%, var(--line));
+    }
+
     .model-validity {
       display: grid;
       grid-template-columns: 1fr 44px 1fr;
@@ -3124,6 +3227,168 @@ const structuredData = JSON.stringify({
       line-height: 1.55;
     }
 
+    .audit-budget {
+      margin: 42px 0;
+      padding: 27px;
+      border: 1px solid color-mix(in srgb, var(--blue) 28%, var(--line));
+      border-radius: var(--radius-panel);
+      background:
+        radial-gradient(circle at 94% 7%, rgba(55, 104, 135, .11), transparent 27%),
+        color-mix(in srgb, var(--blue-soft) 62%, var(--paper));
+    }
+
+    .audit-budget header {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 5px 18px;
+      align-items: baseline;
+    }
+
+    .audit-budget header > span {
+      grid-row: span 2;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .audit-budget h3 { color: var(--green); }
+
+    .audit-budget header p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .audit-budget > div {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 18px 0 15px;
+    }
+
+    .audit-budget article {
+      min-height: 138px;
+      padding: 15px;
+      border: 1px solid color-mix(in srgb, var(--blue) 18%, var(--line));
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--paper) 90%, white);
+    }
+
+    .audit-budget article span {
+      color: var(--blue);
+      font-family: var(--serif);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .audit-budget article b {
+      display: block;
+      margin: 11px 0 6px;
+      font-size: 15px;
+    }
+
+    .audit-budget article p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .audit-budget > strong {
+      display: block;
+      padding-top: 14px;
+      border-top: 1px solid color-mix(in srgb, var(--blue) 22%, var(--line));
+      color: var(--green);
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .self-audit {
+      margin: 46px 0 36px;
+      padding: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius-panel);
+      color: #f6f1e7;
+      background:
+        radial-gradient(circle at 92% 6%, rgba(223, 195, 117, .16), transparent 27%),
+        linear-gradient(145deg, #1b201e, #242b27 62%, #302820);
+    }
+
+    .self-audit header > span {
+      display: block;
+      margin-bottom: 11px;
+      color: #dfc675;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .self-audit h3 {
+      color: #f6f1e7;
+      font-size: 27px;
+    }
+
+    .self-audit header p {
+      max-width: 720px;
+      margin: 9px 0 0;
+      color: rgba(246,241,231,.7);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .self-audit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 20px 0;
+    }
+
+    .self-audit-grid article {
+      min-height: 150px;
+      padding: 16px;
+      border: 1px solid rgba(246,241,231,.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,.045);
+    }
+
+    .self-audit-grid span {
+      color: #dfc675;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .05em;
+    }
+
+    .self-audit-grid b {
+      display: block;
+      margin: 10px 0 7px;
+      color: #f6f1e7;
+      font-family: var(--serif);
+      font-size: 17px;
+    }
+
+    .self-audit-grid p {
+      margin: 0;
+      color: rgba(246,241,231,.66);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .self-audit > strong {
+      display: block;
+      padding-top: 17px;
+      border-top: 1px solid rgba(246,241,231,.14);
+      color: #e4cd8f;
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
     .quote {
       margin: 40px 0;
       padding: 28px 31px;
@@ -3520,6 +3785,21 @@ const structuredData = JSON.stringify({
 
       .evidence-verdict > span { grid-row: auto; }
 
+      .surprise-rule { padding: 16px; }
+
+      .surprise-rule header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .surprise-rule ol {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .surprise-rule li { min-height: auto; }
+
       .model-validity {
         grid-template-columns: 1fr;
         gap: 8px;
@@ -3727,6 +4007,45 @@ const structuredData = JSON.stringify({
         gap: 6px;
       }
 
+      .audit-budget {
+        margin: 34px -3px;
+        padding: 20px;
+      }
+
+      .audit-budget header { grid-template-columns: 1fr; }
+      .audit-budget header > span { grid-row: auto; }
+
+      .audit-budget > div {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .audit-budget article {
+        display: grid;
+        grid-template-columns: 34px minmax(0, 1fr);
+        gap: 3px 9px;
+        min-height: auto;
+        padding: 13px 14px;
+      }
+
+      .audit-budget article span { grid-row: span 2; }
+      .audit-budget article b { margin: 0; }
+      .audit-budget article p { grid-column: 2; }
+
+      .self-audit {
+        margin: 38px -3px 31px;
+        padding: 22px 20px;
+      }
+
+      .self-audit h3 { font-size: 24px; }
+
+      .self-audit-grid {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .self-audit-grid article { min-height: auto; }
+
       .quote { padding: 23px 21px; border-radius: 18px; font-size: 20px; }
       .closing { padding: 31px 21px; border-radius: 18px; }
       .closing p { font-size: 24px; }
@@ -3759,7 +4078,7 @@ const structuredData = JSON.stringify({
       .hero { min-height: auto; padding: 45px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
       .kicker { margin: 20px 0 35px; }
       .content { padding: 10px 45px 40px; }
-      .visual-block, .quote, .closing { break-inside: avoid; }
+      .visual-block, .audit-budget, .self-audit, .quote, .closing { break-inside: avoid; }
       .footer { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
     }
   
@@ -4129,7 +4448,7 @@ const structuredData = JSON.stringify({
 
     const setupReveals = () => {
       const page = document.querySelector('.fact-opinion-page');
-      const targets = [...document.querySelectorAll('.hero, .visual-block, .theory-boundary, .falsify-boundary, .quote, .closing')];
+      const targets = [...document.querySelectorAll('.hero, .visual-block, .theory-boundary, .falsify-boundary, .audit-budget, .self-audit, .quote, .closing')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!page || reduceMotion || !('IntersectionObserver' in window)) return;
 
