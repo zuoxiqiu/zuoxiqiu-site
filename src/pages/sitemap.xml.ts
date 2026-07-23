@@ -20,7 +20,15 @@ export const GET: APIRoute = async () => {
     getCollection('mvp'),
   ]);
 
-  const staticPages = ['/', '/thinking/', '/ideas/', '/mvp/', '/about/'];
+  const bookPages = [
+    '/thinking-fast-slow/',
+    ...Array.from({ length: 38 }, (_, index) => `/thinking-fast-slow/chapters/${index + 1}/`),
+    '/thinking-fast-slow/read/preface/',
+    '/thinking-fast-slow/read/conclusion/',
+    '/thinking-fast-slow/read/appendix-a/',
+    '/thinking-fast-slow/read/appendix-b/',
+  ];
+  const staticPages = ['/', '/thinking/', '/ideas/', '/mvp/', '/about/', ...bookPages];
   const contentPages = [
     ...thinking.map((entry) => ({ path: `/thinking/${entry.id}/`, date: entry.data.date })),
     ...ideas.map((entry) => ({ path: `/ideas/${entry.id}/`, date: entry.data.date })),
