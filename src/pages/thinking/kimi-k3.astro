@@ -1,0 +1,1136 @@
+---
+const description = 'Kimi K3 技术报告的零基础完整导读：从 token、注意力、MoE 讲到架构、训练、基础设施、评测与案例。';
+const canonicalUrl = 'https://zuoxiqiu.com/thinking/kimi-k3/';
+const pageTitle = 'Kimi K3 技术报告｜从零开始的完整导读';
+const structuredData = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: pageTitle,
+  description,
+  datePublished: '2026-07-29T00:00:00.000+08:00',
+  author: { '@type': 'Person', name: '昨夕秋' },
+  mainEntityOfPage: canonicalUrl,
+  about: ['Kimi K3', 'Mixture of Experts', 'Attention', 'Large language models'],
+}).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content={description}>
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content={Astro.generator}>
+  <meta name="theme-color" content="#eee3cf">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content={pageTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonicalUrl}>
+  <meta property="og:locale" content="zh_CN">
+  <meta property="article:published_time" content="2026-07-29T00:00:00.000+08:00">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content={pageTitle}>
+  <meta name="twitter:description" content={description}>
+  <link rel="canonical" href={canonicalUrl}>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <title>{pageTitle}</title>
+  <script type="application/ld+json" set:html={structuredData}></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f5f1e8;--paper:#fffdf8;--ink:#1f2725;--muted:#65716c;--line:#dcd7cb;
+      --green:#0f6b55;--green2:#dceee7;--gold:#a36b19;--gold2:#f5e8c9;
+      --red:#9a3f35;--red2:#f7e3df;--blue:#315f85;--blue2:#e1edf6;
+      --code:#182321;--shadow:0 18px 55px rgba(41,48,44,.10);
+      --content:780px;--side:250px;--font-size:18px;
+    }
+    [data-theme="dark"]{
+      --bg:#111715;--paper:#18201d;--ink:#edf2ef;--muted:#aab8b2;--line:#34413c;
+      --green:#66d2ae;--green2:#203d34;--gold:#edbd6b;--gold2:#41341f;
+      --red:#f09c90;--red2:#442924;--blue:#8bc4ef;--blue2:#203746;
+      --code:#0c1210;--shadow:none;
+    }
+    *{box-sizing:border-box}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    html{scroll-behavior:smooth;scroll-padding-top:34px}
+    body{margin:0;background:var(--bg);color:var(--ink);font:var(--font-size)/1.82 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+    a{color:var(--green);text-decoration-thickness:1px;text-underline-offset:3px}
+    button{font:inherit}
+    #progress{position:fixed;z-index:50;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--green),#d29a3d)}
+    .layout{display:grid;grid-template-columns:var(--side) minmax(0,var(--content));gap:58px;max-width:1180px;margin:auto;padding:28px 30px 100px}
+    aside{position:sticky;top:26px;height:calc(100vh - 52px);overflow:auto;padding:18px 4px}
+    .brand{font-weight:800;letter-spacing:.05em;font-size:15px;margin-bottom:18px}
+    .brand small{display:block;color:var(--muted);font-weight:500;letter-spacing:0;margin-top:4px}
+    nav a{display:block;padding:6px 10px;margin:1px 0;border-left:2px solid transparent;color:var(--muted);text-decoration:none;font-size:14px;line-height:1.35}
+    nav a:hover,nav a.active{color:var(--green);border-color:var(--green);background:var(--green2)}
+    .tools{display:flex;gap:8px;margin:18px 8px;flex-wrap:wrap}
+    .tools button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 10px;cursor:pointer;font-size:13px}
+    main{min-width:0}
+    .hero{background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow);padding:54px 54px 42px;margin-top:12px;position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border:42px solid var(--green2);border-radius:50%}
+    .eyebrow{color:var(--green);font-weight:800;letter-spacing:.12em;font-size:13px;text-transform:uppercase}
+    h1{font:800 clamp(38px,6vw,70px)/1.08 Georgia,"Songti SC","STSong",serif;letter-spacing:-.035em;margin:18px 0 18px;max-width:680px}
+    .deck{font-size:21px;line-height:1.65;color:var(--muted);max-width:650px}
+    .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:28px;color:var(--muted);font-size:14px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 42px}
+    .stat{background:var(--paper);border:1px solid var(--line);padding:18px}
+    .stat b{font:700 27px/1.1 Georgia,serif;color:var(--green);display:block}
+    .stat span{color:var(--muted);font-size:13px}
+    article>section{margin:70px 0}
+    h2{font:800 38px/1.22 Georgia,"Songti SC","STSong",serif;margin:0 0 24px;padding-top:8px}
+    h3{font-size:25px;line-height:1.35;margin:42px 0 15px}
+    h4{font-size:19px;margin:30px 0 10px}
+    p{margin:11px 0}
+    ul,ol{padding-left:1.35em}
+    li{margin:8px 0}
+    .lead{font-size:21px;line-height:1.75;color:var(--muted)}
+    .card,.note,.truth,.explain,.caution{border:1px solid var(--line);background:var(--paper);padding:22px 24px;margin:22px 0}
+    .note{border-left:5px solid var(--blue);background:var(--blue2)}
+    .truth{border-left:5px solid var(--green);background:var(--green2)}
+    .explain{border-left:5px solid var(--gold);background:var(--gold2)}
+    .caution{border-left:5px solid var(--red);background:var(--red2)}
+    .label{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;margin-bottom:7px}
+    .truth .label{color:var(--green)}.explain .label{color:var(--gold)}.caution .label{color:var(--red)}.note .label{color:var(--blue)}
+    .grid2,.grid3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+    .grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .mini{border:1px solid var(--line);background:var(--paper);padding:18px}
+    .mini h4{margin:0 0 7px}
+    .flow{display:flex;gap:8px;align-items:stretch;flex-wrap:wrap;margin:22px 0}
+    .flow .step{flex:1 1 120px;background:var(--paper);border:1px solid var(--line);padding:14px;position:relative}
+    .flow .step:not(:last-child):after{content:"→";position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:var(--green);font-weight:900;z-index:2}
+    .formula{background:var(--code);color:#eef8f3;padding:18px 20px;overflow:auto;border-radius:4px;font:15px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin:18px 0}
+    code{background:color-mix(in srgb,var(--green2) 70%,transparent);padding:.08em .35em;border-radius:3px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em}
+    abbr{text-decoration:underline dotted;color:var(--green);cursor:help;text-underline-offset:3px}
+    details{border:1px solid var(--line);background:var(--paper);margin:16px 0}
+    summary{cursor:pointer;font-weight:750;padding:15px 18px}
+    details>div{padding:0 20px 18px}
+    .table-wrap{overflow:auto;border:1px solid var(--line);margin:22px 0;background:var(--paper)}
+    table{width:100%;border-collapse:collapse;font-size:14px;white-space:nowrap}
+    th,td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:right}
+    th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--paper)}
+    thead th{background:var(--green2);color:var(--ink);font-weight:800}
+    .compact td,.compact th{padding:7px 10px}
+    .rank{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center;margin:10px 0}
+    .bar{height:10px;background:var(--line);overflow:hidden;border-radius:10px}.bar i{display:block;height:100%;background:var(--green)}
+    .term{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+    .term dt{font-weight:800;color:var(--green)}.term dd{margin:0}
+    .quote{font:600 25px/1.55 Georgia,"Songti SC",serif;border-left:5px solid var(--green);padding-left:22px;margin:35px 0}
+    .small{font-size:14px;color:var(--muted)}
+    .source-list{font-size:15px;color:var(--muted)}
+    footer{border-top:1px solid var(--line);padding-top:28px;margin-top:70px;color:var(--muted);font-size:14px}
+    .mobile-nav{display:none}
+    @media(max-width:960px){
+      .layout{display:block;padding:14px 18px 70px}aside{display:none}.mobile-nav{display:block;position:sticky;top:8px;z-index:30;margin:8px 0}
+      .mobile-nav details{box-shadow:var(--shadow)}.mobile-nav nav{padding:0 12px 12px;max-height:65vh;overflow:auto}
+      .hero{padding:38px 26px}.stats{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr}
+    }
+    @media(max-width:620px){
+      :root{--font-size:17px}.grid2{grid-template-columns:1fr}.hero{padding:30px 21px}.stats{grid-template-columns:1fr 1fr}
+      h2{font-size:31px}.flow .step:not(:last-child):after{display:none}.term{grid-template-columns:1fr}
+    }
+    @media print{
+      #progress,aside,.mobile-nav,.tools{display:none!important}.layout{display:block;max-width:800px;padding:0}.hero,.card,.mini{box-shadow:none}
+      details>div{display:block!important}body{background:#fff;color:#111}article>section{break-inside:auto}
+    }
+
+    /* Zuoxiqiu editorial skin: continuous reading first, relationships second. */
+    :root{
+      --page:#f5f2eb;--paper:#faf8f4;--paper-soft:#eee8de;--ink:#181411;
+      --muted:#5d5750;--soft:#8c857b;--line:rgba(24,20,17,.13);
+      --line-strong:rgba(24,20,17,.2);--clay:#b85c36;--clay-soft:#f2e4dc;
+      --forest:#315f55;--forest-soft:#e4ebe7;--gold:#ae7f35;--gold-soft:#f4ecd8;
+      --blue:#376887;--blue-soft:#e5edf2;--violet:#775f8e;--violet-soft:#ece7f0;
+      --serif:"思源宋体 VF","Source Han Serif SC VF","Source Han Serif SC","Noto Serif SC","Songti SC","STSong",serif;
+      --mono:"SFMono-Regular","SF Mono","Menlo","Monaco",monospace;
+      --font-size:18px;--side:0px;--content:940px;
+    }
+    [data-theme="dark"]{
+      --page:#15130f;--paper:#201d18;--paper-soft:#2a251e;--ink:#f0eadf;
+      --muted:#b9aea0;--soft:#90877e;--line:rgba(240,234,223,.13);
+      --line-strong:rgba(240,234,223,.24);--clay:#e18a66;--clay-soft:#422b23;
+      --forest:#89b7aa;--forest-soft:#243b35;--gold:#e1bc71;--gold-soft:#3c3220;
+      --blue:#8fbed8;--blue-soft:#243740;--violet:#bba5d0;--violet-soft:#352c3e;
+      --bg:var(--page);--green:var(--forest);--green2:var(--forest-soft);--red:var(--clay);--red2:var(--clay-soft);
+      --code:#0f1210;
+    }
+    html{scroll-padding-top:86px}
+    body{
+      background:
+        radial-gradient(circle at 7% 4%,color-mix(in srgb,var(--gold) 12%,transparent),transparent 28rem),
+        radial-gradient(circle at 93% 25%,color-mix(in srgb,var(--forest) 11%,transparent),transparent 34rem),
+        var(--page);
+      color:var(--ink);font-family:var(--serif);line-height:1.92;text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased;
+    }
+    body::before,body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1}
+    body::before{
+      background:
+        linear-gradient(color-mix(in srgb,var(--ink) 3%,transparent) 1px,transparent 1px),
+        linear-gradient(90deg,color-mix(in srgb,var(--ink) 3%,transparent) 1px,transparent 1px);
+      background-size:120px 120px;mask-image:linear-gradient(to bottom,#000,transparent 82%);opacity:.25;
+    }
+    body::after{
+      background-image:radial-gradient(color-mix(in srgb,var(--ink) 10%,transparent) .7px,transparent .7px);
+      background-size:36px 36px;opacity:.12;
+    }
+    .layout{display:block;width:min(940px,calc(100% - 34px));max-width:none;margin:0 auto;padding:0 0 72px}
+    aside{
+      position:sticky;z-index:45;top:0;width:100%;height:auto;display:grid;
+      grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:18px;
+      padding:13px 18px;border-bottom:1px solid var(--line);overflow:visible;
+      background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(18px);
+    }
+    .brand{margin:0;font-family:var(--serif);font-size:17px;letter-spacing:.08em;white-space:nowrap}
+    .brand a{color:inherit;text-decoration:none}
+    .brand small{display:none}
+    aside nav{display:flex;gap:3px;min-width:0;overflow:auto;scrollbar-width:none}
+    aside nav::-webkit-scrollbar{display:none}
+    nav a{flex:0 0 auto;padding:7px 10px;border:0;border-radius:999px;font:12px/1.2 var(--serif);color:var(--muted)}
+    nav a:hover,nav a.active{color:var(--forest);border:0;background:var(--forest-soft)}
+    .tools{margin:0;display:flex;flex-wrap:nowrap}
+    .tools button{font-family:var(--serif);background:transparent;border-color:var(--line);color:var(--ink)}
+    main{border:1px solid var(--line);border-top:2px solid var(--ink);background:var(--paper);overflow:hidden}
+    .mobile-nav{display:none!important}
+    .hero{
+      min-height:610px;margin:0;padding:54px 68px 62px;border:0;box-shadow:none;color:#f8f5ec;
+      background:
+        linear-gradient(135deg,rgba(255,255,255,.055) 0 1px,transparent 1px 100%),
+        radial-gradient(circle at 84% 10%,rgba(223,183,97,.22),transparent 28%),
+        linear-gradient(145deg,#181411,#28211c 62%,#342820);
+      background-size:31px 31px,auto,auto;
+    }
+    .hero:before{width:370px;height:370px;right:-140px;top:-145px;border:1px solid rgba(255,255,255,.14);background:none}
+    .hero:after{content:"";position:absolute;width:170px;height:170px;right:82px;top:92px;border:1px solid rgba(255,255,255,.14);border-radius:50%;box-shadow:0 0 0 44px rgba(255,255,255,.03),0 0 0 88px rgba(255,255,255,.018)}
+    .eyebrow{position:relative;z-index:2;display:flex;align-items:center;gap:12px;margin:48px 0 62px;color:#e4c66e;font:700 12px/1.2 var(--mono);letter-spacing:.18em}
+    .eyebrow:before{content:"";width:36px;height:1px;background:currentColor}
+    h1{position:relative;z-index:2;max-width:760px;margin:0;font-family:var(--serif);font-size:clamp(48px,7.2vw,76px);font-weight:650;line-height:1.12;letter-spacing:-.05em}
+    .hero h1 em{color:#e5c36c;font-style:normal}
+    .deck{position:relative;z-index:2;max-width:690px;margin:31px 0 0;color:rgba(248,245,236,.76);font-family:var(--serif);font-size:20px;line-height:1.76}
+    .meta{position:relative;z-index:2;margin-top:36px;color:rgba(248,245,236,.5);font:11px/1.5 var(--mono);letter-spacing:.04em}
+    .architecture-gateway{padding:48px 40px 32px;border-bottom:1px solid var(--line);background:var(--paper-soft)}
+    .gateway-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:24px}
+    .gateway-head b{display:block;font-size:23px;color:var(--forest)}
+    .gateway-head span{max-width:410px;color:var(--muted);font-size:13px;text-align:right}
+    .gateway-kicker{display:block;margin-bottom:12px;color:var(--clay);font:10px/1.3 var(--mono);letter-spacing:.13em}
+    .axis-map{display:grid;grid-template-columns:1fr 76px 1fr 76px 1fr;align-items:stretch}
+    .axis-node{min-height:142px;padding:18px;border:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;justify-content:space-between}
+    .axis-node.sequence{border-top:4px solid var(--blue)}.axis-node.depth{border-top:4px solid var(--gold)}.axis-node.width{border-top:4px solid var(--clay)}
+    .axis-node small{font:10px/1.2 var(--mono);letter-spacing:.14em;color:var(--soft);text-transform:uppercase}
+    .axis-node b{font-size:19px}.axis-node span{color:var(--muted);font-size:13px;line-height:1.55}
+    .axis-link{display:grid;place-items:center;position:relative;color:var(--forest);font:700 12px/1 var(--mono)}
+    .axis-link:before{content:"";position:absolute;left:10px;right:10px;top:50%;height:1px;background:var(--line-strong)}
+    .axis-link i{z-index:1;padding:6px;background:var(--paper-soft);font-style:normal}
+    .stats{margin:0;padding:24px 40px 30px;border-bottom:1px solid var(--line);background:var(--paper);grid-template-columns:repeat(4,1fr)}
+    .stat{border:0;border-left:1px solid var(--line);background:transparent;padding:8px 18px}
+    .stat:first-child{border-left:0}.stat b{font-family:var(--serif);font-size:31px;color:var(--clay)}.stat span{font-family:var(--serif)}
+    article>section{margin:0;padding:74px 68px 42px;border-top:1px solid var(--line);position:relative}
+    article>section:before{
+      content:attr(data-mark);display:grid;width:35px;height:35px;margin-bottom:18px;
+      place-items:center;border:1px solid color-mix(in srgb,var(--clay) 55%,transparent);border-radius:50%;
+      color:var(--clay);font-size:14px;
+    }
+    article>section:first-child{border-top:0}
+    h2{max-width:760px;margin:0 0 30px;padding:0;color:var(--forest);font-family:var(--serif);font-size:clamp(32px,4.5vw,44px);font-weight:650;line-height:1.26;letter-spacing:-.035em}
+    h3{margin:48px 0 17px;color:var(--ink);font-family:var(--serif);font-size:25px;line-height:1.4}
+    h4{font-family:var(--serif);font-size:19px}
+    p{margin:0 0 22px}.lead{font-family:var(--serif);font-size:21px;line-height:1.92;color:var(--ink)}
+    .lead:first-letter{float:left;margin:12px 9px 0 0;color:var(--clay);font-size:59px;font-weight:700;line-height:.72}
+    strong{color:var(--forest)}
+    .card,.note,.truth,.explain,.caution{border-radius:0;box-shadow:none;background:var(--paper-soft);padding:24px 26px}
+    .truth{border-left:4px solid var(--forest);background:var(--forest-soft)}.explain{border-left:4px solid var(--gold);background:var(--gold-soft)}
+    .caution{border-left:4px solid var(--clay);background:var(--clay-soft)}.note{border-left:4px solid var(--blue);background:var(--blue-soft)}
+    .label{font-family:var(--mono);font-size:10px}
+    .grid2,.grid3{gap:0;border:1px solid var(--line)}
+    .mini{border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;padding:22px}
+    .grid2 .mini:nth-child(2n),.grid3 .mini:nth-child(3n){border-right:0}
+    .mini h4{color:var(--forest)}
+    .flow{gap:0;border:1px solid var(--line);background:var(--paper-soft)}
+    .flow .step{border:0;border-right:1px solid var(--line);background:transparent;min-height:105px;padding:17px}
+    .flow .step:last-child{border-right:0}.flow .step:not(:last-child):after{right:-8px;color:var(--clay);background:var(--paper-soft);line-height:1}
+    .formula{border-radius:0;border-left:4px solid var(--gold);background:#1b211e;color:#eff4ee;box-shadow:none}
+    details{border-radius:0;background:var(--paper);border-color:var(--line)}summary{color:var(--forest)}
+    .table-wrap{border-radius:0;background:var(--paper)}thead th{background:var(--forest-soft)}th:first-child,td:first-child{background:var(--paper)}
+    .quote{font-family:var(--serif);color:var(--forest);border-color:var(--clay)}
+    footer{margin:42px -68px -42px;padding:34px 68px 44px;background:#1f3834;color:#d6ddd8;border:0}
+
+    .visual-block{margin:40px 0;padding:28px;border:1px solid var(--line);background:var(--paper-soft);overflow:hidden}
+    .visual-head{display:flex;justify-content:space-between;gap:22px;align-items:flex-start;margin-bottom:26px}
+    .visual-head h4{margin:0;color:var(--forest);font-size:23px}.visual-head p{max-width:390px;margin:0;text-align:right;color:var(--muted);font-size:13px;line-height:1.6}
+    .hybrid-lane{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;align-items:end}
+    .hybrid-lane div{display:grid;place-items:center;min-height:92px;padding:8px;border:1px solid var(--line);background:var(--paper)}
+    .hybrid-lane div:nth-child(4n){min-height:132px;color:#eef5f1;background:var(--forest);border-color:var(--forest)}
+    .hybrid-lane b{font-size:14px}.hybrid-lane small{font:9px/1.2 var(--mono);letter-spacing:.1em;color:inherit;opacity:.72}
+    .hybrid-caption{display:grid;grid-template-columns:3fr 1fr;margin-top:12px;font-size:12px;color:var(--muted)}
+    .hybrid-caption span{padding:8px 12px;border-top:2px solid var(--blue)}.hybrid-caption span:last-child{border-color:var(--forest)}
+    .attnres-map{display:grid;grid-template-columns:1fr 86px 1.2fr;align-items:center;gap:14px}
+    .depth-stack{display:grid;gap:6px}.depth-layer{padding:10px 14px;border:1px solid var(--line);background:var(--paper);font-size:13px}
+    .depth-layer:nth-child(2){margin-left:8px}.depth-layer:nth-child(3){margin-left:16px}.depth-layer:nth-child(4){margin-left:24px}
+    .depth-arrows{position:relative;min-height:180px}.depth-arrows i{position:absolute;left:0;right:0;height:1px;background:var(--gold);transform-origin:right}
+    .depth-arrows i:nth-child(1){top:18%;transform:rotate(19deg)}.depth-arrows i:nth-child(2){top:39%;transform:rotate(8deg)}.depth-arrows i:nth-child(3){top:61%;transform:rotate(-7deg)}.depth-arrows i:nth-child(4){top:82%;transform:rotate(-18deg)}
+    .depth-query{padding:24px;border:1px solid var(--line);background:var(--gold-soft)}.depth-query b{display:block;color:var(--gold);font-size:21px}.depth-query span{font-size:13px;color:var(--muted)}
+    .moe-map{display:grid;grid-template-columns:150px 70px 1fr;gap:16px;align-items:center}
+    .token-source,.moe-output{padding:20px;border:1px solid var(--line);background:var(--paper);text-align:center}
+    .router-diamond{width:68px;height:68px;display:grid;place-items:center;transform:rotate(45deg);background:var(--clay);color:#fff}
+    .router-diamond span{transform:rotate(-45deg);font:10px/1.2 var(--mono)}
+    .expert-field{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}.expert-field i{height:28px;border:1px solid var(--line);background:var(--paper)}
+    .expert-field i.active{background:var(--forest);border-color:var(--forest)}.expert-field i.shared{background:var(--gold);border-color:var(--gold)}
+    .expert-legend{display:flex;gap:18px;margin-top:12px;color:var(--muted);font-size:12px}.expert-legend i{display:inline-block;width:9px;height:9px;margin-right:6px}
+    .effort-matrix{display:grid;grid-template-columns:126px repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+    .effort-matrix>*{min-height:72px;padding:12px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;align-content:center;background:var(--paper)}
+    .effort-matrix .head{min-height:42px;color:var(--muted);font:10px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;background:transparent}
+    .effort-matrix .domain{color:var(--forest);font-weight:700;background:var(--forest-soft)}
+    .effort-matrix .teacher{text-align:center}.effort-matrix .teacher b{color:var(--clay)}.effort-matrix .teacher small{color:var(--muted)}
+    .distill-funnel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+    .distill-funnel span{padding:12px;text-align:center;background:var(--paper);border:1px solid var(--line);font-size:12px}
+    .distill-target{margin:10px auto 0;width:58%;padding:16px;text-align:center;color:#fff;background:var(--forest);clip-path:polygon(10% 0,90% 0,100% 100%,0 100%)}
+    .state-map{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line)}
+    .state-tier{min-height:190px;padding:18px;border-right:1px solid var(--line);position:relative;background:var(--paper)}
+    .state-tier:last-child{border-right:0}.state-tier:after{content:"→";position:absolute;right:-9px;top:50%;z-index:2;color:var(--clay);background:var(--paper);line-height:1}
+    .state-tier:last-child:after{display:none}.state-tier em{font:10px/1.2 var(--mono);color:var(--soft);letter-spacing:.12em}.state-tier b{display:block;margin:12px 0;color:var(--forest);font-size:20px}
+    .state-tier span{display:block;padding:5px 0;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+    .eval-map{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .eval-side{padding:22px;border:1px solid var(--line);background:var(--paper)}.eval-side h4{margin:0 0 16px;color:var(--forest)}
+    .eval-row{display:grid;grid-template-columns:1fr auto;gap:12px;padding:10px 0;border-top:1px solid var(--line)}.eval-row:first-of-type{border-top:0}
+    .eval-row b{color:var(--clay)}.eval-row small{grid-column:1/-1;color:var(--muted)}
+    .source-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.source-strip span{padding:6px 9px;border:1px solid var(--line);font:9px/1.2 var(--mono);color:var(--muted)}
+    .case-metrics{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);margin:28px 0}
+    .case-metrics div{padding:18px;border-right:1px solid var(--line)}.case-metrics div:last-child{border-right:0}.case-metrics b{display:block;color:var(--clay);font-size:25px}.case-metrics span{color:var(--muted);font-size:12px}
+    .reveal-target{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}.reveal-target.is-visible{opacity:1;transform:none}
+
+    @media(max-width:960px){
+      .layout{width:100%}aside{grid-template-columns:auto minmax(0,1fr) auto}.hero{padding:48px 42px 52px}
+      article>section{padding:62px 42px 36px}.stats,.architecture-gateway{padding-inline:32px}footer{margin-inline:-42px;padding-inline:42px}
+    }
+    @media(max-width:720px){
+      :root{--font-size:17px}aside{grid-template-columns:1fr auto;padding:12px 14px}aside nav{grid-column:1/-1;grid-row:2}
+      .hero{min-height:570px;padding:38px 22px 44px}.hero h1{font-size:42px;line-height:1.16}.hero:after{right:18px}.eyebrow{margin:42px 0 50px}.meta{display:grid;gap:6px}
+      .architecture-gateway{padding:24px 20px}.gateway-head{display:block}.gateway-head span{display:block;margin-top:8px;text-align:left}
+      .axis-map{grid-template-columns:1fr}.axis-link{min-height:34px}.axis-link:before{left:50%;right:auto;top:3px;bottom:3px;width:1px;height:auto}.axis-link i{padding:4px 8px}
+      .stats{grid-template-columns:1fr 1fr;padding:18px}.stat:nth-child(3){border-left:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}
+      article>section{padding:54px 21px 30px}.grid2,.grid3{grid-template-columns:1fr}.mini,.grid2 .mini:nth-child(2n),.grid3 .mini:nth-child(3n){border-right:0}
+      .flow{display:grid;grid-template-columns:1fr 1fr}.flow .step{border-bottom:1px solid var(--line)}.flow .step:nth-child(2n){border-right:0}.flow .step:not(:last-child):after{display:none}
+      .visual-head{display:block}.visual-head p{text-align:left;margin-top:7px}.hybrid-lane{grid-template-columns:repeat(4,1fr)}
+      .attnres-map{grid-template-columns:1fr}.depth-arrows{min-height:42px}.depth-arrows i{left:50%;right:auto;top:0!important;bottom:0;width:1px;height:auto;transform:none!important}
+      .moe-map{grid-template-columns:1fr}.router-diamond{margin:auto}.expert-field{grid-template-columns:repeat(8,1fr)}
+      .effort-matrix{grid-template-columns:95px repeat(3,1fr);font-size:12px}.effort-matrix>*{padding:8px;min-height:66px}
+      .state-map,.eval-map,.case-metrics{grid-template-columns:1fr}.state-tier,.case-metrics div{border-right:0;border-bottom:1px solid var(--line)}.state-tier:after{right:auto;left:50%;top:auto;bottom:-9px;transform:rotate(90deg)}
+      .case-metrics div:last-child{border-bottom:0}footer{margin-inline:-21px;padding-inline:21px}
+    }
+    @media(prefers-reduced-motion:reduce){.reveal-target{opacity:1;transform:none;transition:none}}
+
+    /* Rounded parchment pass */
+    :root{
+      --page:#eee3cf;
+      --paper:#fbf6ec;
+      --paper-soft:#f1e7d7;
+      --line:rgba(84,61,39,.17);
+      --line-strong:rgba(84,61,39,.27);
+      --radius-page:28px;
+      --radius-panel:20px;
+      --radius-node:15px;
+      --radius-pill:999px;
+    }
+    body{
+      background:
+        radial-gradient(ellipse at 15% 2%,rgba(255,251,239,.78),transparent 34rem),
+        radial-gradient(ellipse at 88% 22%,rgba(151,102,53,.11),transparent 38rem),
+        radial-gradient(ellipse at 42% 78%,rgba(255,250,235,.52),transparent 42rem),
+        linear-gradient(112deg,#e8dbc4 0%,#f2e8d6 43%,#e9dcc6 100%);
+    }
+    body::before{
+      background:
+        repeating-linear-gradient(2deg,rgba(95,66,38,.022) 0 1px,transparent 1px 5px),
+        repeating-linear-gradient(88deg,rgba(255,255,255,.12) 0 1px,transparent 1px 9px),
+        radial-gradient(circle at 12% 18%,rgba(93,60,31,.08) 0 1px,transparent 1.5px),
+        radial-gradient(circle at 74% 62%,rgba(93,60,31,.055) 0 .8px,transparent 1.3px);
+      background-size:auto,auto,31px 29px,37px 41px;
+      mask-image:none;
+      opacity:.72;
+    }
+    body::after{
+      background:
+        radial-gradient(ellipse at center,transparent 48%,rgba(86,55,28,.07) 100%),
+        radial-gradient(rgba(65,43,25,.09) .55px,transparent .7px);
+      background-size:auto,23px 23px;
+      mix-blend-mode:multiply;
+      opacity:.42;
+    }
+    .layout{padding-top:14px}
+    aside{
+      border:1px solid var(--line);
+      border-bottom:0;
+      border-radius:var(--radius-page) var(--radius-page) 0 0;
+      background:
+        linear-gradient(rgba(251,246,236,.9),rgba(247,240,227,.88)),
+        repeating-linear-gradient(3deg,rgba(94,64,37,.02) 0 1px,transparent 1px 5px);
+    }
+    main{
+      border-radius:0 0 var(--radius-page) var(--radius-page);
+      box-shadow:0 24px 70px rgba(70,47,26,.13);
+      background:
+        linear-gradient(rgba(251,246,236,.96),rgba(250,244,233,.96)),
+        repeating-linear-gradient(2deg,rgba(94,64,37,.018) 0 1px,transparent 1px 5px);
+    }
+    .tools button,.chapter-nav a,nav a{border-radius:var(--radius-pill)}
+    .architecture-gateway{
+      background:
+        radial-gradient(circle at 88% 12%,rgba(174,127,53,.08),transparent 18rem),
+        linear-gradient(135deg,#f2e8d8,#eee2d0);
+    }
+    .gateway-kicker,.axis-node small,.state-tier em,.source-strip span,.label{
+      width:max-content;
+      max-width:100%;
+      padding:6px 9px;
+      border:1px solid var(--line);
+      border-radius:var(--radius-pill);
+      background:rgba(255,252,245,.56);
+    }
+    .axis-node{
+      border-radius:var(--radius-node);
+      box-shadow:0 8px 24px rgba(70,47,26,.055);
+      background:rgba(255,252,246,.74);
+    }
+    .stats{background:rgba(255,252,246,.46)}
+    .stat:first-child{border-radius:var(--radius-node) 0 0 var(--radius-node)}
+    .stat:last-child{border-radius:0 var(--radius-node) var(--radius-node) 0}
+    .card,.note,.truth,.explain,.caution{
+      border-radius:var(--radius-panel);
+      box-shadow:0 10px 28px rgba(70,47,26,.055);
+    }
+    .grid2,.grid3,.flow,.table-wrap,.state-map,.case-metrics{
+      border-radius:var(--radius-panel);
+      overflow:hidden;
+    }
+    .mini{background:rgba(255,252,246,.38)}
+    .flow .step{background:rgba(255,252,246,.38)}
+    .formula{border-radius:14px;box-shadow:0 12px 30px rgba(33,27,20,.1)}
+    details{border-radius:16px;overflow:hidden}
+    .table-wrap{box-shadow:0 10px 30px rgba(70,47,26,.045)}
+    .visual-block{
+      border-radius:var(--radius-panel);
+      background:
+        radial-gradient(circle at 92% 8%,rgba(174,127,53,.075),transparent 18rem),
+        linear-gradient(145deg,#f3eadc,#eee2d0);
+      box-shadow:0 14px 38px rgba(70,47,26,.07);
+    }
+    .hybrid-lane div,.depth-layer,.depth-query,.token-source,.moe-output,
+    .effort-matrix,.distill-funnel span,.eval-side{
+      border-radius:var(--radius-node);
+    }
+    .hybrid-lane div:nth-child(4n){border-radius:var(--radius-node)}
+    .depth-layer,.token-source,.moe-output,.distill-funnel span,.eval-side{
+      background:rgba(255,252,246,.74);
+      box-shadow:0 7px 20px rgba(70,47,26,.045);
+    }
+    .depth-query{box-shadow:0 7px 20px rgba(70,47,26,.045)}
+    .router-diamond{border-radius:15px}
+    .expert-field i{border-radius:7px}
+    .expert-legend span{
+      padding:5px 8px;
+      border:1px solid var(--line);
+      border-radius:var(--radius-pill);
+      background:rgba(255,252,246,.54);
+    }
+    .effort-matrix{overflow:hidden;box-shadow:0 8px 24px rgba(70,47,26,.05)}
+    .distill-target{border-radius:18px;clip-path:none;box-shadow:0 10px 25px rgba(49,95,85,.18)}
+    .state-map,.case-metrics{box-shadow:0 8px 24px rgba(70,47,26,.05)}
+    .state-tier,.case-metrics div{background:rgba(255,252,246,.7)}
+    footer{border-radius:0 0 var(--radius-page) var(--radius-page)}
+    @media(max-width:720px){
+      .layout{width:calc(100% - 12px);padding-top:6px}
+      aside{border-radius:20px 20px 0 0}
+      main,footer{border-radius:0 0 20px 20px}
+      .stat:first-child,.stat:last-child{border-radius:0}
+      .gateway-kicker{white-space:normal}
+    }
+
+    /* Final reading rules: prose flows freely; frames are reserved for structure and evidence. */
+    article>section:first-child{padding-top:52px}
+    .opening-note{display:block;margin:0 0 14px;color:var(--clay);font:10px/1.3 var(--mono);letter-spacing:.13em}
+    .opening-lead{max-width:780px;margin-bottom:30px;font-size:23px;line-height:1.9}
+    .opening-lead:first-letter{float:left;margin:13px 10px 0 0;color:var(--clay);font-size:62px;font-weight:700;line-height:.7}
+    .reading-note{margin:30px 0 42px;background:rgba(255,252,246,.44)}
+    .reading-note .grid3{margin:6px 0 20px}
+    .grid2,.grid3{gap:25px 34px;border:0;border-radius:0;overflow:visible}
+    .mini,.grid2 .mini:nth-child(2n),.grid3 .mini:nth-child(3n){
+      padding:0;border:0;background:transparent;box-shadow:none
+    }
+    .mini h4{display:flex;align-items:center;gap:10px;margin-top:0}
+    .mini h4:before{content:"";width:18px;height:2px;flex:0 0 auto;background:var(--gold)}
+    .architecture-gateway{margin:30px 0 34px;padding:30px;border:1px solid var(--line);border-radius:var(--radius-panel)}
+    .stats{margin:30px 0;padding:16px;border:1px solid var(--line);border-radius:var(--radius-panel)}
+    .flow,.visual-block,.table-wrap,.state-map,.case-metrics,.card,.note,.truth,.explain,.caution,details{
+      border-color:var(--line-strong)
+    }
+    @media(max-width:720px){
+      article>section:first-child{padding-top:38px}
+      .opening-lead{font-size:21px}
+      .grid2,.grid3{gap:24px}
+      .architecture-gateway{padding:22px 18px}
+    }
+  </style>
+</head>
+<body>
+  <div id="progress" aria-hidden="true"></div>
+  <div class="layout">
+    <aside>
+      <div class="brand"><a href="/" aria-label="返回昨夕秋首页">昨夕秋</a> · KIMI K3<small>零基础，但不牺牲技术内容</small></div>
+      <nav aria-label="章节导航">
+        <a href="#ground">0. 先铺地基</a><a href="#overview">1. K3 是什么</a>
+        <a href="#architecture">2. 模型架构</a><a href="#pretrain">3. 预训练</a><a href="#posttrain">4. 后训练</a>
+        <a href="#infra">5. 基础设施</a><a href="#eval">6. 评测</a><a href="#cyber">7. 网络安全</a>
+        <a href="#cases">8. 案例研究</a><a href="#judgment">9. 怎么看这份报告</a><a href="#glossary">术语表</a>
+      </nav>
+      <div class="tools">
+        <button id="smaller" type="button">A-</button><button id="larger" type="button">A+</button>
+      </div>
+    </aside>
+    <main>
+      <h1 class="sr-only">Kimi K3 技术报告：从零开始的完整导读</h1>
+      <div class="mobile-nav">
+        <details><summary>目录与阅读设置</summary><div>
+          <nav aria-label="移动端章节导航">
+            <a href="#ground">0. 先铺地基</a><a href="#overview">1. K3 是什么</a>
+            <a href="#architecture">2. 模型架构</a><a href="#pretrain">3. 预训练</a><a href="#posttrain">4. 后训练</a>
+            <a href="#infra">5. 基础设施</a><a href="#eval">6. 评测</a><a href="#cyber">7. 网络安全</a>
+            <a href="#cases">8. 案例研究</a><a href="#judgment">9. 怎么看</a><a href="#glossary">术语表</a>
+          </nav>
+        </div></details>
+      </div>
+
+      <article>
+        <section id="ground" data-mark="零">
+          <span class="opening-note">从第一个 token 开始 · 零基础完整导读</span>
+          <p class="opening-lead">把大模型拆到最底层，它做的事情并不神秘：读入已经出现的内容，计算下一个 token 的概率，再把新 token 接到末尾继续计算。Kimi K3 的 2.78 万亿参数、注意力、MoE、强化学习和 GPU 集群，最终都服务于这一次次“下一步该是什么”。</p>
+          <h3>0.1 生成文字，本质是不断预测下一个 token</h3>
+          <p>模型收到一段上下文后，会给“下一个 token 是什么”列出一张概率表，再按解码规则选出一个 token。新 token 接到原文末尾，模型继续预测下一个，于是形成一句话。<strong>token 不是固定等于一个字或一个词</strong>：它可能对应一个汉字、几个汉字、英文词的一部分、标点或字节片段，具体取决于分词器。</p>
+          <div class="flow">
+            <div class="step"><b>输入文本</b><br><span class="small">“猫因为饿了所以…”</span></div>
+            <div class="step"><b>切成 token</b><br><span class="small">离散编号</span></div>
+            <div class="step"><b>变成向量</b><br><span class="small">一串可计算的数字</span></div>
+            <div class="step"><b>经过许多层</b><br><span class="small">混合上下文信息</span></div>
+            <div class="step"><b>概率表</b><br><span class="small">“叫”的概率最高</span></div>
+          </div>
+
+          <details class="reading-note">
+            <summary>这篇导读怎样做到“小白能读，但不省略细节”</summary>
+            <div>
+              <p>先给直觉，再解释零件，最后回到报告原来的技术表达。第一遍先看正文和关系图，第二遍理解模块的输入、输出、代价与解决的问题，第三遍再展开公式、训练协议、系统实现和评测条件。</p>
+              <div class="truth"><span class="label">报告事实</span>来自 Kimi K3 技术报告的明确陈述、表格或公式。</div>
+              <div class="explain"><span class="label">人话解释</span>为了帮助理解而做的类比。类比只负责搭桥，不能代替技术定义。</div>
+              <div class="caution"><span class="label">需要打折看</span>厂商自报结果、跨模型不完全同条件的比较，或者容易被宣传语言放大的结论。</div>
+            </div>
+          </details>
+
+          <h3>0.2 参数、层、向量和矩阵</h3>
+          <div class="grid2">
+            <div class="mini"><h4>参数</h4><p>模型训练时会被调整的数字。2.78T 表示约 2.78 万亿个参数，不是 2.78 万亿条知识。</p></div>
+            <div class="mini"><h4>向量</h4><p>一列数字，用来表示某个 token 当前携带的信息。数字本身没有人类可直接阅读的标签。</p></div>
+            <div class="mini"><h4>矩阵</h4><p>按行列排列的数字表。把向量乘上矩阵，相当于按照学到的规则重新组合信息。</p></div>
+            <div class="mini"><h4>层</h4><p>一次信息加工。很多层串联，前层学到的表示会被后层继续加工。</p></div>
+          </div>
+          <p><strong>训练</strong>就是拿大量样本计算错误，再用反向传播求出“每个参数往哪个方向改会少错一点”，优化器负责执行更新。<strong>推理</strong>则是参数不再学习，只使用已经学好的数字产生输出。</p>
+
+          <h3>0.3 注意力：当前 token 应该向谁取信息</h3>
+          <p>每个 token 的向量会被投影成三份：</p>
+          <ul>
+            <li><b>Q（Query）</b>：我现在想找什么；</li>
+            <li><b>K（Key）</b>：我能被什么查询找到；</li>
+            <li><b>V（Value）</b>：如果你注意我，我实际贡献什么内容。</li>
+          </ul>
+          <p>当前 token 的 Q 与历史 token 的 K 做点积。点积可以理解为两串数字的“方向匹配度”：对应位置相乘后求和。匹配分数经过 softmax 变成总和为 1 的权重，再用这些权重加权历史 V。</p>
+          <div class="formula">Attention(Q,K,V) = softmax(QKᵀ / √d) V</div>
+          <p>多头注意力就是同时运行多组 Q/K/V，让不同头学习不同关系，例如指代、语法、远距离依赖。标准全局注意力在训练或 prefill 阶段通常有近似 <code>O(N²)</code> 的注意力计算；自回归推理时 KV cache 容量约随上下文长度 <code>O(N)</code> 增长，每生成一个新 token 要读取越来越长的历史。</p>
+
+          <h3>0.4 FFN、残差、归一化</h3>
+          <ul>
+            <li><b>FFN（前馈网络）</b>：每个 token 独立经过的非线性加工站；注意力负责 token 之间交换信息，FFN 负责在单个 token 内部变换信息。</li>
+            <li><b>残差连接</b>：新结果与旧结果相加，避免深层网络把原始信息彻底冲掉，也让训练更稳定。</li>
+            <li><b>归一化</b>：把一组数字的尺度拉回相对稳定的范围。RMSNorm 是其中一种。</li>
+            <li><b>激活函数</b>：给网络加入非线性，否则无论叠多少层，本质仍只是一次线性变换。</li>
+          </ul>
+
+          <h3>0.5 MoE：不是每次都启动全部参数</h3>
+          <div class="explain"><span class="label">人话解释</span>普通 FFN 像全校学生都去同一个大教室；MoE 像有许多专业教室，路由器根据每个 token 的情况，只安排少数教室处理。学校可以很大，但单个学生不必走遍所有教室。</div>
+          <p>K3 每层有 896 个路由专家，每个 token 选 16 个，同时还有 2 个共享专家。总参数因此能达到 2.78T，而一次处理单个 token 实际激活约 104.2B 参数。代价是：专家可能冷热不均；token 要跨 GPU 发往专家；低精度训练时还可能出现激活异常。</p>
+
+          <h3>0.6 GPU、显存、精度和并行</h3>
+          <p>GPU 擅长把大量矩阵乘法并行执行；显存存放参数、激活、梯度、优化器状态和缓存。2.78T 参数即使每个只占 1 字节也约 2.78TB，不可能塞进单张 GPU，所以必须切分：</p>
+          <ul>
+            <li><b>TP</b>：把一个大矩阵切到多卡；<b>PP</b>：把不同层放到不同卡；</li>
+            <li><b>EP</b>：把不同专家放到不同卡；<b>DP</b>：不同卡处理不同训练样本；</li>
+            <li><b>CP</b>：把一条超长上下文切给不同设备。</li>
+          </ul>
+          <p>BF16、FP8、FP4 表示用更少的比特存数字。越低精度越省内存、越快，但舍入误差和溢出风险更高。</p>
+
+          <h3>0.7 Agent、工具、环境与 harness</h3>
+          <p><b>Agent</b>不是另一个模型类别，而是一种工作循环：模型思考，调用工具，读取结果，再决定下一步。<b>环境</b>是任务发生的世界；<b>工具</b>是可执行动作；<b>harness</b>是把系统提示、工具格式、上下文管理、记忆、技能和子 agent 组织起来的外壳。相同模型换一个 harness，成绩可能明显变化。</p>
+        </section>
+
+        <section id="overview" data-mark="一">
+          <h2>1. Kimi K3 到底是什么</h2>
+          <p class="quote">K3 的主线不是单独发明一个神奇零件，而是同时扩大三种信息流：沿序列走得更远，沿网络深度取回更多旧表示，沿模型宽度容纳更多专家。</p>
+          <div class="truth"><span class="label">报告事实</span>Kimi K3 是原生多模态 MoE，2.78T 总参数、104.2B 激活参数，支持最多 1M token 上下文；Moonshot 发布了完整模型权重。更严谨的称呼是“开放权重”，因为报告并未同时公开全部训练数据和完整训练系统。</div>
+          <div class="stats" aria-label="Kimi K3 核心数字">
+            <div class="stat"><b>2.78T</b><span>总参数</span></div>
+            <div class="stat"><b>104.2B</b><span>每个 token 激活参数</span></div>
+            <div class="stat"><b>1M</b><span>最长上下文 token</span></div>
+            <div class="stat"><b>896 / 16</b><span>路由专家总数 / 每次选中</span></div>
+          </div>
+          <div class="grid3">
+            <div class="mini"><h4>序列维度</h4><p>3 层 KDA + 1 层 Gated MLA 循环，兼顾长序列效率和周期性全局交互。</p></div>
+            <div class="mini"><h4>深度维度</h4><p>Block AttnRes 允许后层选择性取回早期层表示，而不只依赖一路累加的残差。</p></div>
+            <div class="mini"><h4>宽度维度</h4><p>Stable LatentMoE 把 896 个专家放在较窄潜空间中，每 token 激活 16 个。</p></div>
+          </div>
+          <div class="caution"><span class="label">不要误读 1M</span>上下文窗口是“最多能放进去多少”，不是“其中每个细节都能稳定记住并正确使用”，也不是跨会话长期记忆。NoPE 只省掉调整位置编码的步骤；1M 仍需要长上下文训练、专用内核、上下文并行和缓存系统。</div>
+        </section>
+
+        <section id="architecture" data-mark="二">
+          <h2>2. 架构：模型内部怎样流动信息</h2>
+          <section class="architecture-gateway reveal-target" aria-label="Kimi K3 三条架构主线">
+            <div class="gateway-head">
+              <div><small class="gateway-kicker">架构总览 · 2.78T PARAMETERS · 1M CONTEXT</small><b>先看整台机器，再逐个拆零件</b></div>
+              <span>K3 同时扩大三条信息通道。后面的公式、训练和系统工程，都可以放回这三条轴理解。</span>
+            </div>
+            <div class="axis-map">
+              <div class="axis-node sequence"><small>Sequence / 序列</small><b>记得更远</b><span>KDA 固定状态处理长序列，MLA 周期性恢复全局精确交互。</span></div>
+              <div class="axis-link"><i>69 + 24</i></div>
+              <div class="axis-node depth"><small>Depth / 深度</small><b>取回前层</b><span>AttnRes 让后层选择性读取早期层，不只接受一路累加的结果。</span></div>
+              <div class="axis-link"><i>9 blocks</i></div>
+              <div class="axis-node width"><small>Width / 宽度</small><b>容纳专家</b><span>896 个路由专家中每 token 只激活 16 个，扩大容量但控制计算。</span></div>
+            </div>
+          </section>
+          <h3>2.1 Hybrid Attention：KDA 与 MLA 交替</h3>
+          <p>K3 共有 93 个注意力层：69 层 KDA、24 层 MLA。基本节奏是三层 KDA 后接一层 Gated MLA，主干末尾额外确保最后一层是 MLA。KDA 便宜地维持长程状态，MLA 偶尔让所有 token 做精确的全局内容交互。</p>
+
+          <div class="visual-block reveal-target">
+            <div class="visual-head"><h4>注意力不是二选一，而是按节奏交替</h4><p>矮柱是固定状态的线性记忆，高柱是成本更高但能直接看全局 token 的 MLA。下面只画两个重复周期。</p></div>
+            <div class="hybrid-lane" role="img" aria-label="三层 KDA 后接一层 MLA，重复两次">
+              <div><small>01</small><b>KDA</b></div><div><small>02</small><b>KDA</b></div><div><small>03</small><b>KDA</b></div><div><small>04</small><b>MLA</b></div>
+              <div><small>05</small><b>KDA</b></div><div><small>06</small><b>KDA</b></div><div><small>07</small><b>KDA</b></div><div><small>08</small><b>MLA</b></div>
+            </div>
+            <div class="hybrid-caption"><span>69 层 KDA：固定大小递归状态，承担大部分长程混合</span><span>24 层 MLA：压缩 KV 的全局交互</span></div>
+          </div>
+
+          <h4>KDA：把历史压进固定大小状态</h4>
+          <div class="formula">Sₜ = (I - βₜ kₜ kₜᵀ) Diag(αₜ) Sₜ₋₁ + βₜ kₜ vₜᵀ
+õₜ = Sₜᵀ qₜ</div>
+          <ul>
+            <li><code>Sₜ</code>：到第 t 个 token 为止的状态矩阵，大小为 <code>dₖ × dᵥ</code>，不随序列长度增长。</li>
+            <li><code>Diag(αₜ)Sₜ₋₁</code>：先按通道衰减旧记忆；Diag 把向量 α 放到矩阵对角线上。</li>
+            <li><code>kₜkₜᵀ</code>：一个外积矩阵，用来定位当前 key 对应的记忆方向。</li>
+            <li><code>I - βₜkₜkₜᵀ</code>：先擦掉与当前 key 冲突的旧内容；<code>βₜkₜvₜᵀ</code> 再写入新 value。</li>
+            <li><code>Sₜᵀqₜ</code>：用当前 query 从状态中读出结果。</li>
+          </ul>
+          <div class="explain"><span class="label">人话解释</span>KDA 不是保存每一页原文，而是维护一块固定尺寸的“可改写白板”。新信息到来时，它先根据 key 找到相关区域，适度擦除旧内容，再写入 value。好处是白板不会随着书越来越长而变大；代价是压缩后不可能像逐页保存那样无损。</div>
+
+          <details>
+            <summary>技术深潜：为什么 lower-bounded decay 能加速</summary>
+            <div>
+              <p>KDA 训练时按 chunk 并行：chunk 之间递归，chunk 内并行。旧版 Kimi Linear 用无下界的负 Softplus 产生 log-decay，累计衰减的倒数可能超出有限精度范围，因此 16-token 对角 tile 需要逐位置的特殊计算。</p>
+              <div class="formula">gₜ = gmin · Sigmoid(eᴬ zₜ),  gmin = -5
+αₜ = exp(gₜ),  因此 αₜ ∈ (e⁻⁵, 1)</div>
+              <p>16 个 token 内的累计 log-decay 被限制在 (-80,0)，倒数小于 e⁸⁰，仍在 BF16 动态范围内。于是对角与非对角 tile 都能使用 Tensor Core 的密集矩阵乘法。K3 还把 KDA 的输出门改为输入相关的满秩投影：</p>
+              <div class="formula">yₜ = Wₒ[Sigmoid(Wg xₜ) ⊙ RMSNorm(õₜ)]</div>
+            </div>
+          </details>
+
+          <h4>Gated MLA：保留全局注意力，但压缩 KV</h4>
+          <p>MLA 把每个 token 的 K/V 内容压缩为低维 latent <code>cₜ = Wc xₜ</code> 存入缓存，需要计算注意力时再通过上投影恢复。这减少 KV cache。K3 的 MLA 不显式使用位置编码（NoPE）；位置与近因信息由前后 KDA 层的递归门控提供，MLA 负责不受距离限制的内容交互。</p>
+          <p>K3 给 MLA 也加入通道级满秩输出门。训练中还把 attention 输出保留为 FP32，以修正 flash attention 的偏置舍入误差；因为 FP32 tile 占更多片上空间，内核重新安排了输出 tile 与 KV staging buffer 的重叠方式。</p>
+
+          <h3>2.2 AttnRes：让后层重新查看前层</h3>
+          <p>普通残差把历史层不断相加进一个状态。AttnRes 给每层一个可学习伪查询，对嵌入层和先前层输出计算 softmax 权重，再加权取回。这里的权重由“层”决定，不是由每个 token 的内容单独生成。</p>
+          <div class="formula">αᵢ→ₗ = exp(qₗᵀ RMSNorm(kᵢ)) / Σⱼ exp(qₗᵀ RMSNorm(kⱼ))
+hₗ = Σᵢ αᵢ→ₗ · vᵢ</div>
+          <p>全量版计算约 <code>O(L²d)</code>，但 L&lt;100 尚可；真正昂贵的是保存所有层输出。Block AttnRes 把层输出按约 12 层一组求和，只在块级做完整注意力。K3 的 93 层形成 8 个层块，再加嵌入源，共 9 个可取回块级表示；内存和通信从 <code>O(Ld)</code> 降到 <code>O(Nd)</code>。</p>
+
+          <div class="visual-block reveal-target">
+            <div class="visual-head"><h4>残差是一路传话，AttnRes 是回头查档案</h4><p>右侧当前块用一条伪查询，对嵌入与先前块重新分配权重；不是所有旧层都被一视同仁地相加。</p></div>
+            <div class="attnres-map" role="img" aria-label="当前层从嵌入和四个先前块选择性取回信息">
+              <div class="depth-stack">
+                <div class="depth-layer">Embedding · 原始 token 表示</div>
+                <div class="depth-layer">Block 1 · 早期特征</div>
+                <div class="depth-layer">Block 2 · 中层组合</div>
+                <div class="depth-layer">Block 3 · 高层语义</div>
+              </div>
+              <div class="depth-arrows" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="depth-query"><small>Pseudo-query qₗ</small><b>当前 Block</b><span>softmax 决定从每份旧表示取回多少，再与当前计算继续组合。</span></div>
+            </div>
+          </div>
+
+          <h3>2.3 Stable LatentMoE：把专家放进潜空间</h3>
+          <p>共享专家直接处理 7168 维完整表示；路由分支先降到 3584 维潜空间，经过被选中的专家，再升回完整宽度。这样可以扩大专家池而不让每个专家都承担全宽通信。</p>
+
+          <div class="visual-block reveal-target">
+            <div class="visual-head"><h4>896 个专家并不一起开工</h4><p>下图用 32 个格子缩略表示专家池；绿色表示被当前 token 选中，金色表示始终参与的共享专家。真实配置是 896 选 16，另有 2 个共享专家。</p></div>
+            <div class="moe-map">
+              <div class="token-source"><small>完整表示</small><br><b>7168 维 token</b><br><span class="small">先降到 3584 维</span></div>
+              <div class="router-diamond"><span>ROUTER<br>TOP-16</span></div>
+              <div>
+                <div class="expert-field" aria-label="专家池缩略图，少数专家激活">
+                  <i class="shared"></i><i class="shared"></i><i></i><i class="active"></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i class="active"></i><i></i><i></i><i></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i></i><i class="active"></i><i></i><i></i>
+                  <i></i><i></i><i></i><i></i><i class="active"></i><i></i><i></i><i></i>
+                </div>
+                <div class="expert-legend"><span><i style="background:var(--gold)"></i>共享专家</span><span><i style="background:var(--forest)"></i>被选路由专家</span><span><i style="background:var(--paper);border:1px solid var(--line)"></i>本次休眠</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="formula">u = Σᵢ∈TopK pᵢ Eᵢʳᵒᵘᵗᵉᵈ(W↓x)
+y = Σⱼ₌₁² Eⱼˢʰᵃʳᵉᵈ(x) + W↑ RMSNorm(u)</div>
+          <h4>Normalized LatentMoE</h4>
+          <p>路由专家聚合值的尺度会随专家与权重变化。K3 在升维前加入 RMSNorm，减少尺度波动；报告称这既稳定训练，也降低验证损失并改善下游成绩。</p>
+          <h4>SiTU-GLU</h4>
+          <p>SwiGLU 的两个相乘分支都可能无限增大，低精度下容易产生离群激活。SiTU 用平滑 tanh 上限包住两个分支，同时保留原点附近近似线性的形状：</p>
+          <div class="formula">SiTU-GLU(x) =
+[β₁ tanh(Wg x / β₁) ⊙ Sigmoid(Wg x)]
+⊙ [β₂ tanh(Wu x / β₂)]
+
+β₁ = 4, β₂ = 25, 因此单坐标绝对值不超过 100</div>
+          <h4>Quantile Balancing（QB）</h4>
+          <p>路由分数为 <code>sᵢ = Sigmoid(Wr xᵢ)</code>。专家偏置 b 只参与 Top-k 选择，不进入最终混合权重，因此它改变“发给谁”，不直接改变“以多大权重混合”。目标负载是每个专家 <code>q = mk/n</code> 个 token。</p>
+          <ol>
+            <li>用当前偏置做 Top-(k+1)，第 k+1 名给出每个 token 的进入门槛 α；</li>
+            <li>对每个专家统计 <code>sᵢⱼ - αᵢ</code> 的分布；</li>
+            <li>取 <code>1-k/n</code> 分位数得到下一步偏置，再做均值中心化；</li>
+            <li>为保证因果性，新偏置下一训练步才生效；推理时冻结最终偏置。</li>
+          </ol>
+          <p>全局 batch 有数百万 token，无法收集全部 margin。实际实现每位专家维护直方图，训练步结束做一次整数 all-reduce，再从合并计数估计分位数。附录给出的实现使用 1000 个 bin，误差不超过一个 bin 宽度。</p>
+
+          <h3>2.4 MoonViT-V2：原生视觉入口</h3>
+          <p>MoonViT-V2 是约 401M 参数、27 层、patch size 14、12 个注意力头的视觉 Transformer。它不用 SigLIP 初始化，而是从零参与 next-token prediction。报告的消融显示，SigLIP 初始化版本梯度范数更高、尖峰更多；从零训练更平稳，并在视觉评测上匹配基线。</p>
+          <ul>
+            <li>图片和视频共享参数；注意力分为空间帧内与时间帧间两步；时间池化压缩视频 token。</li>
+            <li>线性和注意力投影去掉 bias，配合 RMSNorm 稳定从零训练。</li>
+            <li>2×2 pixel shuffle 把视觉 token 数降为四分之一；支持最高 3584×3584 输入。</li>
+            <li>视觉特征经轻量 MLP 投影到语言主干的共享嵌入空间。</li>
+          </ul>
+
+          <h3>2.5 Per-Head Muon：优化器也按注意力头拆开</h3>
+          <p>Muon 是 K3 矩阵参数使用的优化器。它通过 Newton-Schulz 迭代对动量矩阵做近似正交化。K3 对 Q/K/V 不再把所有注意力头当成一个大矩阵，而是逐头正交化，避免大梯度头支配共同更新尺度；报告称这改善了大规模训练稳定性，也略降优化器开销。</p>
+
+          <h3>2.6 K2 与 K3 完整架构对照</h3>
+          <div class="table-wrap"><table class="compact">
+            <thead><tr><th>项目</th><th>Kimi K2</th><th>Kimi K3</th><th>变化</th></tr></thead>
+            <tbody>
+              <tr><td>层数</td><td>61</td><td>93</td><td>+52%</td></tr><tr><td>总参数</td><td>1.04T</td><td>2.78T</td><td>+167%</td></tr>
+              <tr><td>激活参数</td><td>32.6B</td><td>104.2B</td><td>+220%</td></tr><tr><td>隐藏维度</td><td>7168</td><td>7168</td><td>不变</td></tr>
+              <tr><td>Latent MoE 维度</td><td>-</td><td>3584</td><td>主宽度的 0.5×</td></tr><tr><td>每专家隐藏维度</td><td>2048</td><td>3072</td><td>+50%</td></tr>
+              <tr><td>路由专家</td><td>384</td><td>896</td><td>+133%</td></tr><tr><td>每 token 激活专家</td><td>8</td><td>16</td><td>+100%</td></tr>
+              <tr><td>共享专家</td><td>1</td><td>2</td><td>+100%</td></tr><tr><td>注意力头</td><td>64</td><td>96</td><td>+50%</td></tr>
+              <tr><td>Dense 层</td><td>1</td><td>1</td><td>不变</td></tr><tr><td>词表</td><td>160K</td><td>160K</td><td>不变</td></tr>
+              <tr><td>训练上下文</td><td>128K</td><td>1M</td><td>8×</td></tr><tr><td>注意力</td><td>61 MLA</td><td>69 KDA + 24 MLA</td><td>混合</td></tr>
+              <tr><td>激活函数</td><td>SwiGLU</td><td>SiTU-GLU</td><td>有界</td></tr><tr><td>MTP 层</td><td>1</td><td>1</td><td>不变</td></tr>
+              <tr><td>ViT</td><td>-</td><td>401M / 27 层</td><td>原生视觉</td></tr>
+            </tbody>
+          </table></div>
+        </section>
+
+        <section id="pretrain" data-mark="三">
+          <h2>3. 预训练：先学会世界和语言</h2>
+          <h3>3.1 数据</h3>
+          <p>文本覆盖网页、代码、数学、知识四域，各自结合规则、质量分类器和去重，并通过小模型消融决定采样比例。知识与数学语料沿用 K2 的重述流程：改变风格和视角、分块自回归生成，再对照源文验证忠实度。</p>
+          <p>视觉语料包括 caption、图文交错文档、OCR、感知、视频和视觉编程。坐标监督同时使用绝对坐标与 [0,1] 归一化坐标。程序化多模态数据把代码与渲染结果配对，覆盖 SVG、3D、网页、游戏和 CAD，让模型学习“写代码 - 看结果 - 修改”。</p>
+
+          <h3>3.2 Scaling Law</h3>
+          <p>因为架构、数据和训练配方都变了，K3 重新搜索 batch size、峰值学习率、tokens-per-parameter 和模型形状。报告在 OOD 留出验证集上拟合曲线，称相对 K2 的综合缩放效率约提升 2.5×。</p>
+          <div class="caution"><span class="label">需要打折看</span>2.5× 是架构、数据和训练配方共同产生的厂商内部拟合结果，不是公开复现实验，不能拆成“某个模块单独贡献 2.5×”。</div>
+          <p>报告分别为 cosine decay 与 WSD 搜索各自最优超参数；在固定最低学习率、各自最优配置下，cosine 最终 loss 更低，因此 K3 采用 cosine，而不是拿同一组超参数直接比较。</p>
+
+          <h3>3.3 训练配方</h3>
+          <ul>
+            <li>文字与视觉从训练一开始就在同一个 next-token objective 中联合优化，而不是先训练语言模型、事后接视觉塔。</li>
+            <li>矩阵参数使用 Per-Head Muon，配合 K2 的 weight clipping；专家负载使用 QB。</li>
+            <li>cosine 学习率，1% 线性 warmup，weight decay = 0.1。</li>
+            <li>预训练先用 8K 上下文，之后扩到 64K。</li>
+          </ul>
+
+          <h3>3.4 从 64K 扩到 1M</h3>
+          <p>长文档和长视频中有近重复、二进制块、截断文件、无效机器日志等垃圾。K3 使用精确与模糊去重、视频帧感知哈希、规则与分类器过滤、结构验证；因自然长内容稀缺，还对其上采样。</p>
+          <p>“材料很长”不等于“任务需要远距离信息”。因此训练方把多份多模态文档和子任务重新排列、拼接，使答案必须综合散落在整段 1M 上下文中的信息。</p>
+          <div class="flow">
+            <div class="step"><b>8K</b><br><span class="small">预训练起点</span></div><div class="step"><b>64K</b><br><span class="small">预训练后段</span></div>
+            <div class="step"><b>256K</b><br><span class="small">cooldown</span></div><div class="step"><b>1M</b><br><span class="small">cooldown 末段</span></div>
+          </div>
+          <p>把昂贵的超长训练集中在总预算的小部分，既控制成本，也让模型逐步适应更长依赖。</p>
+        </section>
+
+        <section id="posttrain" data-mark="四">
+          <h2>4. 后训练：从“会续写”变成“会完成任务”</h2>
+          <div class="flow">
+            <div class="step"><b>SFT</b><br><span class="small">建立冷启动行为</span></div><div class="step"><b>RL × 9</b><br><span class="small">3 领域 × 3 努力档</span></div>
+            <div class="step"><b>MOPD</b><br><span class="small">九位教师合成一个模型</span></div><div class="step"><b>部署适配</b><br><span class="small">QAT + EAGLE-3</span></div>
+          </div>
+
+          <h3>4.1 SFT</h3>
+          <p>先用高质量示范轨迹建立工具调用、自适应推理和长程执行。数据由此前 Kimi 系列的领域模型合成，经过多阶段验证和人工参与标注，全部用 XTML 聊天模板序列化。量化感知训练从 SFT 阶段就开始。</p>
+
+          <h3>4.2 RL：九个领域/努力专家</h3>
+          <div class="grid3">
+            <div class="mini"><h4>General</h4><p>通用经验、视觉、推理、忠实性、搜索、知识工作。</p></div>
+            <div class="mini"><h4>General agents</h4><p>长程助理、深度研究、段落级写作。</p></div>
+            <div class="mini"><h4>Coding agents</h4><p>软件工程、编程经验、GPU kernel、Web 开发。</p></div>
+          </div>
+          <p>每个领域训练 low、high、max 三种推理努力，共九个专家模型。</p>
+
+          <div class="visual-block reveal-target">
+            <div class="visual-head"><h4>九位教师怎样回到一个模型</h4><p>先沿“领域 × 推理努力”训练九个策略，再在每次采样时调用对应教师，以逐 token 奖励蒸馏进统一学生。</p></div>
+            <div class="effort-matrix" aria-label="三个领域与三个推理努力等级组成九个教师">
+              <div class="head">Domain × Effort</div><div class="head">Low</div><div class="head">High</div><div class="head">Max</div>
+              <div class="domain">General</div><div class="teacher"><b>T1</b><small>短预算</small></div><div class="teacher"><b>T2</b><small>中预算</small></div><div class="teacher"><b>T3</b><small>大预算</small></div>
+              <div class="domain">General Agent</div><div class="teacher"><b>T4</b><small>短轨迹</small></div><div class="teacher"><b>T5</b><small>中轨迹</small></div><div class="teacher"><b>T6</b><small>长轨迹</small></div>
+              <div class="domain">Coding Agent</div><div class="teacher"><b>T7</b><small>短预算</small></div><div class="teacher"><b>T8</b><small>中预算</small></div><div class="teacher"><b>T9</b><small>大预算</small></div>
+            </div>
+            <div class="distill-funnel"><span>领域 d 决定老师</span><span>努力 e 决定预算档</span><span>log 概率比形成逐 token 奖励</span></div>
+            <div class="distill-target"><b>Unified Kimi K3</b><br><small>一个模型保留九种条件能力</small></div>
+          </div>
+
+          <h4>Partial rollout</h4>
+          <p>每轮有 N 个问题、每题 K 条轨迹。只要 λNK 条完成就先开始策略优化，未完成轨迹暂停，下一轮优先恢复。长轨迹跨越多轮会产生陈旧数据，算法依靠逐 token 正则把更新限制在局部策略邻域，以承受强 off-policy。</p>
+          <h4>推理努力控制</h4>
+          <p>每题先由冷启动模型估计预算 <code>b₀(x)</code>；如果轨迹 token 总量超过 <code>τ·b₀(x)</code>，奖励覆盖为 -1。先以较大 τ 训练 max，再逐步降低 τ 得到 high、low。通用任务计 thinking token，agent 任务计推理与工具参数等累计输出 token。</p>
+          <h4>Agentic GRM</h4>
+          <p>对无法写确定性验证器的任务，生成式裁判必须依次：阅读产出、生成 rubric、按 rubric 评分、把分数写入 scorepad。比较采用组内二元竞赛。为防“越长越容易骗高分”，超过冷启动长度估计 <code>σ·ℓ₀</code> 的候选自动输掉比较。</p>
+
+          <h3>4.3 MOPD：把九个专家蒸馏回一个学生</h3>
+          <p>训练时采样领域 d 与努力档 e，由对应教师指导统一学生。逐 token 奖励不是简单的概率比，而是教师/学生概率比的对数，stop-gradient 后裁剪：</p>
+          <div class="formula">rᵈ_opd(yₜ | e,x,y&lt;t) =
+clip(sg(log[πteacher(d,e)(yₜ|x,y&lt;t) / πθ(yₜ|e,x,y&lt;t)]), -Rmax, Rmax)</div>
+          <p>这种稠密奖励可直接接入原 RL 框架，也能继续使用 partial rollout。团队试过更细的 top-k 蒸馏，但没有观察到明显优势。</p>
+
+          <h3>4.4 部署感知训练</h3>
+          <h4>MXFP4 / MXFP8 QAT</h4>
+          <p>占参数内存主体的 MoE 路由专家权重使用 MXFP4，专家输入激活使用 MXFP8；注意力、LatentMoE 投影、共享专家和路由器保持高精度。SFT 与 RL 全程使用同一量化方案，rollout 和训练也一致，减少训练/推理错位。</p>
+          <h4>EAGLE-3 草稿模型</h4>
+          <p>K3 预训练已有一层 MTP，结构接近 EAGLE-3 的单层草稿解码器。微调时冻结主模型，只更新草稿层和特征融合投影；融合第 1、第 4、最后一个 AttnRes block 的低/中/高层特征，初始权重设为只使用高层特征。训练展开 7 步，直接最小化接受率的负对数，而不是 KL：</p>
+          <div class="formula">Lᴸᴷ = -log Σₓ∈V min(p(x), q(x))</div>
+
+          <h3>4.5 训练任务是怎样合成和验证的</h3>
+          <div class="card">
+            <h4>统一白盒 RL 环境</h4>
+            <p>把工具接口、系统提示、上下文管理、技能、记忆、子 agent 等做成可组合模块，动态实例化 Kimi Code、Claude Code、Codex、OpenClaw、Hermes 或新 harness，避免模型只熟悉一种工具格式。</p>
+            <h4>知识图谱驱动任务合成</h4>
+            <p>从粗粒度种子节点出发，agent 搜索网络并递归扩展有向无环知识图谱；发现节点前先查重和寻找关联。采样不同层级、相互相关的节点形成关键词，再检索真实材料，按知识、代码、视觉等任务类型合成训练实例。</p>
+            <h4>可验证 agent 任务</h4>
+            <p>包括多步网络检索、投行/数据分析/法律等专业交付物，以及 STEM、图表和视觉谜题。视觉 agent 在隔离 Python 环境中裁剪、放大、变换图片、精确计算并读取生成图像。</p>
+            <h4>GPU kernel 优化</h4>
+            <p>任务来自高质量开源仓库，覆盖 CUDA、Triton、CuTe DSL、Gluon、ThunderKittens、TileLang，以及 BF16/FP8/FP4。数值误差超阈值则奖励为零；达到专家实现奖励 0.5，接近硬件 roofline 趋向 1。另有防 CUDA graph replay、输入缓存和偷降精度的反作弊系统。</p>
+            <h4>长程个人助理</h4>
+            <p>用 Gmail、Notion、Slack、Canvas 等模拟应用构建多日环境。任务横跨人力、法律、金融，多应用事件互相依赖；一条 rollout 最多包含数千工具调用和数百万累计上下文 token。</p>
+            <h4>Autonomous Execution Tasks</h4>
+            <p>只给初始状态、约束目标、工具空间、预算和验证接口，不给参考轨迹。奖励来自最终环境状态。公共验证器提供诊断，隐藏验证器测未见场景；agent 与验证器隔离，并限制提交次数防奖励作弊。</p>
+            <h4>Web 开发</h4>
+            <p>覆盖网站、游戏、3D/WebGL、数据可视化、SVG、全栈应用。确定性检查验证功能、结构和像素相似度；构建失败、运行报错或伪造实现直接清零。内部奖励模型还会读源码并实际观察、操作产物。</p>
+          </div>
+        </section>
+
+        <section id="infra" data-mark="五">
+          <h2>5. 基础设施：为什么模型论文有一半像系统论文</h2>
+          <p class="lead">K3 同时面对混合 KDA、3T 级稀疏多模态训练、1M token agent 轨迹。模型结构能写在公式里，但能否训练和服务，取决于数据如何在数百张 GPU、CPU 内存、NVMe 和沙箱之间移动。</p>
+
+          <div class="visual-block reveal-target">
+            <div class="visual-head"><h4>真正被调度的，不只是算力，而是“状态”</h4><p>越靠左越快、越贵、容量越小；越靠右越慢、容量越大。K3 在不同阶段移动模型权重、激活、KV 前缀和环境状态。</p></div>
+            <div class="state-map" role="img" aria-label="GPU、CPU、NVMe 和微虚拟机之间的状态流动">
+              <div class="state-tier"><em>HOT / DEVICE</em><b>GPU HBM</b><span>活跃解码 KV</span><span>当前模型分片</span><span>双梯度缓冲</span></div>
+              <div class="state-tier"><em>WARM / HOST</em><b>CPU DRAM</b><span>被驱逐的前缀</span><span>参考模型权重</span><span>分片梯度</span></div>
+              <div class="state-tier"><em>COLD / STORAGE</em><b>NVMe</b><span>训练权重状态</span><span>优化器状态</span><span>阶段间腾挪</span></div>
+              <div class="state-tier"><em>WORLD / RUNTIME</em><b>AgentENV</b><span>工具运行现场</span><span>Pause / Fork</span><span>Checkpoint / Resume</span></div>
+            </div>
+          </div>
+
+          <h3>5.1 KDA 内核与上下文并行</h3>
+          <ul>
+            <li><b>FlashKDA</b>：训练/prefill 时把 chunk 内 token 并行计算与 chunk 间状态传播重叠；基于 CUTLASS，报告称显著快于 Triton 参考实现。</li>
+            <li><b>单卡内 CP</b>：超长 prefill 时，单纯 TP 只切注意力头，递归链仍长。规划器把序列段分给同一 GPU 的不同 SM，并行算各段变换，再精确合并。</li>
+            <li><b>KCP</b>：跨设备时，每段输出两样东西：对入状态的累计线性变换 M，以及从零状态产生的本地状态 S̃。二者的组合满足结合律，各卡一次 all-gather 后做前缀扫描即可恢复正确入状态。</li>
+          </ul>
+          <div class="formula">一段 KDA 可以写成：Sout = Msegment · Sin + S̃segment
+两段组合：(M₂,S̃₂) ∘ (M₁,S̃₁) = (M₂M₁, M₂S̃₁ + S̃₂)</div>
+          <p>交换的数据大小由状态维度决定，不随本地序列长度增长，因此计算可随 CP 设备近似线性扩展。</p>
+
+          <h3>5.2 3T 预训练</h3>
+          <p>系统组合 PP+虚拟流水阶段、EP、ZeRO-1 DP、Pipeline ZeRO-2 梯度分片和 CP。共享专家在 EP rank 间复制，专家 dispatch/combine 的 all-to-all 与计算重叠。</p>
+          <h4>MoonEP：完美均衡的专家执行</h4>
+          <p>根据当前 micro-batch 和层的路由结果，在线规划并迁移冗余专家。若 E 为专家数、R 为 EP 并行度，论文证明每卡最多预留 E/R 个冗余专家槽，就总能找到每卡恰好接收 <code>S×K</code> token 的均衡方案，而且上界基本紧。</p>
+          <ul>
+            <li>GPU 规划器用离线 ILP 最优解作参考，近似规划但始终满足 E/R 上界。</li>
+            <li>规划器预计算 token 目的地，直接写入远端专家分组位置，省中间复制；最坏情况下 DeepEP 缓冲需 <code>S×K×R</code>，MoonEP 固定 <code>S×K</code>。</li>
+            <li>每卡 token 数固定，shape 静态，不必每层让 host 等 GPU 返回实际形状。</li>
+            <li>卡内专家负载仍不均，因此 group GEMM 使用 workload-aware 调度；共享专家放到独立 stream 与其他内核重叠。</li>
+          </ul>
+          <h4>内存管理</h4>
+          <ul>
+            <li>统一激活管理器把重算、块级 FP8 量化、本地/远端卸载变成可组合存储策略；主计算流使用单一内存池避免碎片。</li>
+            <li>MoE 通过等价梯度变换去掉对某些 forward 输出的 backward 依赖，并重算 dispatch，减少保存激活。</li>
+            <li>Block AttnRes 只在边界生成一次块表示，流水线只增量传新块。</li>
+            <li>把前面 PP rank 多出来的激活远端卸载到后面 rank，平衡流水线显存。</li>
+            <li>Pipeline ZeRO-2 把梯度分片并卸到 CPU，只在 GPU 保留双梯度缓冲。</li>
+            <li>Muon 正交化不 all-gather 全参数；每卡只通过 P2P 取自己负责矩阵的分片，并按 model chunk 流水化通信和计算。</li>
+          </ul>
+          <h4>视觉编码器优化</h4>
+          <p>大图按 patch 维度跨设备切分，gather KV 完成注意力；多个大图分散到多个 sub-CP group。ViT 前后向又被拆进流水线气泡，隐藏大部分视觉编码计算。</p>
+
+          <h3>5.3 1M agentic RL</h3>
+          <ul>
+            <li><b>同机训练与 rollout</b>：每个实验控制在数百 GPU；partial rollout 降低长尾等待。</li>
+            <li><b>外部 KV 池</b>：活跃解码块留 GPU；只有被驱逐的可复用前缀才写回 CPU DRAM，下一次使用前预取。训练迭代结束把权重与优化器状态卸到 NVMe，为缓存让出 DRAM。</li>
+            <li><b>自动节流</b>：根据活跃/排队请求、KV 利用率动态调并发，早期充分利用、后期避免缓存压力导致抢占。</li>
+            <li><b>梯度缓冲复用</b>：参考模型权重留 CPU，需要 forward 时流式写入策略模型 FP32 梯度缓冲；两个槽一算一预取。</li>
+          </ul>
+          <h4>AgentENV</h4>
+          <p>除了容器和 GPU 沙箱，团队与合作方开发基于 Firecracker 的 microVM。它允许 agent 挂载磁盘、运行容器甚至虚拟机，同时隔离宿主机；早期容器实验曾因 agent 操作触发 kernel panic 和死锁。</p>
+          <ul>
+            <li>增量 checkpoint / resume 最低 133ms / 49ms；</li>
+            <li>Pause 时不占 CPU 或内存，模型推理等待可占沙箱生命周期最高 98%；</li>
+            <li>Fork 复制状态供无副作用裁判，Snapshot 用于故障恢复；</li>
+            <li>OverlayBD、定制 ublk、存储共享、P2P、写时复制内存，实测最高 6.5× 内存超卖；</li>
+            <li>训练与评测共创建 51,219,741 个沙箱、1,505,678 个镜像。</li>
+          </ul>
+
+          <h3>5.4 推理和线上服务</h3>
+          <h4>KDA-aware 前缀缓存</h4>
+          <p>MLA KV 随 token 增长，KDA 每组只有固定大状态；命中前缀必须同时恢复二者。系统把两类缓存放入同一 paged pool、统一页字节数和分配/引用/淘汰逻辑。</p>
+          <p>物理块可能有 1024-6144 token；若哈希粒度也这么粗，短请求无法复用。K3 把哈希细分为 512-token block，而 KDA checkpoint 只保存在其中稀疏端点，通常是对话轮次边界。查找先匹配 MLA，再要求所有 KDA cache group 在同一候选边界都有 checkpoint，最终取最长共同命中。</p>
+          <p>并发下先跨组 pin 命中块，再分配私有副本；本调度步刚分配/登记的块暂不允许命中；任何 KDA 组淘汰 checkpoint 时原子失效其兄弟组，避免“MLA 命中了、KDA 状态却不是同一前缀”。</p>
+          <h4>专用推理内核</h4>
+          <ul>
+            <li><b>KDA 投机解码</b>：草稿 token 若被拒绝，递归状态已前进。逐位置保存完整状态太贵，因此只缓存小得多的投影输入，在片上重放被接受 token，再写回验证和 bonus 状态。</li>
+            <li><b>Block AttnRes</b>：prefill 用 sequence parallelism 让每个 token 的块表示只在一张 TP rank 物化；decode 将跨块内核放副 stream，并把块内合并与 RMSNorm 融入前一 TP all-reduce。</li>
+            <li><b>Stable LatentMoE</b>：融合降维与路由 GEMM；潜权重跨 rank 分片，并把 all-gather 融入 GEMM epilogue。小 batch 专家解码采用 token-centric WarpDecode 思路，并离线重排权重减少反量化开销。</li>
+          </ul>
+          <h4>集群级调度</h4>
+          <p>典型 1M 编码请求可能已有 400K 前缀，只新增 4K；cache miss 比 hit 贵几个数量级。会话通过一致哈希绑定主、备两个集群：主保存缓存，主故障时备重做 prefill，但不同会话的备集群均匀分散。短于 2K 和最长 1M 的请求分配不同资源预算，防长请求突发拖垮所有请求的首 token 延迟。</p>
+        </section>
+
+        <section id="eval" data-mark="六">
+          <h2>6. 评测：分数说明了什么，又没说明什么</h2>
+          <h3>6.1 先看协议</h3>
+          <ul>
+            <li>K3 全部使用 max effort、temperature 1.0；单步推理/知识/无工具视觉任务 top-p 0.95，agent 任务 top-p 1.0。</li>
+            <li>Claude Fable 5 结果可能触发 fallback；GPT-5.6 Sol 结果可能带 cyberguard；GPT-5.5 使用 xhigh。</li>
+            <li>代码评测混用 Kimi Code、Claude Code、Codex；Terminal-Bench 2.1 对每个模型报告多 harness 最优值。</li>
+            <li>BrowseComp 的 91.2 使用 300K 触发上下文压缩；完全不做上下文管理、直接使用 1M 时是 90.4。</li>
+            <li>部分成绩来自 Artificial Analysis、Vals AI 和榜单快照，不是 Moonshot 自己重跑；时间截至 2026-07-23/24。</li>
+          </ul>
+
+          <div class="visual-block reveal-target">
+            <div class="visual-head"><h4>成绩不是一条排名，而是一张不平整的地形图</h4><p>左侧列报告中最清楚的强项，右侧列仍被前沿模型拉开的区域；每个标记保留原始基准和数字，不合成一个虚构总分。</p></div>
+            <div class="eval-map">
+              <div class="eval-side">
+                <h4>相对强项</h4>
+                <div class="eval-row"><span>BrowseComp</span><b>91.2</b><small>报告比较组第一；使用 300K 触发上下文压缩。</small></div>
+                <div class="eval-row"><span>ProgramBench</span><b>77.8</b><small>略高于 GPT-5.6 Sol 的 77.6。</small></div>
+                <div class="eval-row"><span>SWE-Marathon</span><b>42.0</b><small>高于 Opus 40.0、GPT-5.6 39.0、Fable 35.0。</small></div>
+                <div class="eval-row"><span>OmniDocBench</span><b>91.1</b><small>报告比较组最高。</small></div>
+              </div>
+              <div class="eval-side">
+                <h4>明确短板</h4>
+                <div class="eval-row"><span>HLE-Full</span><b>43.5 / 56.0</b><small>无工具 / 有工具，落后 Fable 53.3 / 63.0。</small></div>
+                <div class="eval-row"><span>CritPt</span><b>23.4</b><small>落后 GPT-5.6 32.3、Fable 28.6、GPT-5.5 27.1。</small></div>
+                <div class="eval-row"><span>MIRA 内部评测</span><b>64.1</b><small>低于 Fable 72.9。</small></div>
+                <div class="eval-row"><span>Agent Behavior</span><b>65.0</b><small>低于 GPT-5.6 76.4 与 Fable 75.5。</small></div>
+              </div>
+            </div>
+            <div class="source-strip"><span>Moonshot self-run</span><span>Third-party snapshot</span><span>Harness sensitive</span><span>Fallback / refusal caveat</span><span>2026-07-23/24</span></div>
+          </div>
+
+          <h3>6.2 公开主表</h3>
+          <p class="small">顺序：K3 / Fable 5 / GPT-5.6 Sol / Opus 4.8 / GPT-5.5 / GLM-5.2。“-”表示报告未列。工具增强任务为“无工具 / 有工具”。</p>
+          <div class="table-wrap"><table class="compact">
+            <thead><tr><th>Benchmark</th><th>K3</th><th>Fable 5</th><th>GPT-5.6</th><th>Opus 4.8</th><th>GPT-5.5</th><th>GLM-5.2</th></tr></thead>
+            <tbody>
+              <tr><td>GPQA Diamond</td><td>93.5</td><td>92.6</td><td>94.1</td><td>91.0</td><td>93.5</td><td>91.2</td></tr>
+              <tr><td>CritPt</td><td>23.4</td><td>28.6</td><td>32.3</td><td>20.9</td><td>27.1</td><td>20.9</td></tr>
+              <tr><td>AA-LCR</td><td>74.7</td><td>70.0</td><td>73.7</td><td>67.7</td><td>74.3</td><td>71.3</td></tr>
+              <tr><td>HLE-Full</td><td>43.5 / 56.0</td><td>53.3 / 63.0</td><td>44.5 / 58.0</td><td>49.8 / 57.9</td><td>41.4 / 52.2</td><td>-</td></tr>
+              <tr><td>DeepSWE</td><td>67.5</td><td>70.0</td><td>73.0</td><td>59.0</td><td>67.0</td><td>46.2</td></tr>
+              <tr><td>ProgramBench</td><td>77.8</td><td>76.8</td><td>77.6</td><td>71.9</td><td>70.8</td><td>63.7</td></tr>
+              <tr><td>Terminal-Bench 2.1</td><td>88.3</td><td>88.0</td><td>88.8</td><td>84.6</td><td>83.4</td><td>82.7</td></tr>
+              <tr><td>FrontierSWE</td><td>81.2</td><td>86.6</td><td>71.3</td><td>66.7</td><td>64.9</td><td>67.3</td></tr>
+              <tr><td>SWE-Marathon</td><td>42.0</td><td>35.0</td><td>39.0</td><td>40.0</td><td>14.0</td><td>13.0</td></tr>
+              <tr><td>PostTrainBench</td><td>36.6</td><td>41.4</td><td>34.6</td><td>34.1</td><td>28.4</td><td>34.3</td></tr>
+              <tr><td>MLS-Bench-Lite</td><td>48.3</td><td>49.9</td><td>46.2</td><td>42.8</td><td>35.5</td><td>40.4</td></tr>
+              <tr><td>SciCode</td><td>58.7</td><td>60.2</td><td>56.1</td><td>53.5</td><td>56.1</td><td>50.5</td></tr>
+              <tr><td>BrowseComp</td><td>91.2</td><td>88.0</td><td>90.4</td><td>84.3</td><td>84.4</td><td>-</td></tr>
+              <tr><td>DeepSearchQA F1</td><td>95.0</td><td>94.2</td><td>-</td><td>93.1</td><td>-</td><td>-</td></tr>
+              <tr><td>ResearchRubrics</td><td>76.2</td><td>-</td><td>73.8</td><td>73.5</td><td>64.0</td><td>71.1</td></tr>
+              <tr><td>GDPval-AA v2 Elo</td><td>1686</td><td>1747</td><td>1736</td><td>1593</td><td>1491</td><td>1510</td></tr>
+              <tr><td>Toolathlon-Verified</td><td>76.5</td><td>77.9</td><td>74.9</td><td>76.2</td><td>73.5</td><td>59.9</td></tr>
+              <tr><td>MCPMark-Verified</td><td>94.5</td><td>87.4</td><td>92.9</td><td>76.4</td><td>92.9</td><td>-</td></tr>
+              <tr><td>MCP-Atlas</td><td>84.2</td><td>84.7</td><td>83.6</td><td>83.6</td><td>82.8</td><td>82.6</td></tr>
+              <tr><td>AutomationBench</td><td>30.8</td><td>29.1</td><td>29.7</td><td>27.2</td><td>22.7</td><td>12.9</td></tr>
+              <tr><td>JobBench</td><td>54.3</td><td>57.4</td><td>45.4</td><td>48.4</td><td>38.3</td><td>43.4</td></tr>
+              <tr><td>AA-Briefcase Elo</td><td>1548</td><td>1583</td><td>1495</td><td>1354</td><td>1158</td><td>1260</td></tr>
+              <tr><td>Agents' Last Exam</td><td>28.3</td><td>25.7</td><td>29.6</td><td>27.0</td><td>26.6</td><td>20.4</td></tr>
+              <tr><td>APEX-Agents</td><td>41.0</td><td>43.3</td><td>39.9</td><td>39.4</td><td>38.5</td><td>35.6</td></tr>
+              <tr><td>OfficeQA Pro</td><td>63.3</td><td>69.9</td><td>63.2</td><td>63.9</td><td>60.9</td><td>41.4</td></tr>
+              <tr><td>SpreadsheetBench 2</td><td>34.8</td><td>34.7</td><td>32.4</td><td>31.6</td><td>29.1</td><td>28.1</td></tr>
+              <tr><td>OSWorld-Verified</td><td>84.8</td><td>85.0</td><td>83.0</td><td>83.4</td><td>79.0</td><td>-</td></tr>
+              <tr><td>OSWorld 2.0</td><td>58.3</td><td>66.1</td><td>62.6</td><td>55.7</td><td>49.5</td><td>-</td></tr>
+              <tr><td>SaaS-Bench</td><td>60.1</td><td>-</td><td>61.4</td><td>56.1</td><td>43.8</td><td>-</td></tr>
+              <tr><td>τ3-Banking</td><td>33.4</td><td>26.8</td><td>33.0</td><td>27.6</td><td>31.3</td><td>26.8</td></tr>
+              <tr><td>Harvey Lab-AA</td><td>94.6</td><td>93.6</td><td>87.2</td><td>91.1</td><td>86.3</td><td>91.0</td></tr>
+              <tr><td>CorpFin v2</td><td>71.6</td><td>71.8</td><td>64.4</td><td>66.7</td><td>68.4</td><td>66.1</td></tr>
+              <tr><td>Finance Agent v2</td><td>54.4</td><td>56.3</td><td>53.8</td><td>53.9</td><td>51.8</td><td>49.7</td></tr>
+              <tr><td>Legal Research Bench</td><td>44.2</td><td>49.5</td><td>48.1</td><td>43.8</td><td>40.4</td><td>31.3</td></tr>
+              <tr><td>WorldVQA ForceAnswer</td><td>51.0</td><td>56.7</td><td>41.8</td><td>39.1</td><td>38.5</td><td>-</td></tr>
+              <tr><td>OmniDocBench</td><td>91.1</td><td>89.8</td><td>85.8</td><td>87.9</td><td>89.4</td><td>-</td></tr>
+              <tr><td>PerceptionBench</td><td>58.5</td><td>57.2</td><td>59.7</td><td>47.2</td><td>55.8</td><td>-</td></tr>
+              <tr><td>Video-MME</td><td>90.0</td><td>-</td><td>89.5</td><td>86.0</td><td>89.3</td><td>-</td></tr>
+              <tr><td>MMVU</td><td>82.1</td><td>-</td><td>81.2</td><td>79.2</td><td>81.7</td><td>-</td></tr>
+              <tr><td>BabyVision + Python</td><td>85.7</td><td>90.5</td><td>88.9</td><td>81.2</td><td>83.6</td><td>-</td></tr>
+              <tr><td>MMMU-Pro</td><td>81.6 / 83.4</td><td>81.2 / 86.5</td><td>83.0 / 84.6</td><td>78.9 / 82.7</td><td>81.2 / 83.2</td><td>-</td></tr>
+              <tr><td>CharXiv RQ</td><td>84.8 / 91.3</td><td>88.9 / 93.5</td><td>84.6 / 89.1</td><td>80.5 / 89.9</td><td>84.1 / 89.0</td><td>-</td></tr>
+              <tr><td>Math-Vision</td><td>94.3 / 97.8</td><td>94.8 / 98.6</td><td>95.8 / 97.8</td><td>86.7 / 97.1</td><td>92.2 / 96.8</td><td>-</td></tr>
+              <tr><td>ZeroBench pass@5</td><td>23.0 / 41.0</td><td>23.0 / 46.0</td><td>17.0 / 35.0</td><td>17.0 / 34.0</td><td>22.0 / 41.0</td><td>-</td></tr>
+            </tbody>
+          </table></div>
+
+          <h3>6.3 内部评测告诉了什么</h3>
+          <p>K3 的内部优势集中在 Swarm Bench 76.3、Deep Research 90.0、Coding Experience 59.9，以及 WebDev 对 Opus 4.8 的盲评净胜 31.0 个百分点。弱项集中在 MIRA 64.1（Fable 72.9）、Agent Behavior 65.0（GPT-5.6 76.4）、24/7 ClawBench 48.3、Agentic Vision 78.3、KWV 64.7。</p>
+          <details><summary>展开：内部评测完整摘要</summary><div>
+            <ul>
+              <li>KCB 2.0：Claude Code 下 K3 73.7、Fable 76.9、Opus 71.7、GLM 64.2；Kimi Code 下 K3 72.9、GPT-5.5 66.0；Codex 下 GPT-5.6 64.8、GPT-5.5 69.0。</li>
+              <li>24/7 ClawBench：48.3 / 47.4 / 52.0 / 47.2 / 48.5 / 43.2。</li>
+              <li>MIRA：64.1 / 72.9 / 62.2 / 59.8 / 54.6 / -；KAET：83.5 / - / 85.4 / 78.7 / 79.7 / 74.7。</li>
+              <li>CLIF：52.4 / - / 50.6 / 48.8 / 52.3 / 39.2；Agentic Vision：78.3 / 81.1 / 82.9 / 82.8 / 76.9 / -。</li>
+              <li>Swarm：76.3 / - / 73.2 / 72.6 / 61.8 / 58.5；Online Experience：77.9 / 74.2 / 84.0 / 69.4 / 73.7 / 64.0。</li>
+              <li>Deep Research：90.0 / - / 85.3 / 87.2 / 81.9 / 84.0；Finance：62.6 / - / 62.7 / 60.7 / 58.4 / 55.4。</li>
+              <li>KWV：64.7 / 63.6 / 66.9 / 61.7 / 65.8 / -；DECK：73.5 / 73.0 / 74.7 / 66.9 / 68.2 / 68.6。</li>
+              <li>Agent Behavior：65.0 / 75.5 / 76.4 / 65.7 / 70.1 / -；Faithfulness：85.5 / - / 84.8 / 83.6 / 86.5 / 74.8。</li>
+              <li>Chat All-in-One：85.2 / 88.0 / 79.0 / 83.8 / 71.8 / -。</li>
+              <li>WebDev 对 Opus 4.8：游戏 55.6/3.7/40.7，3D/WebGL 72.7/13.7/13.6，网站/UI 克隆 52.6/21.1/26.3，总体 58.6/13.8/27.6（胜/平/负）。</li>
+            </ul>
+          </div></details>
+
+          <h3>6.4 第三方与成本</h3>
+          <ul>
+            <li>Artificial Analysis Intelligence Index 57.1，#4/580；若 GPT-5.6 不同 effort 合并为一个模型，则第三。</li>
+            <li>Vals Index 74.7，#2/39，低于 Fable 75.1，高于 GPT-5.6 73.1。</li>
+            <li>WebDev Arena 1678，#1/99；Text Arena 1486，#8/200；Agent Arena 9.1，#4/37。Elo 会随投票漂移。</li>
+            <li>KCB 2.0 中 K3 比 Fable 低 4 分，成本约 38%；BrowseComp 91.2、每题 $2.03，约为 GPT-5.6 成本一半、Claude max 的十分之一。</li>
+            <li>GDPval-AA v2 中 K3 比 GPT-5.6 低 50 Elo、成本低 13%，比 Fable 便宜 2.6×；AA-Briefcase 分数第二，成本约为 Fable 一半。</li>
+          </ul>
+          <div class="caution"><span class="label">怎样正确下结论</span>不能概括成“K3 稳定领先所有次一级闭源模型”。它在完整套件总体有竞争力，但不同任务、工具、harness 和拒答策略会改变排名；尤其 HLE、CritPt、MIRA、Agent Behavior、部分视觉和计算机使用仍有明显差距。</div>
+        </section>
+
+        <section id="cyber" data-mark="七">
+          <h2>7. 网络安全评测</h2>
+          <h3>Tier 1：发现并复现真实漏洞</h3>
+          <p>目标是当前代码库中的真实 bug，不是复述已知 CVE。模型在操作系统内核、数据库、AI 服务、Web 框架、区块链和 VPN 中产生数百个候选；经人工复核部分约 70% 为真，包括 6 个项目中的 16 个此前未知漏洞。</p>
+          <p>两个 Linux 案例：一处不完整上游修复造成可远程触发的堆越界写，被确认可作为远程拒绝服务原语；另一处 RDMA 修复误删权限检查，形成 Dirty-COW 类确定性本地提权原语。</p>
+          <h3>Tier 2：从漏洞走到完整利用</h3>
+          <p>36 题中 K3 解出 14 题（38.9%），GLM-5.2 解出 8 题（22.2%）。16 个用户态任务中 K3 成功 10 个；20 个 Linux kernel 任务中两模型都失败四分之三。所有题均由人类专家验证可解，估计总计约 540 专家小时。</p>
+          <p>四类反复失败：拿到利用原语却完成不了最后链条；在缓解措施下选错策略；陷入长时间无效调试；提交前验证不足。UK AISI 与 NIST CAISI 的独立评估也显示 K3 胜过 GLM-5.2，但在 41 个端到端任务中获得任意代码执行为 0，仍落后前沿网络安全模型。</p>
+          <div class="caution"><span class="label">比较限制</span>Anthropic 与 OpenAI 前沿模型会拒绝部分网络安全任务，报告因此没有在自建 36 题套件中与其直接横比。这既影响“能力比较”，也说明评测测到的是能力与安全策略的混合结果。</div>
+        </section>
+
+        <section id="cases" data-mark="八">
+          <h2>8. 案例研究：模型被拿去做了什么</h2>
+          <div class="case-metrics reveal-target" aria-label="案例研究中的关键工作量">
+            <div><b>24h</b><span>单项 GPU kernel 优化预算上限</span></div>
+            <div><b>48h</b><span>自主芯片原型运行</span></div>
+            <div><b>11,000+</b><span>AI ASIC 研究阅读页数</span></div>
+            <div><b>391</b><span>被分析的引力波事件</span></div>
+          </div>
+          <div class="grid2">
+            <div class="mini"><h4>GPU kernel 优化</h4><p>每题最多 24 小时，在 Hopper 和另一厂商 GPGPU 上优化 AttnRes、DSA、KDA、MLA。AttnRes 283.6ms 降至 114.4ms；DSA、KDA 分别降 55.1%、73.6%；MLA 超过峰值 TFLOPS 一半。</p></div>
+            <div class="mini"><h4>MiniTriton 编译器</h4><p>构建 Python tile DSL、warp 级 MLIR 注解/优化、PTX 代码生成、张量库、autograd、NN 模块、NCCL 分布式和稀疏/可视化原语；L20 上大矩阵乘接近 cuBLAS 实测 roofline 的 90%。</p></div>
+            <div class="mini"><h4>推理芯片原型</h4><p>48 小时自主运行，用开源 EDA 和 Nangate45 设计 4mm² nano K3 架构芯片；100MHz 时序闭合，RTL 模拟解码超过 8700 token/s，1.46M 标准单元、0.277MiB SRAM。</p></div>
+            <div class="mini"><h4>计算天体物理</h4><p>复现 I-Love-Q 普适关系：阅读并交叉验证 20 多篇论文，实现完整数值管线、评估 300 多种状态方程、发现公式不一致、写 3000 多行 Python 和交互 HTML，约两小时。</p></div>
+            <div class="mini"><h4>知识工作</h4><p>研究 42 年 AI ASIC 行业：87 份季报、99 份 PDF、11000 多页、2800 多次网络搜索、1100 多次终端查询、120 多轮迭代。另用 20 多个并发子 agent 分析 391 个引力波事件。</p></div>
+            <div class="mini"><h4>视频与动效</h4><p>制作 3Blue1Brown 风格架构解释视频，并从 56 条素材剪 teaser，完成镜头选择、运动匹配剪辑、逐帧节拍同步、音频处理和多轮修改。</p></div>
+          </div>
+          <div class="caution"><span class="label">案例不是基准</span>案例能证明系统可以完成复杂工作，但选择了成功样本，且许多效率对比是团队估算。它们适合展示能力边界，不适合当平均成功率。</div>
+        </section>
+
+        <section id="judgment" data-mark="九">
+          <h2>9. 最后怎么理解 Kimi K3</h2>
+          <h3>真正重要的四件事</h3>
+          <ol>
+            <li><b>把开放权重模型推到 3T 级。</b>这扩大了预训练这一条 scaling axis，而不是只靠测试时多思考。</li>
+            <li><b>长上下文不是一个数字，而是一整套协同。</b>KDA、周期性 MLA、NoPE、长数据课程、KCP、缓存和调度缺一不可。</li>
+            <li><b>Agent 能力来自环境和验证。</b>九位 RL 专家只是表层；白盒 harness、可验证任务、持久环境、partial rollout 和沙箱才让长轨迹可训练。</li>
+            <li><b>系统工程是主要贡献。</b>MoonEP、内存管理、AgentENV、KDA 状态缓存与推理内核决定 2.78T/1M 能否从论文变成服务。</li>
+          </ol>
+          <h3>它不是什么</h3>
+          <ul>
+            <li>不是“所有指标超过最强闭源模型”；报告明确承认总体仍落后 Fable 5 与 GPT-5.6 Sol。</li>
+            <li>不是“1M 就等于永久记忆”；它只是一次请求可处理的上限。</li>
+            <li>不是“开放权重就能在普通电脑低成本运行”；2.78T 模型仍依赖多机、多卡、量化格式和专用内核。</li>
+            <li>不是一个全新理论范式；更像把 KDA、MLA、AttnRes、LatentMoE、RL 和系统工程推到极端规模的整合。</li>
+          </ul>
+          <div class="truth"><span class="label">一句话结论</span>Kimi K3 最值得看的，不是某个榜单赢了 0.2 分，而是 Moonshot 展示了一条“开放权重、3T 稀疏模型、原生视觉、1M agent 轨迹”如何共同训练并上线的工程路线。</div>
+        </section>
+
+        <section id="glossary" data-mark="表">
+          <h2>术语表：读到忘了就回来</h2>
+          <dl>
+            <div class="term"><dt>Activated parameters</dt><dd>一次处理 token 真正参与计算的参数量，不等于总参数。</dd></div>
+            <div class="term"><dt>All-gather / all-reduce</dt><dd>多 GPU 集体通信：前者汇集各卡分片，后者聚合并把结果发回各卡。</dd></div>
+            <div class="term"><dt>BF16 / FP8 / FP4</dt><dd>不同位宽浮点格式；位宽越低通常越省内存，但精度和动态范围更受限。</dd></div>
+            <div class="term"><dt>Cooldown</dt><dd>预训练末期降低学习率并调整数据/上下文分布的阶段。</dd></div>
+            <div class="term"><dt>GEMM</dt><dd>通用矩阵乘法，GPU 大模型计算的核心操作。</dd></div>
+            <div class="term"><dt>Gradient</dt><dd>损失对参数的变化率，告诉优化器参数该往哪里调。</dd></div>
+            <div class="term"><dt>Harness</dt><dd>组织系统提示、工具、上下文、记忆、技能与子 agent 的运行外壳。</dd></div>
+            <div class="term"><dt>KV cache</dt><dd>保存历史 token 的注意力 K/V，避免每生成一个 token 都重算整个历史。</dd></div>
+            <div class="term"><dt>Latent</dt><dd>模型内部的低维压缩表示，不是人类预先定义的标签。</dd></div>
+            <div class="term"><dt>Off-policy</dt><dd>训练所用轨迹并非由当前最新策略产生；轨迹越陈旧，差异通常越大。</dd></div>
+            <div class="term"><dt>Prefill / decode</dt><dd>prefill 先处理已有输入上下文；decode 再逐 token 生成新内容。</dd></div>
+            <div class="term"><dt>QAT</dt><dd>量化感知训练：训练时模拟低精度误差，让模型学会适应部署格式。</dd></div>
+            <div class="term"><dt>Rank</dt><dd>语境一：矩阵独立方向数量；语境二：分布式系统中的一个进程/GPU。需按上下文判断。</dd></div>
+            <div class="term"><dt>Rollout</dt><dd>模型在环境中从开始到结束的一条完整或部分交互轨迹。</dd></div>
+            <div class="term"><dt>Router</dt><dd>MoE 中决定每个 token 发给哪些专家的小网络。</dd></div>
+            <div class="term"><dt>Speculative decoding</dt><dd>小草稿模型先猜多个 token，大模型一次验证；接受越多，加速越明显。</dd></div>
+            <div class="term"><dt>Tensor Core / SM</dt><dd>Tensor Core 是 GPU 专用矩阵计算单元；SM 是组织线程与计算资源的基本执行单元。</dd></div>
+            <div class="term"><dt>Top-p / temperature</dt><dd>生成采样设置。temperature 调整概率分布尖锐程度；top-p 只在累计概率达到 p 的候选中采样。</dd></div>
+            <div class="term"><dt>XTML</dt><dd>K3 的 XML 类聊天格式，用特殊 open/sep/close token 明确消息、思考、回答和工具边界。</dd></div>
+          </dl>
+          <details><summary>XTML 模板补充</summary><div>
+            <p>全局 option（工具声明、推理 effort）放在输入消息前；一次性 option（tool_choice、response_format）放在输入消息后，避免每次改变都让历史 KV cache 失效；会话中动态加载的工具可以作为 input option 插入。</p>
+            <p>assistant 消息分 think、response、tools 三个 channel。工具调用带 tool 和 index，返回结果重复同一对标识；字符串参数保留原始文本，其他类型紧凑 JSON。thinking 模式保留历史 think channel，instruct 模式历史只保留 response/tools。推理档位用自然语言 option 表示，而不是改模板或直接暴露 token 预算。</p>
+          </div></details>
+        </section>
+
+        <footer>
+          <p><strong>来源范围：</strong>Moonshot AI，《Kimi K3: Open Frontier Intelligence》技术报告，47 页。本文覆盖正文技术章节、主要公式、完整公开主评测表、内部评测摘要、网络安全、案例和关键附录；参考文献目录与贡献者名单未逐项转录。</p>
+          <p><strong>证据边界：</strong>文中“报告称”均指报告自身陈述；未把厂商内部实验、案例和榜单快照表述成独立复现事实。所有第三方榜单数字按报告所列 2026-07-23/24 快照。</p>
+        </footer>
+      </article>
+    </main>
+  </div>
+  <script is:inline>
+    const root=document.documentElement,progress=document.getElementById('progress');
+    const setSize=n=>{n=Math.max(15,Math.min(22,n));root.style.setProperty('--font-size',n+'px');localStorage.setItem('k3-font',n)};
+    setSize(Number(localStorage.getItem('k3-font'))||18);
+    document.getElementById('larger').onclick=()=>setSize(parseInt(getComputedStyle(root).getPropertyValue('--font-size'))+1);
+    document.getElementById('smaller').onclick=()=>setSize(parseInt(getComputedStyle(root).getPropertyValue('--font-size'))-1);
+    root.removeAttribute('data-theme');
+    localStorage.removeItem('k3-theme');
+    const sections=[...document.querySelectorAll('article>section')],links=[...document.querySelectorAll('aside nav a')];
+    const update=()=>{
+      const h=document.documentElement.scrollHeight-innerHeight;
+      progress.style.width=(h?scrollY/h*100:0)+'%';
+      let current=sections[0]?.id;
+      for(const s of sections) if(s.getBoundingClientRect().top<160) current=s.id;
+      links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+current));
+    };
+    addEventListener('scroll',update,{passive:true});update();
+    document.querySelectorAll('.mobile-nav a').forEach(a=>a.addEventListener('click',()=>a.closest('details').removeAttribute('open')));
+    const reveal=[...document.querySelectorAll('.reveal-target')];
+    if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+      const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+        if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}
+      }),{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+      reveal.forEach(node=>observer.observe(node));
+    }else reveal.forEach(node=>node.classList.add('is-visible'));
+  </script>
+</body>
+</html>
