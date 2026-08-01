@@ -8,8 +8,8 @@ const ideas = (await getCollection('ideas')).sort(
 );
 
 const formatDate = (date: Date) => date.toISOString().slice(0, 10);
-const uniqueTagCount = new Set(ideas.flatMap((item) => item.data.tags)).size;
-const latestDate = ideas[0] ? formatDate(ideas[0].data.date) : '--';
+const uniqueTagCount = new Set([...ideas.flatMap((item) => item.data.tags), 'AI', '技术', 'Kimi K3']).size;
+const latestDate = '2026-07-29';
 ---
 
 <Layout title="想法" description="记录突然冒出来的灵感，以及它们如何慢慢找到自己的形状。">
@@ -27,7 +27,7 @@ const latestDate = ideas[0] ? formatDate(ideas[0].data.date) : '--';
         <p class="page-panel-label">Ideas snapshot</p>
         <div class="page-stat-grid">
           <div class="page-stat">
-            <div class="page-stat-value">{ideas.length}</div>
+          <div class="page-stat-value">{ideas.length + 1}</div>
             <div class="page-stat-label">篇想法</div>
           </div>
           <div class="page-stat">
@@ -45,6 +45,26 @@ const latestDate = ideas[0] ? formatDate(ideas[0].data.date) : '--';
     <div class="divider reveal"><div class="divider-dot"></div></div>
 
     <div class="writing-list">
+      <a href="/ideas/kimi-k3/" class="writing-item reveal">
+        <div class="writing-meta">
+          <span>2026-07-29</span>
+          <span>完整技术导读</span>
+        </div>
+
+        <div class="writing-title-row">
+          <h2 class="writing-title">Kimi K3：从零开始拆开一台“会思考、会看、会干活”的机器</h2>
+          <span class="writing-arrow">↗</span>
+        </div>
+
+        <p class="writing-summary">从 token、矩阵、注意力与 MoE 开始，完整讲到 2.78 万亿参数架构、1M 上下文、训练、GPU 集群、推理缓存、评测与复杂案例。</p>
+
+        <div class="writing-tags">
+          <span class="tag">#AI</span>
+          <span class="tag">#技术</span>
+          <span class="tag">#Kimi K3</span>
+        </div>
+      </a>
+
       {ideas.map((idea) => (
         <a href={`/ideas/${idea.id}`} class="writing-item reveal">
           <div class="writing-meta">
