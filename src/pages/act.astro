@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/act.css';
+import { sources } from '../data/act';
+---
+<Layout title="ACT 练习" description="从此刻的状态开始。四种日常处境中的 ACT 方法体验。">
+  <div class="act-page">
+    <header class="act-heading"><p class="act-eyebrow">一处可以停留的地方 · 试用中</p><h1>ACT 练习</h1><p class="act-subtitle">从此刻的状态开始</p></header>
+    <div id="act-root"></div>
+    <noscript><section class="act-card"><h2>这里的互动需要 JavaScript</h2><p>你仍可以尝试：看一眼身边物件的边缘；注意到一个念头时，在心里加上“我正在想到……”。不需要让感受消失，也可以随时停下。</p><p>这是 ACT 方法体验，不作诊断，也不等同于完整心理治疗。中文情境与图形为本站原创。</p>{sources.map(([label,url])=><p><a href={url}>{label}</a></p>)}</section></noscript>
+    <footer class="act-tools" id="act-tools" hidden><button data-global="motion" aria-pressed="false">关闭动效</button><button data-global="clear">清除本机进度</button><p id="act-storage">选择仅保存在本机，不上传。可随时清除。</p></footer>
+    <p class="act-sr" id="act-announcement" role="status" aria-live="polite"></p>
+  </div>
+</Layout>
+<script>import '../scripts/act';</script>

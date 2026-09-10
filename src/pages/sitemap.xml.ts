@@ -20,7 +20,7 @@ export const GET: APIRoute = async () => {
     getCollection('mvp'),
   ]);
 
-  const staticPages = ['/', '/thinking/', '/ideas/', '/mvp/', '/about/'];
+  const staticPages = ['/', '/thinking/', '/ideas/', '/mvp/', '/about/', '/act/'];
   const contentPages = [
     ...thinking.map((entry) => ({ path: `/thinking/${entry.id}/`, date: entry.data.date })),
     ...ideas.map((entry) => ({ path: `/ideas/${entry.id}/`, date: entry.data.date })),

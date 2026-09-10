@@ -109,6 +109,10 @@ const collections = [
       </nav>
     </section>
 
+    <section class="page-wrap act-entry" aria-label="ACT 练习入口">
+      <a href="/act/"><span>ACT 练习 <small>试用中</small></span><p>从此刻的状态开始</p><b aria-hidden="true">↗</b></a>
+    </section>
+
     <section class="page-wrap archive-section reveal" aria-labelledby="archive-title">
       <header class="archive-header">
         <div>
@@ -136,6 +140,13 @@ const collections = [
 </Layout>
 
 <style>
+  .act-entry { margin-block: 36px; }
+  .act-entry a { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; padding: 24px 0; border-block: 1px solid var(--line-strong); color: var(--forest); }
+  .act-entry span { font: 25px/1.5 var(--display); }
+  .act-entry small { font: 12px/1.5 var(--body); padding: 3px 7px; border: 1px solid var(--line-strong); vertical-align: middle; margin-left: 12px; }
+  .act-entry p { font-size: 14px; color: var(--muted); grid-row: 2; }
+  .act-entry b { grid-column: 2; grid-row: 1 / 3; align-self: center; font-size: 26px; font-weight: 400; }
+
   .editorial-home {
     --editorial-line: rgba(24, 20, 17, 0.2);
     --editorial-accent: #bd3f1f;
