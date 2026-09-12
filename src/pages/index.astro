@@ -1,851 +1,96 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { getExcerpt } from '../utils/content';
-
-const ideas = (await getCollection('ideas')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-const mvps = (await getCollection('mvp')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-const thinking = (await getCollection('thinking')).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
-);
-
-const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll('-', '.');
-
-const allPosts = [
-  ...thinking.map((post) => ({ ...post, type: 'thinking', typeLabel: '思考' })),
-  ...ideas.map((post) => ({ ...post, type: 'ideas', typeLabel: '想法' })),
-  ...mvps.map((post) => ({ ...post, type: 'mvp', typeLabel: '实验' })),
-]
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 7);
-
-const latestPost = allPosts[0];
-const recentPosts = allPosts.slice(1);
-const collections = [
-  { href: '/thinking', label: '思考', english: 'Thinking', count: thinking.length },
-  { href: '/ideas', label: '想法', english: 'Ideas', count: ideas.length },
-  { href: '/mvp', label: '实验', english: 'Experiments', count: mvps.length },
-];
+const posts = (await Promise.all(['thinking','ideas','mvp'].map(async type => (await getCollection(type as 'thinking' | 'ideas' | 'mvp')).map(p => ({...p,type}))))).flat().sort((a,b)=>b.data.date.valueOf()-a.data.date.valueOf()).slice(0,7);
+const latest=posts[0];
+const date=(d:Date)=>d.toISOString().slice(0,10).replaceAll('-','.');
 ---
-
-<Layout title="昨夕秋" description="昨夕秋，记录思考、想法与实验。">
-  <div class="opening-sequence" aria-hidden="true">
-    <div class="opening-meta">
-      <span>Zuoxi Qiu</span>
-      <span>Digital garden · 2026</span>
-    </div>
-    <div class="opening-center">
-      <span class="opening-number">01</span>
-      <p>昨夕秋</p>
-      <i></i>
-    </div>
-    <div class="opening-foot">
-      <span>Thinking</span>
-      <span>Ideas</span>
-      <span>Experiments</span>
-    </div>
-  </div>
-
-  <div class="scroll-meter" aria-hidden="true">
-    <span class="scroll-meter-label">Scroll</span>
-    <i><b></b></i>
-    <span class="scroll-meter-value">00</span>
-  </div>
-
-  <div class="editorial-home">
-    <section class="page-wrap editorial-hero" aria-labelledby="latest-title">
-      <header class="issue-line">
-        <span>昨夕秋</span>
-        <span>Vol. 01</span>
-        <span>{latestPost ? formatDate(latestPost.data.date) : '2026'}</span>
-      </header>
-
-      {latestPost && (
-        <div class="feature-grid">
-          <div class="feature-index" aria-hidden="true">
-            <span>01</span>
-            <i></i>
-          </div>
-
-          <a href={`/${latestPost.type}/${latestPost.id}`} class="feature-story">
-            <div class="feature-label">
-              <span>最新文章</span>
-              <span>{latestPost.typeLabel}</span>
-            </div>
-            <h1 id="latest-title">{latestPost.data.title}</h1>
-            <div class="feature-link">
-              <span>阅读文章</span>
-              <span aria-hidden="true">↗</span>
-            </div>
-          </a>
-
-          <aside class="feature-deck">
-            <p>{latestPost.data.summary ?? getExcerpt(latestPost.body, 92)}</p>
-            <div class="feature-signature">
-              <span>Latest note</span>
-              <time datetime={latestPost.data.date.toISOString()}>
-                {formatDate(latestPost.data.date)}
-              </time>
-            </div>
-          </aside>
-        </div>
-      )}
-
-      <nav class="section-index" aria-label="内容分类">
-        {collections.map((item, index) => (
-          <a href={item.href}>
-            <span class="section-number">0{index + 1}</span>
-            <span class="section-name">
-              <strong>{item.label}</strong>
-              <small>{item.english}</small>
-            </span>
-            <span class="section-count">{String(item.count).padStart(2, '0')}</span>
-          </a>
-        ))}
-      </nav>
-    </section>
-
-    <section class="page-wrap act-entry" aria-label="ACT 练习入口">
-      <a href="/act/"><span>ACT 练习 <small>试用中</small></span><p>从此刻的状态开始</p><b aria-hidden="true">↗</b></a>
-    </section>
-
-    <section class="page-wrap archive-section reveal" aria-labelledby="archive-title">
-      <header class="archive-header">
-        <div>
-          <span>02</span>
-          <p>Archive / 最近发布</p>
-        </div>
-        <h2 id="archive-title">最近</h2>
-      </header>
-
-      <ol class="archive-list">
-        {recentPosts.map((post, index) => (
-          <li style={`--row: ${index}; --row-start: ${index % 2 === 0 ? '18px' : '-18px'}`}>
-            <a href={`/${post.type}/${post.id}`}>
-              <span class="archive-number">{String(index + 2).padStart(2, '0')}</span>
-              <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
-              <h3>{post.data.title}</h3>
-              <span class="archive-type">{post.typeLabel}</span>
-              <span class="archive-arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-        ))}
-      </ol>
-    </section>
-  </div>
-</Layout>
-
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="robots" content="index,follow"/><meta name="description" content="开始得以拥有自己。昨夕秋，记录思考、想法与实验。"/><link rel="canonical" href="https://zuoxiqiu.com/"/><meta property="og:type" content="website"/><meta property="og:title" content="昨夕秋"/><meta property="og:description" content="开始得以拥有自己。"/><meta property="og:url" content="https://zuoxiqiu.com/"/><meta property="og:site_name" content="昨夕秋"/><meta name="twitter:card" content="summary"/><meta name="theme-color" content="#10171a"/><title>昨夕秋</title><link rel="icon" href="/favicon.svg"/></head>
+<body>
+  <a class="skip" href="#reading">跳到文章</a>
+  <div class="ambient" aria-hidden="true"><div class="fallback"></div><canvas id="light"></canvas></div>
+  <section class="scene" aria-label="睁眼，看见光">
+    <header><a class="brand" href="/">昨夕秋</a><nav aria-label="主导航"><a href="/thinking">思考</a><a href="/ideas">想法</a><a href="/mvp">实验</a><a href="/about">关于</a></nav></header>
+    <div class="title"><span class="eyebrow">ZUOXIQIU</span><h1>昨夕秋</h1><p>开始得以拥有自己。</p></div>
+    <div class="scene-bottom"><a class="enter" href="#reading" aria-label="向下阅读文章"><i aria-hidden="true">↓</i></a></div>
+  </section>
+  <main id="reading">
+    <div class="paper-head"><span>文字，从这里开始</span><span>思考 / 想法 / 实验</span></div>
+    {latest && <article class="latest"><div class="meta">最近一篇 <time>{date(latest.data.date)}</time></div><a href={`/${latest.type}/${latest.id}`}><h2>{latest.data.title}</h2><p>{latest.data.summary}</p><span class="read">阅读文章 <span aria-hidden="true">↗</span></span></a></article>}
+    <nav class="sections" aria-label="内容分类"><a href="/thinking">思考 <small>Thinking</small></a><a href="/ideas">想法 <small>Ideas</small></a><a href="/mvp">实验 <small>Experiments</small></a></nav>
+    <a class="act" href="/act/"><span>ACT 练习 <small>试用中</small></span><span>从此刻的状态开始 ↗</span></a>
+    <div class="archive"><h2>最近</h2>{posts.slice(1).map(p=><a href={`/${p.type}/${p.id}`}><time>{date(p.data.date)}</time><h3>{p.data.title}</h3><span aria-hidden="true">↗</span></a>)}</div>
+    <footer><a class="brand" href="/">昨夕秋</a><span>© 2026 · ZUOXIQIU.COM</span><a href="/about">关于</a></footer>
+  </main>
+</body>
+</html>
 <style>
-  .act-entry { margin-block: 36px; }
-  .act-entry a { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; padding: 24px 0; border-block: 1px solid var(--line-strong); color: var(--forest); }
-  .act-entry span { font: 25px/1.5 var(--display); }
-  .act-entry small { font: 12px/1.5 var(--body); padding: 3px 7px; border: 1px solid var(--line-strong); vertical-align: middle; margin-left: 12px; }
-  .act-entry p { font-size: 14px; color: var(--muted); grid-row: 2; }
-  .act-entry b { grid-column: 2; grid-row: 1 / 3; align-self: center; font-size: 26px; font-weight: 400; }
-
-  .editorial-home {
-    --editorial-line: rgba(24, 20, 17, 0.2);
-    --editorial-accent: #bd3f1f;
-    --title-shift: 0px;
-    --index-shift: 0px;
-    --deck-shift: 0px;
-    --wheel-pull: 0px;
-  }
-
-  .opening-sequence {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    padding: clamp(1.5rem, 3vw, 2.75rem);
-    color: #f8f4eb;
-    background: #191612;
-    pointer-events: none;
-    transform-origin: top;
-    animation: opening-exit 850ms 1250ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
-  }
-
-  .opening-meta,
-  .opening-foot {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-    font-family: var(--mono);
-    font-size: clamp(0.68rem, 1vw, 0.78rem);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: opening-fade 600ms 100ms var(--ease-out) forwards;
-  }
-
-  .opening-center {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .opening-center p {
-    font-family: var(--display);
-    font-size: clamp(5.8rem, 17vw, 15rem);
-    line-height: 1.08;
-    letter-spacing: -0.06em;
-    opacity: 0;
-    transform: translateY(28px);
-    animation: opening-title 800ms 260ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  .opening-number {
-    position: absolute;
-    top: 11%;
-    left: 0;
-    font-family: var(--display);
-    font-size: clamp(3rem, 7vw, 6rem);
-    line-height: 1;
-    color: #d44b2a;
-    opacity: 0;
-    animation: opening-fade 500ms 420ms var(--ease-out) forwards;
-  }
-
-  .opening-center i {
-    position: absolute;
-    right: 0;
-    bottom: 13%;
-    width: min(24vw, 18rem);
-    height: 2px;
-    background: #d44b2a;
-    transform: scaleX(0);
-    transform-origin: right;
-    animation: opening-rule 750ms 470ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  .opening-foot {
-    justify-content: flex-start;
-  }
-
-  .opening-foot span + span::before {
-    content: '/';
-    margin-right: 2rem;
-    color: #d44b2a;
-  }
-
-  .scroll-meter {
-    position: fixed;
-    top: 50%;
-    right: max(0.7rem, calc((100vw - var(--content-max)) / 2 - 2.1rem));
-    z-index: 45;
-    display: grid;
-    justify-items: center;
-    gap: 0.75rem;
-    color: var(--soft);
-    transform: translateY(-50%);
-    opacity: 0;
-    animation: meter-in 700ms 1900ms var(--ease-out) forwards;
-  }
-
-  .scroll-meter-label,
-  .scroll-meter-value {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .scroll-meter-label {
-    writing-mode: vertical-rl;
-  }
-
-  .scroll-meter > i {
-    position: relative;
-    display: block;
-    width: 1px;
-    height: min(26vh, 13rem);
-    overflow: hidden;
-    background: rgba(24, 20, 17, 0.15);
-  }
-
-  .scroll-meter b {
-    position: absolute;
-    inset: 0;
-    display: block;
-    background: var(--editorial-accent);
-    transform: scaleY(var(--scroll-progress, 0));
-    transform-origin: top;
-    transition: transform 80ms linear;
-  }
-
-  .editorial-hero {
-    padding-top: clamp(2.8rem, 5vw, 4.5rem);
-  }
-
-  .issue-line {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 2rem;
-    padding: 0 0 1rem;
-    border-bottom: 2px solid var(--ink);
-    font-size: 0.84rem;
-    letter-spacing: 0.06em;
-    opacity: 0;
-    transform: translateY(12px);
-    animation: editorial-in 700ms 1580ms var(--ease-out) forwards;
-  }
-
-  .issue-line span:nth-child(2),
-  .issue-line span:nth-child(3) {
-    font-family: var(--mono);
-    color: var(--muted);
-  }
-
-  .feature-grid {
-    display: grid;
-    grid-template-columns: minmax(7rem, 0.17fr) minmax(0, 0.55fr) minmax(17rem, 0.28fr);
-    min-height: clamp(30rem, 63vh, 46rem);
-    border-bottom: 1px solid var(--editorial-line);
-  }
-
-  .feature-index {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: clamp(2rem, 4vw, 3.5rem) 1.5rem clamp(2rem, 4vw, 3rem) 0;
-    border-right: 1px solid var(--editorial-line);
-    color: var(--editorial-accent);
-    opacity: 0;
-    animation: editorial-in 650ms 1660ms var(--ease-out) forwards;
-  }
-
-  .feature-index span {
-    font-family: var(--display);
-    font-size: clamp(4rem, 7vw, 6.5rem);
-    line-height: 1;
-    transform: translate3d(0, var(--index-shift), 0);
-    transition: transform 120ms linear;
-  }
-
-  .feature-index i {
-    width: 0.85rem;
-    height: 0.85rem;
-    background: currentColor;
-    transform: translate3d(0, var(--wheel-pull), 0);
-    transition: transform 80ms linear;
-  }
-
-  .feature-story {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 2rem;
-    padding: clamp(2rem, 4vw, 3.5rem);
-    border-right: 1px solid var(--editorial-line);
-    opacity: 0;
-    animation: editorial-in 700ms 1740ms var(--ease-out) forwards;
-  }
-
-  .feature-label,
-  .feature-signature {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-
-  .feature-label span:first-child {
-    color: var(--editorial-accent);
-  }
-
-  .feature-story h1 {
-    margin: auto 0;
-    font-size: clamp(5rem, 11vw, 9rem);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    overflow: visible;
-    transform: translate3d(var(--title-shift), var(--wheel-pull), 0);
-    transition:
-      color 400ms var(--ease-out),
-      transform 100ms linear;
-  }
-
-  .feature-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 1rem;
-    border-top: 1px solid var(--editorial-line);
-    font-size: 1.05rem;
-  }
-
-  .feature-story:hover h1 {
-    color: var(--editorial-accent);
-  }
-
-  .feature-deck {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 3rem;
-    padding: clamp(2rem, 4vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
-    opacity: 0;
-    animation: editorial-in 700ms 1820ms var(--ease-out) forwards;
-  }
-
-  .feature-deck > p {
-    margin-top: auto;
-    font-size: clamp(1.08rem, 1.5vw, 1.3rem);
-    line-height: 1.85;
-    color: var(--muted);
-    transform: translate3d(0, var(--deck-shift), 0);
-    transition: transform 120ms linear;
-  }
-
-  .feature-signature {
-    padding-top: 1rem;
-    border-top: 1px solid var(--editorial-line);
-    font-family: var(--mono);
-    font-size: 0.78rem;
-  }
-
-  .section-index {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-bottom: 2px solid var(--ink);
-  }
-
-  .section-index a {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 1rem;
-    align-items: center;
-    min-height: 7.5rem;
-    padding: 1.2rem 1.4rem;
-    transition:
-      color 400ms var(--ease-out),
-      background-color 400ms var(--ease-out),
-      transform 500ms var(--ease-out);
-  }
-
-  .section-index a + a {
-    border-left: 1px solid var(--editorial-line);
-  }
-
-  .section-index a:hover {
-    color: #fffaf3;
-    background: var(--ink);
-    transform: translateY(-0.25rem);
-  }
-
-  .section-number,
-  .section-count {
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    color: var(--soft);
-  }
-
-  .section-name {
-    display: grid;
-    gap: 0.15rem;
-  }
-
-  .section-name strong {
-    font-family: var(--display);
-    font-size: 1.65rem;
-    line-height: 1;
-  }
-
-  .section-name small {
-    font-size: 0.78rem;
-    color: var(--soft);
-  }
-
-  .archive-section {
-    padding-top: clamp(7rem, 12vw, 11rem);
-    padding-bottom: clamp(7rem, 12vw, 11rem);
-  }
-
-  .archive-header {
-    display: grid;
-    grid-template-columns: minmax(10rem, 0.28fr) 1fr;
-    align-items: end;
-    gap: 2rem;
-    padding-bottom: clamp(2rem, 4vw, 3rem);
-    border-bottom: 2px solid var(--ink);
-  }
-
-  .archive-header > div {
-    display: grid;
-    gap: 0.7rem;
-  }
-
-  .archive-header span {
-    font-family: var(--display);
-    font-size: 3.6rem;
-    line-height: 1;
-    color: var(--editorial-accent);
-  }
-
-  .archive-header p {
-    font-size: 0.88rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .archive-header h2 {
-    font-size: clamp(4.8rem, 9vw, 7.8rem);
-    line-height: 0.95;
-  }
-
-  .archive-list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .archive-list li {
-    opacity: 0;
-    transform: translate3d(var(--row-start), 18px, 0);
-    transition:
-      opacity 700ms var(--ease-out),
-      transform 700ms var(--ease-out);
-    transition-delay: calc(var(--row) * 55ms + 100ms);
-  }
-
-  .archive-section.is-visible .archive-list li {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
-  .archive-list a {
-    display: grid;
-    grid-template-columns: 3rem 7.2rem minmax(0, 1fr) 3.5rem 1.5rem;
-    gap: 1rem;
-    align-items: center;
-    min-height: 7.3rem;
-    border-bottom: 1px solid var(--editorial-line);
-    transition:
-      color 400ms var(--ease-out),
-      padding 400ms var(--ease-out);
-  }
-
-  .archive-list a:hover {
-    padding-inline: 0.8rem;
-    color: var(--editorial-accent);
-  }
-
-  .archive-number,
-  .archive-list time,
-  .archive-type {
-    font-size: 0.84rem;
-    color: var(--soft);
-  }
-
-  .archive-list time {
-    font-family: var(--mono);
-  }
-
-  .archive-list h3 {
-    overflow: hidden;
-    font-size: clamp(1.8rem, 3vw, 2.5rem);
-    line-height: 1.1;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .archive-arrow {
-    font-size: 1.1rem;
-  }
-
-  @keyframes editorial-in {
-    from {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes opening-fade {
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes opening-title {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes opening-rule {
-    to {
-      transform: scaleX(1);
-    }
-  }
-
-  @keyframes opening-exit {
-    0% {
-      clip-path: inset(0 0 0 0);
-    }
-    99% {
-      clip-path: inset(0 0 100% 0);
-    }
-    100% {
-      visibility: hidden;
-      clip-path: inset(0 0 100% 0);
-    }
-  }
-
-  @keyframes meter-in {
-    to {
-      opacity: 1;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .scroll-meter {
-      display: none;
-    }
-
-    .feature-grid {
-      grid-template-columns: 6rem minmax(0, 1fr);
-      min-height: auto;
-    }
-
-    .feature-index {
-      grid-row: span 2;
-    }
-
-    .feature-story {
-      min-height: 27rem;
-      border-right: 0;
-    }
-
-    .feature-deck {
-      grid-column: 2;
-      padding: 2rem 0 2.5rem 2.5rem;
-      border-top: 1px solid var(--editorial-line);
-    }
-
-    .section-index a {
-      min-height: 6.8rem;
-    }
-
-    .archive-list a {
-      grid-template-columns: 2.5rem minmax(0, 1fr) 3rem 1.2rem;
-    }
-
-    .archive-list time {
-      display: none;
-    }
-  }
-
-  @media (max-width: 620px) {
-    .opening-sequence {
-      padding: 1.4rem 1.2rem;
-    }
-
-    .opening-center {
-      align-items: flex-start;
-      padding-top: 25vh;
-    }
-
-    .opening-center p {
-      font-size: clamp(5.4rem, 28vw, 7rem);
-    }
-
-    .opening-number {
-      top: 10%;
-    }
-
-    .opening-center i {
-      bottom: 18%;
-      width: 32vw;
-    }
-
-    .opening-meta span:last-child {
-      display: none;
-    }
-
-    .opening-foot {
-      gap: 0.8rem;
-    }
-
-    .opening-foot span + span::before {
-      margin-right: 0.8rem;
-    }
-
-    .issue-line {
-      grid-template-columns: 1fr auto;
-      font-size: 0.78rem;
-    }
-
-    .issue-line span:nth-child(2) {
-      display: none;
-    }
-
-    .feature-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .feature-index {
-      grid-row: auto;
-      flex-direction: row;
-      align-items: center;
-      padding: 1.6rem 0;
-      border-right: 0;
-      border-bottom: 1px solid var(--editorial-line);
-    }
-
-    .feature-index span {
-      font-size: 3.5rem;
-    }
-
-    .feature-story {
-      min-height: 24rem;
-      padding: 2.2rem 0;
-      border-bottom: 1px solid var(--editorial-line);
-    }
-
-    .feature-story h1 {
-      font-size: clamp(5rem, 26vw, 6.4rem);
-    }
-
-    .feature-deck {
-      grid-column: 1;
-      padding: 2rem 0 2.4rem;
-      border-top: 0;
-    }
-
-    .section-index {
-      grid-template-columns: 1fr;
-    }
-
-    .section-index a + a {
-      border-top: 1px solid var(--editorial-line);
-      border-left: 0;
-    }
-
-    .section-index a {
-      min-height: 6.2rem;
-      padding-inline: 0;
-    }
-
-    .archive-header {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .archive-header h2 {
-      font-size: 5.2rem;
-    }
-
-    .archive-list a {
-      grid-template-columns: 2.2rem minmax(0, 1fr) 1.2rem;
-      min-height: 6.5rem;
-    }
-
-    .archive-type {
-      display: none;
-    }
-
-    .archive-list h3 {
-      font-size: 1.65rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .opening-sequence,
-    .scroll-meter {
-      display: none;
-    }
-
-    .issue-line,
-    .feature-index,
-    .feature-story,
-    .feature-deck,
-    .archive-list li {
-      opacity: 1;
-      transform: none;
-      animation: none;
-      transition: none;
-    }
-
-    .feature-index span,
-    .feature-index i,
-    .feature-story h1,
-    .feature-deck > p {
-      transform: none;
-      transition: none;
-    }
-  }
+:global(*){box-sizing:border-box} :global(html){scroll-behavior:smooth;background:#10171a} :global(body){margin:0;color:#f7f1e5;isolation:isolate;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif} :global(a){color:inherit;text-decoration:none} :global(button){font:inherit} :global(a:focus-visible),:global(button:focus-visible){outline:2px solid #c29e6f;outline-offset:7px} .skip{position:fixed;top:-60px;left:20px;z-index:10;background:#fff;color:#282722;padding:12px}.skip:focus{top:12px}
+.scene{height:100svh;min-height:620px;position:relative;overflow:hidden;background:transparent;color:#f7f1e5;z-index:1}.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}.fallback,canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}.fallback{background:radial-gradient(ellipse at 58% 58%,#d3b88a 0%,#607a83 22%,#263943 45%,#10171a 76%)} .ambient:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(#080d1460,transparent 30%,transparent 65%,#0c161d85)}header{display:flex;align-items:center;justify-content:space-between;padding:32px 5.5vw}.brand{font-family:"Songti SC","STSong",serif;font-size:24px;letter-spacing:.12em}nav{display:flex;gap:30px}nav a{font-size:14px;color:#ede9e0}nav a:hover{color:#dac296}.title{position:absolute;top:34%;width:100%;text-align:center;opacity:1;transform:translateY(0);transition:opacity 1.6s,transform 1.6s;pointer-events:none}.scene.is-opening .title{opacity:0;transform:translateY(14px)}.eyebrow{font-size:12px;letter-spacing:.45em;color:#e0d2b7}h1{font-family:"Songti SC","STSong",serif;font-weight:400;font-size:clamp(72px,10.5vw,148px);letter-spacing:.2em;margin:22px 0 20px;padding-left:.2em;line-height:1.12;text-shadow:0 2px 40px #14232f55}.title p{font-size:14px;letter-spacing:.25em;color:#e6e4db;margin:0}.scene-bottom{position:absolute;bottom:35px;left:5.5vw;right:5.5vw;display:flex;align-items:end;justify-content:space-between}.enter{font-size:14px;display:flex;gap:22px;align-items:center}.enter i{font-style:normal;font-size:24px}main{position:relative;z-index:1;background:transparent;text-shadow:0 1px 16px #10171a70;max-width:1150px;margin:auto;padding:76px 5.5vw 0;scroll-margin-top:24px}.paper-head{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.12em;color:#ded2ba;border-bottom:1px solid #e5d4af55;padding-bottom:24px}.latest{padding:60px 0}.meta{display:flex;gap:26px;font-size:13px;color:#ddc393}.meta time{font-variant-numeric:tabular-nums;color:#d3c6ae}.latest h2{font:400 clamp(30px,4vw,54px)/1.45 "Songti SC","STSong",serif;margin:24px 0;max-width:900px;text-wrap:pretty}.latest p{font-size:16px;line-height:1.9;color:#e3d9c5;max-width:660px}.read{display:flex;gap:36px;font-size:14px;margin-top:28px}.latest a:hover h2{color:#ffe1a8}.sections{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-block:1px solid #e5d4af44}.sections a{padding:27px 0;color:#f7f1e5;font:24px "Songti SC",serif}.sections small{font:12px -apple-system,sans-serif;color:#d3c6ae;margin-left:12px}.act{display:flex;justify-content:space-between;gap:20px;padding:25px 0;border-bottom:1px solid #e5d4af44;font-size:14px}.act small{font-size:12px;color:#d3c6ae;margin-left:8px}.archive{padding-top:64px}.archive>h2{font:30px "Songti SC",serif;margin:0 0 28px}.archive>a{display:grid;grid-template-columns:115px 1fr 18px;gap:20px;align-items:baseline;padding:24px 0;border-top:1px solid #e5d4af33}.archive time{font-size:12px;color:#d3c6ae}.archive h3{font:400 21px/1.6 "Songti SC",serif;margin:0}.archive a:hover{color:#ffe1a8}footer{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:64px 0 30px}footer span,footer>a:last-child{font-size:12px;color:#d3c6ae}
+@media(max-width:600px){.scene{min-height:560px}header{padding:25px 23px}.brand{font-size:21px}nav{gap:17px}nav a{font-size:13px}.title{top:38%}h1{font-size:76px}.title p{font-size:12px;letter-spacing:.15em}.eyebrow{font-size:12px}.scene-bottom{bottom:25px;left:23px;right:23px;align-items:start;gap:24px;flex-direction:column}.enter{font-size:13px}main{padding:48px 24px 0}.paper-head{font-size:12px;letter-spacing:0}.paper-head span:last-child{display:none}.latest{padding:36px 0}.latest h2{font-size:34px}.sections a{font-size:22px}.sections small{display:block;margin:8px 0 0}.act{flex-direction:column;gap:12px}.archive{padding-top:42px}.archive>a{grid-template-columns:1fr 15px;gap:8px}.archive time{grid-column:1/-1}.archive h3{font-size:21px}footer{flex-wrap:wrap;padding-top:45px}footer span{font-size:11px}}
+@media(prefers-reduced-motion:reduce){:global(html){scroll-behavior:auto}.title{transition:none}}
 </style>
-
-<script is:inline>
-  (() => {
-    const home = document.querySelector('.editorial-home');
-    const hero = document.querySelector('.editorial-hero');
-    const meter = document.querySelector('.scroll-meter');
-    const meterValue = document.querySelector('.scroll-meter-value');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!home || !hero || reduceMotion) return;
-
-    let frame = 0;
-    let wheelFrame = 0;
-    let wheelPull = 0;
-
-    const renderScroll = () => {
-      const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
-      const pageProgress = Math.min(Math.max(window.scrollY / maxScroll, 0), 1);
-      const heroProgress = Math.min(Math.max(window.scrollY / Math.max(hero.offsetHeight, 1), 0), 1);
-
-      document.documentElement.style.setProperty('--scroll-progress', pageProgress.toFixed(4));
-      home.style.setProperty('--title-shift', `${(heroProgress * 30).toFixed(2)}px`);
-      home.style.setProperty('--index-shift', `${(heroProgress * -24).toFixed(2)}px`);
-      home.style.setProperty('--deck-shift', `${(heroProgress * -18).toFixed(2)}px`);
-
-      if (meterValue) meterValue.textContent = String(Math.round(pageProgress * 100)).padStart(2, '0');
-      if (meter) meter.classList.toggle('is-active', pageProgress > 0.01);
-      frame = 0;
-    };
-
-    const requestScrollRender = () => {
-      if (!frame) frame = requestAnimationFrame(renderScroll);
-    };
-
-    const settleWheel = () => {
-      wheelPull *= 0.78;
-      home.style.setProperty('--wheel-pull', `${wheelPull.toFixed(2)}px`);
-
-      if (Math.abs(wheelPull) > 0.08) {
-        wheelFrame = requestAnimationFrame(settleWheel);
-      } else {
-        wheelPull = 0;
-        home.style.setProperty('--wheel-pull', '0px');
-        wheelFrame = 0;
-      }
-    };
-
-    window.addEventListener('scroll', requestScrollRender, { passive: true });
-    window.addEventListener(
-      'wheel',
-      (event) => {
-        wheelPull = Math.max(-9, Math.min(9, event.deltaY * 0.045));
-        if (!wheelFrame) wheelFrame = requestAnimationFrame(settleWheel);
-      },
-      { passive: true }
-    );
-    window.addEventListener('resize', requestScrollRender, { passive: true });
-
-    renderScroll();
-  })();
+<script>
+const canvas=document.querySelector<HTMLCanvasElement>('#light')!;
+const scene=document.querySelector<HTMLElement>('.scene')!;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+const gl=canvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'low-power'});
+if(!gl){canvas.hidden=true;}else{
+const vertex=`attribute vec2 position;void main(){gl_Position=vec4(position,0.,1.);}`;
+const fragment=`precision highp float;
+uniform vec2 resolution;uniform float time;uniform float opening;uniform vec2 pointer;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.)),f.x),f.y);}
+float fbm(vec2 p){float v=0.;float a=.5;for(int i=0;i<5;i++){v+=a*noise(p);p=p*2.03+vec2(17.1,9.2);a*=.5;}return v;}
+void main(){
+ vec2 uv=gl_FragCoord.xy/resolution;float aspect=resolution.x/resolution.y;
+ vec2 p=(uv-.5)*vec2(aspect,1.);p+=pointer*.013;
+ float t=time*.035;
+ float fog=fbm(vec2(p.x*2.1+t*.25,p.y*3.1-t*.12));
+ float wave=sin(p.x*1.8+t*.15)*.035;
+ float horizon=-.11+wave;
+ vec3 dark=vec3(.028,.049,.065);vec3 blue=vec3(.17,.29,.35);vec3 pearl=vec3(.70,.70,.61);vec3 gold=vec3(.92,.72,.44);
+ float halo=exp(-length(vec2((p.x-.18)*.66,(p.y-horizon)*2.9))*2.7);
+ vec3 color=mix(dark,blue,clamp(.45+fog*.7+p.y*.25,0.,1.));
+ color=mix(color,pearl,halo*.55);
+ float ribbon=exp(-abs(p.y-horizon-fog*.07)*19.);
+ color+=gold*ribbon*(.08+.19*exp(-p.x*p.x*1.5));
+ float veils=fbm(vec2(p.x*3.4+fog*.8-t*.22,p.y*1.5+t*.08));
+ color+=vec3(.17,.23,.25)*smoothstep(.42,.78,veils)*exp(-abs(p.y-horizon)*2.);
+ float below=1.-smoothstep(horizon-.10,horizon+.005,p.y);
+ color=mix(color,color*vec3(.48,.63,.73),below*.72);
+ float ripples=sin(p.y*240.+fbm(vec2(p.x*5.+t,p.y*5.))*16.+t*8.);
+ color+=gold*max(ripples,0.)*.024*below*exp(-abs(p.y-horizon)*8.);
+ float glow=exp(-length(vec2((p.x-.18)*1.5,(p.y-horizon)*5.))*3.);color+=gold*glow*.2;
+ color*=1.-.34*pow(length((uv-.5)*1.2),1.5);
+ float width=pow(max(0.,sin(uv.x*3.14159265)),.58);
+ float aperture=.002+opening*.92;
+ float middle=.50+.014*sin(uv.x*3.14159);
+ float edge=aperture*(.45+.55*width)-abs(uv.y-middle);
+ float visible=smoothstep(-.027,.018,edge);
+ vec3 closed=vec3(.012,.017,.022);
+ color=mix(closed,color,visible);
+ color+=gold*exp(-abs(edge)*100.)*.025*(1.-opening);
+ color+=(hash(gl_FragCoord.xy+floor(time*12.))-.5)*.012;
+ gl_FragColor=vec4(color,1.);
+}`;
+function shader(type:number,source:string){const s=gl!.createShader(type)!;gl!.shaderSource(s,source);gl!.compileShader(s);if(!gl!.getShaderParameter(s,gl!.COMPILE_STATUS))throw new Error(gl!.getShaderInfoLog(s)||'Shader compilation failed');return s;}
+try{
+const program=gl.createProgram()!;gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error('Light program unavailable');gl.useProgram(program);
+const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const position=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(position);gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
+const loc={resolution:gl.getUniformLocation(program,'resolution'),time:gl.getUniformLocation(program,'time'),opening:gl.getUniformLocation(program,'opening'),pointer:gl.getUniformLocation(program,'pointer')};
+let age=reduced.matches?9:0;let elapsed=0;let last=0;let frame=0;let stopped=reduced.matches;let px=0,py=0,sx=0,sy=0;
+function resize(){const ratio=Math.min(devicePixelRatio,1.5);canvas.width=Math.round(canvas.clientWidth*ratio);canvas.height=Math.round(canvas.clientHeight*ratio);gl!.viewport(0,0,canvas.width,canvas.height);draw();}
+function draw(){const x=Math.min(1,Math.max(0,(age-.4)/6.8));const open=x*x*(3-2*x);scene.classList.toggle('is-opening',age<4.6);gl!.uniform2f(loc.resolution,canvas.width,canvas.height);gl!.uniform1f(loc.time,elapsed);gl!.uniform1f(loc.opening,open);gl!.uniform2f(loc.pointer,sx,sy);gl!.drawArrays(gl!.TRIANGLES,0,6);}
+function tick(now:number){frame=0;const dt=last?Math.min((now-last)/1000,.06):0;last=now;age+=dt;elapsed+=dt;sx+=(px-sx)*.025;sy+=(py-sy)*.025;draw();schedule();}
+function schedule(){if(!stopped&&!document.hidden&&!frame)frame=requestAnimationFrame(tick);}
+function sync(){last=0;if(stopped){cancelAnimationFrame(frame);frame=0;}else schedule();}
+scene.addEventListener('pointermove',e=>{px=e.clientX/innerWidth-.5;py=e.clientY/innerHeight-.5;});scene.addEventListener('pointerleave',()=>{px=py=0;});
+document.addEventListener('visibilitychange',()=>{last=0;if(document.hidden){cancelAnimationFrame(frame);frame=0;}else schedule();});
+reduced.addEventListener('change',()=>{stopped=reduced.matches;if(stopped)age=9;sync();draw();});
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();stopped=true;cancelAnimationFrame(frame);canvas.hidden=true;scene.classList.remove('is-opening');});
+window.addEventListener('resize',resize);resize();sync();
+}catch(e){console.error(e);canvas.hidden=true;scene.classList.remove('is-opening');}
+}
 </script>
